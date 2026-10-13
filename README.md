@@ -1,10 +1,10 @@
-# Berto
+# 🐾 Berto
 
 [![MIT License](https://img.shields.io/badge/license-MIT-black)](LICENSE)
 ![macOS 26](https://img.shields.io/badge/macOS-26%2B-black)
 [![Node 24](https://img.shields.io/badge/Node-24-black)](.nvmrc)
 ![status: active development](https://img.shields.io/badge/status-active%20development-brightgreen)
-[![languages: Italian, English](https://img.shields.io/badge/languages-Italian%20%C2%B7%20English-black)](#translations)
+[![languages: Italian, English](https://img.shields.io/badge/languages-Italian%20%C2%B7%20English-black)](#-translations)
 
 [🇬🇧 English](README.md) · [🇮🇹 Italiano](README.it.md)
 
@@ -17,28 +17,37 @@ An offline-first, local application: text documents live in IndexedDB, audio is 
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Quick Start](#quick-start)
-- [Features](#features)
-- [Keyboard Shortcuts](#keyboard-shortcuts)
-- [Requirements](#requirements)
-- [Installation and Scripts](#installation)
-- [API Keys and Models](#api-keys)
-- [Sync and Mobile Access](#sync-and-mobile-access)
-- [Costs](#costs)
-- [Privacy and Data](#privacy-and-data)
-- [Architecture](#architecture)
-- [Troubleshooting](#troubleshooting)
-- [Project Status](#project-status)
-- [Translations](#translations)
-- [Contributing](#contributing)
-- [Why Berto?](#why-berto)
-- [License](#license)
+- [⚡ Quick Start](#-quick-start)
+- [✨ Features](#-features)
+  - [✍️ Editor](#️-editor)
+  - [🎙️ Recording and Transcription](#️-recording-and-transcription)
+  - [🧩 Note Integration (Smart Merge)](#-note-integration-smart-merge)
+  - [⚡ Live Corrections](#-live-corrections)
+  - [💬 Ask the Lecture](#-ask-the-lecture)
+  - [📝 Comments](#-comments)
+  - [🖼️ Images](#️-images)
+  - [📚 Review and Quizzes](#-review-and-quizzes)
+  - [📱 Sync and Mobile Access](#-sync-and-mobile-access)
+  - [⚙️ Customization](#️-customization)
+- [⌨️ Keyboard Shortcuts](#️-keyboard-shortcuts)
+- [📋 Requirements](#-requirements)
+- [🚀 Installation and Scripts](#-installation-and-scripts)
+- [🔑 API Keys and Models](#-api-keys-and-models)
+- [💰 Costs](#-costs)
+- [🔒 Privacy and Data](#-privacy-and-data)
+- [🏗️ Architecture](#️-architecture)
+- [🛠️ Troubleshooting](#️-troubleshooting)
+- [📌 Project Status](#-project-status)
+- [🌐 Translations](#-translations)
+- [🤝 Contributing](#-contributing)
+- [🐱 Why Berto?](#-why-berto)
+- [📄 License](#-license)
 
 ---
 
-## Quick Start
+## ⚡ Quick Start
 
 ```bash
 git clone https://github.com/TCdesign-dev/Berto.git
@@ -53,17 +62,17 @@ The first run automatically compiles the native Swift audio component (`nativo/a
 
 ---
 
-## Features
+## ✨ Features
 
-### Editor
-*100% Local · No internet connection required*
+### ✍️ Editor
+*🟢 100% Local · No internet connection required*
 
 A block-based editor built on TipTap, free of cluttered fixed toolbars: the formatting menu floats directly on active selection (bold, italic, underline, headings, five colors, highlighter, code, comments, quiz generator on selected excerpts). On an empty line, pressing `/` summons the block picker; a grab handle on the left enables drag-and-drop reordering, while `⌘⇧↑` and `⌘⇧↓` move blocks directly from the keyboard.
 
 Supported blocks: three levels of headings, nested bulleted and numbered lists, quotes, code snippets, local and web images, and LaTeX formulas rendered with KaTeX (`$$…$$` inline, `$$$…$$$` block). Arrows compose automatically: typing `->` turns into `→`.
 
-### Recording and Transcription
-*100% Local · Powered by macOS SpeechTranscriber*
+### 🎙️ Recording and Transcription
+*🟢 100% Local · Powered by macOS SpeechTranscriber*
 
 `⌘R` triggers live recording. Transcription is performed by Apple's built-in `SpeechTranscriber` framework directly on macOS: audio never leaves your machine and avoids third-party speech APIs entirely.
 
@@ -76,8 +85,8 @@ If you refresh the browser or the Mac enters sleep mode, recording continues uni
 ![Lectures drawer showing transcriptions and Full Integration](docs/immagini/lezioni.png)
 *Each lecture retains its own transcript; with saved audio you can replay starting from any chosen timestamp.*
 
-### Note Integration (Smart Merge)
-*Requires OpenRouter*
+### 🧩 Note Integration (Smart Merge)
+*🤖 Requires OpenRouter*
 
 Once a lecture wraps up, **Integrate into notes** compares your written notes against the transcript and places targeted insertion proposals exactly where they belong in the document. Cycle proposals with `J` and `K`, accept with `↵`, or dismiss with `X`.
 
@@ -94,15 +103,15 @@ The integrator also detects missing section titles, dictation of mathematical fo
 
 When multiple lectures are linked to the same document, **Full Integration** aggregates them in a single pass: deduplicating overlapping material and prioritizing later clarifications over earlier statements.
 
-### Live Corrections
-*Requires OpenRouter / Jev*
+### ⚡ Live Corrections
+*🤖 Requires OpenRouter / Jev*
 
 While recording, lines containing verifiable factual assertions — dates, figures, proper names, or trailing thoughts — are verified against the preceding 90 seconds of transcript. When a mismatch is identified, an indicator appears in the left margin; pressing `⌥⌘↓` reveals the exact spoken citation and proposed adjustment. Press `↵` to adopt or `X` to keep your original wording.
 
 Checks are throttled to at most one request every 10 seconds and bypass lines without factual claims, saving tokens and preserving your focus while typing.
 
-### Ask the Lecture
-*Requires OpenRouter*
+### 💬 Ask the Lecture
+*🤖 Requires OpenRouter*
 
 A dedicated query drawer allows you to interrogate the page. The LLM receives two grounded sources: your written notes and the transcript of all associated lectures.
 
@@ -111,8 +120,8 @@ A dedicated query drawer allows you to interrogate the page. The LLM receives tw
 
 Answers quote the transcript with exact minute markers and clearly delineate what was stated in class versus what was already documented. If an answer cannot be grounded in either source, the model explicitly acknowledges it. All queries and answers persist alongside the page.
 
-### Comments
-*100% Local*
+### 📝 Comments
+*🟢 100% Local*
 
 `⌘⇧M` attaches an inline comment to selected text. Commented passages remain subtly highlighted; clicking opens the note for editing or resolving. A sidebar lists all active comments ordered by document appearance.
 
@@ -121,75 +130,80 @@ If commented text is later deleted, the note is never lost: it moves to the bott
 ![Comment card pinned to a purple highlighted sentence](docs/immagini/commenti.png)
 *Comments stay anchored to highlighted passages or archive gracefully if parent text is removed.*
 
-### Images
-*Wikipedia, Commons, and Openverse without keys · Google Images via Serper*
+### 🖼️ Images
+*🔍 Wikipedia, Commons, and Openverse without keys · 🌐 Google Images via Serper*
 
 A media panel lets you discover and drag-and-drop illustrations; typing `!query!` triggers immediate image discovery right from the editor. Queries route through Wikipedia to resolve canonical entities, retrieving the article lead image and English translations used to search Wikimedia Commons and Openverse. Providing an optional Serper API key unlocks Google Images search results.
 
 Inserted illustrations are cached locally with author and licensing attribution.
 
-### Review and Quizzes
-*Requires OpenRouter for quiz generation*
+### 📚 Review and Quizzes
+*🤖 Requires OpenRouter for quiz generation*
 
 Every top-level heading designates a study topic. The subject dashboard gathers topics, summaries of the last two lectures, and flashcards/quizzes generated from notes and transcripts. Every question links directly back to the relevant source paragraph.
 
 The storage inspector reports disk usage for documents, transcripts, audio, and media, enabling selective cleanup.
 
----
-
-## Sync and Mobile Access
-*Optional · Requires user-provisioned Supabase project*
+### 📱 Sync and Mobile Access
+*☁️ Optional · Requires user-provisioned Supabase project*
 
 Configuring Supabase enables bi-directional synchronization between your Mac and smartphone. The mobile view is read-only and shares the exact same ProseMirror document schema. Without Supabase, Berto operates purely offline as a local application.
 
-### How to Access Berto on Your Phone
+#### 📲 How to Access Berto on Your Phone
 
 Because Berto runs on `localhost` on macOS, your smartphone can open the reader through two straightforward approaches:
 
-1. **Free Static Hosting (Recommended):**  
+1. **🌐 Free Static Hosting (Recommended):**  
    The mobile view is a static Progressive Web App (PWA) that talks **directly to Supabase** in the cloud without needing your Mac online. Build the app (`npm run build`) and deploy the output to free hosting providers such as **Vercel**, **Cloudflare Pages**, or **GitHub Pages**, providing `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` as environment variables.  
    On your phone, navigate to your deployed URL and tap **«Add to Home Screen»**: the Service Worker caches the app shell, allowing you to review your notes anytime, anywhere — even when your Mac is sleeping at home.
 
-2. **Local Wi-Fi Network (Zero cloud deployment):**  
+2. **📶 Local Wi-Fi Network (Zero cloud deployment):**  
    When your phone and Mac share the same Wi-Fi network, launch Vite with network exposure:
    ```bash
    npm run dev -- --host
    ```
    Open the local IP displayed in your terminal on your phone browser (e.g. `http://192.168.1.45:5180`). The Service Worker will automatically cache the reader shell for offline review.
 
+### ⚙️ Customization
+
+- **Keyboard Shortcuts** (Settings › Keyboard): every hotkey can be reassigned on the fly; conflicting combinations are prevented automatically;
+- **Integration Prompts** (Settings › Integrator): customize the system instructions that precede notes and transcript; the output format remains managed by the app;
+- **Languages** (Settings › Appearance): English and Italian out of the box; "system default" follows browser locale. New languages can be added with a single JSON file;
+- **API Keys**, visual theme, audio device, image sources, and live correction switches can be configured anytime from Settings.
+
 ---
 
-## Keyboard Shortcuts
+## ⌨️ Keyboard Shortcuts
 
 Berto is optimized for a fast, keyboard-first workflow:
 
 | Action | Shortcut | Context |
 |---|---|---|
-| **Start / Stop Recording** | `⌘R` | Global |
-| **Open Settings** | `⌘,` | Global |
-| **Block Slash Menu** | `/` | Editor (empty line) |
-| **Move Line / Block Up & Down** | `⌘⇧↑` / `⌘⇧↓` | Editor |
-| **Attach Comment** | `⌘⇧M` | Editor (selected text) |
-| **KaTeX Math Formulas** | `$$…$$` (inline) · `$$$…$$$` (block) | Editor |
-| **Search Image** | `!query!` | Editor (inline typing) |
-| **Cycle Merge Proposals** | `J` (next) · `K` (previous) | Integration review bar |
-| **Accept Proposal** | `↵` | Integration review bar |
-| **Reject Proposal** | `X` | Integration review bar |
-| **Inspect Live Correction** | `⌥⌘↓` | Margin indicator |
-| **Apply / Keep Live Correction** | `↵` (apply) · `X` (keep) | Correction sheet |
+| 🎙️ **Start / Stop Recording** | `⌘R` | Global |
+| ⚙️ **Open Settings** | `⌘,` | Global |
+| 📑 **Block Slash Menu** | `/` | Editor (empty line) |
+| ↕️ **Move Line / Block Up & Down** | `⌘⇧↑` / `⌘⇧↓` | Editor |
+| 💬 **Attach Comment** | `⌘⇧M` | Editor (selected text) |
+| 📐 **KaTeX Math Formulas** | `$$…$$` (inline) · `$$$…$$$` (block) | Editor |
+| 🔍 **Search Image** | `!query!` | Editor (inline typing) |
+| 🔁 **Cycle Merge Proposals** | `J` (next) · `K` (previous) | Integration review bar |
+| ✅ **Accept Proposal** | `↵` | Integration review bar |
+| ❌ **Reject Proposal** | `X` | Integration review bar |
+| 💡 **Inspect Live Correction** | `⌥⌘↓` | Margin indicator |
+| ⚡ **Apply / Keep Live Correction** | `↵` (apply) · `X` (keep) | Correction sheet |
 
 ---
 
-## Requirements
+## 📋 Requirements
 
-- **macOS 26** (or macOS release with Apple `SpeechTranscriber` support) for local on-device speech transcription; without this, writing, organizing, and review features remain fully operational, but live recording is disabled;
-- **Node 24** (`nvm use` reads `.nvmrc`);
-- **Xcode Command Line Tools** (`xcode-select --install`), required once to build the native Swift audio capture executable;
-- An **OpenRouter API Key** (optional) for AI features (integration merge, quiz generation, live corrections, lecture Q&A).
+- 🍏 **macOS 26** (or macOS release with Apple `SpeechTranscriber` support) for local on-device speech transcription; without this, writing, organizing, and review features remain fully operational, but live recording is disabled;
+- 🟢 **Node 24** (`nvm use` reads `.nvmrc`);
+- 🛠️ **Xcode Command Line Tools** (`xcode-select --install`), required once to build the native Swift audio capture executable;
+- 🔑 An **OpenRouter API Key** (optional) for AI features (integration merge, quiz generation, live corrections, lecture Q&A).
 
 ---
 
-## Installation
+## 🚀 Installation and Scripts
 
 ```bash
 git clone https://github.com/TCdesign-dev/Berto.git
@@ -202,7 +216,7 @@ npm run dev        # http://localhost:5180
 
 Launching `npm run dev` triggers the `predev` lifecycle hook, which compiles the native Swift module (`nativo/ascolto/compila.sh`) into `build/berto-ascolto` if not already present.
 
-### Available Scripts
+### 📦 Available Scripts
 
 | Command | Purpose |
 |---|---|
@@ -215,12 +229,12 @@ Launching `npm run dev` triggers the `predev` lifecycle hook, which compiles the
 
 ---
 
-## API Keys
+## 🔑 API Keys and Models
 
 Credentials can be configured via two alternate pathways:
 
-1. **From the UI (Settings › Keys, `⌘,`)**: keys are stored in `localStorage` and dispatched only to the local Vite backend proxy. The **Test** button validates credentials immediately;
-2. **Via `.env.local`**, cloned from [`.env.example`](.env.example): keys remain strictly off browser memory. If defined, `.env.local` takes precedence.
+1. 🖥️ **From the UI (Settings › Keys, `⌘,`)**: keys are stored in `localStorage` and dispatched only to the local Vite backend proxy. The **Test** button validates credentials immediately;
+2. 📄 **Via `.env.local`**, cloned from [`.env.example`](.env.example): keys remain strictly off browser memory. If defined, `.env.local` takes precedence.
 
 | Variable | Enabled Features | Fallback Behavior |
 |---|---|---|
@@ -236,7 +250,7 @@ AI model identifiers can be switched from `.env.local` (`MODELLO_MERGE`, `MODELL
 
 ---
 
-## Costs
+## 💰 Costs
 
 Merge integrations issue a single API call per lecture. Live factual corrections pass through a low-latency triage filter costing fractions of a cent per evaluated statement. Under default models, typical students spend under a few dozen cents per month even across heavy weekly lecture schedules.
 
@@ -244,13 +258,13 @@ Audio transcription incurs zero cost, running entirely on local Apple Silicon ha
 
 ---
 
-## Privacy and Data
+## 🔒 Privacy and Data
 
 Documents are persisted in IndexedDB; audio recordings are saved to `~/Library/Application Support/Berto`. Data leaves your machine solely when optional Supabase sync is enabled or when note snippets are dispatched to user-configured LLM providers for merge and Q&A. There are zero tracking scripts, telemetry, or user accounts.
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 
 React, TypeScript, and Vite. The editor core is TipTap (ProseMirror); documents are modeled as Yjs `Y.Doc` instances persisted to IndexedDB and synchronized via Supabase when configured. No monolithic CSS libraries: crafted with scoped CSS Modules and a design token sheet.
 
@@ -311,20 +325,20 @@ docs/                Architecture logbook and documentation assets
 
 ---
 
-## Troubleshooting
+## 🛠️ Troubleshooting
 
-- **No transcription or perpetual silence detected:**  
+- 🎙️ **No transcription or perpetual silence detected:**  
   Verify that the appropriate microphone input is selected in the lecture drawer. If macOS fails to capture voice, ensure your terminal has microphone permissions under *System Settings › Privacy & Security › Microphone*.
-- **Native Swift compilation error:**  
+- ⚙️ **Native Swift compilation error:**  
   If `npm run dev` reports an error compiling `nativo/ascolto/compila.sh`, ensure Xcode CLI Tools are installed by executing `xcode-select --install`. You can force re-compilation manually at any time with `npm run ascolto`.
-- **First run with a new language:**  
+- 🌐 **First run with a new language:**  
   When selecting a new speech recognition language, macOS downloads speech assets in the background. The initial transcription may pause briefly before streaming text.
-- **Supabase synchronization errors:**  
+- ☁️ **Supabase synchronization errors:**  
   Ensure you executed [`supabase/schema.sql`](supabase/schema.sql) in your Supabase SQL Editor and confirm that API keys in `.env.local` or Settings do not contain accidental whitespaces.
 
 ---
 
-## Project Status
+## 📌 Project Status
 
 Active development, in daily academic use since September 2026. Described features are tested on real university lectures. Model instructions undergo continuous optimization.
 
@@ -332,7 +346,7 @@ No pre-packaged binaries or hosted web services are planned: Berto is executed l
 
 ---
 
-## Translations
+## 🌐 Translations
 
 The interface supports English and Italian out of the box. Additional languages require only a single JSON file in `lingue/`: keys represent source strings, and missing translations fall back cleanly to default text.
 
@@ -348,7 +362,7 @@ For full details on locale metadata, plural forms, and formatting tags, see [CON
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 Questions and bug reports: [issue tracker](https://github.com/TCdesign-dev/Berto/issues). When reporting start-up issues, please provide your macOS version, Node version, and terminal logs.
 
@@ -356,12 +370,12 @@ Pull requests are welcome: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
-## Why Berto?
+## 🐱 Why Berto?
 
 This project is named in loving memory of **Berto**, my cat, who faithfully kept me company through countless hours of study, lecture listening, and coding sessions.
 
 ---
 
-## License
+## 📄 License
 
 Distributed under the [MIT License](LICENSE).

@@ -1,10 +1,10 @@
-# Berto
+# 🐾 Berto
 
 [![licenza MIT](https://img.shields.io/badge/licenza-MIT-black)](LICENSE)
 ![macOS 26](https://img.shields.io/badge/macOS-26%2B-black)
 [![Node 24](https://img.shields.io/badge/Node-24-black)](.nvmrc)
 ![stato: sviluppo attivo](https://img.shields.io/badge/stato-sviluppo%20attivo-brightgreen)
-[![lingue: italiano, inglese](https://img.shields.io/badge/lingue-italiano%20%C2%B7%20inglese-black)](#traduzioni)
+[![lingue: italiano, inglese](https://img.shields.io/badge/lingue-italiano%20%C2%B7%20inglese-black)](#-traduzioni)
 
 [🇬🇧 English](README.md) · [🇮🇹 Italiano](README.it.md)
 
@@ -21,28 +21,37 @@ un progetto Supabase configurato dall'utente.
 
 ---
 
-## Indice
+## 📑 Indice
 
-- [Avvio rapido](#avvio-rapido)
-- [Funzionalità](#funzionalità)
-- [Scorciatoie da tastiera](#scorciatoie-da-tastiera)
-- [Requisiti](#requisiti)
-- [Installazione e script](#installazione)
-- [Chiavi API e modelli](#chiavi-api)
-- [Sincronizzazione e telefono](#sincronizzazione-e-telefono)
-- [Costi](#costi)
-- [Privacy e dati](#privacy-e-dati)
-- [Architettura](#architettura)
-- [Risoluzione problemi](#risoluzione-problemi)
-- [Stato del progetto](#stato-del-progetto)
-- [Traduzioni](#traduzioni)
-- [Supporto e contributi](#supporto-e-contributi)
-- [Perché Berto?](#perché-berto)
-- [Licenza](#licenza)
+- [⚡ Avvio rapido](#-avvio-rapido)
+- [✨ Funzionalità](#-funzionalità)
+  - [✍️ Editor](#️-editor)
+  - [🎙️ Registrazione e trascrizione](#️-registrazione-e-trascrizione)
+  - [🧩 Integrazione degli appunti](#-integrazione-degli-appunti)
+  - [⚡ Correzioni in diretta](#-correzioni-in-diretta)
+  - [💬 Domande sulla lezione](#-domande-sulla-lezione)
+  - [📝 Commenti](#-commenti)
+  - [🖼️ Immagini](#️-immagini)
+  - [📚 Ripasso e quiz](#-ripasso-e-quiz)
+  - [📱 Sincronizzazione e telefono](#-sincronizzazione-e-telefono)
+  - [⚙️ Personalizzazione](#️-personalizzazione)
+- [⌨️ Scorciatoie da tastiera](#️-scorciatoie-da-tastiera)
+- [📋 Requisiti](#-requisiti)
+- [🚀 Installazione e script](#-installazione-e-script)
+- [🔑 Chiavi API e modelli](#-chiavi-api-e-modelli)
+- [💰 Costi](#-costi)
+- [🔒 Privacy e dati](#-privacy-e-dati)
+- [🏗️ Architettura](#️-architettura)
+- [🛠️ Risoluzione problemi](#️-risoluzione-problemi)
+- [📌 Stato del progetto](#-stato-del-progetto)
+- [🌐 Traduzioni](#-traduzioni)
+- [🤝 Supporto e contributi](#-supporto-e-contributi)
+- [🐱 Perché Berto?](#-perché-berto)
+- [📄 Licenza](#-licenza)
 
 ---
 
-## Avvio rapido
+## ⚡ Avvio rapido
 
 ```bash
 git clone https://github.com/TCdesign-dev/Berto.git
@@ -57,10 +66,10 @@ Il primo avvio compila automaticamente il componente nativo Swift (`nativo/ascol
 
 ---
 
-## Funzionalità
+## ✨ Funzionalità
 
-### Editor
-*100% locale · Nessuna connessione richiesta*
+### ✍️ Editor
+*🟢 100% locale · Nessuna connessione richiesta*
 
 Editor a blocchi basato su TipTap, senza barra degli strumenti fissa: il
 menu di formattazione compare sulla selezione (grassetto, corsivo,
@@ -74,8 +83,8 @@ anche annidati, citazioni, codice, immagini, formule LaTeX rese con KaTeX
 (`$$…$$` nel testo, `$$$…$$$` su una riga a sé). Le frecce si compongono
 automaticamente: `->` diventa `→`.
 
-### Registrazione e trascrizione
-*100% locale · SpeechTranscriber su macOS*
+### 🎙️ Registrazione e trascrizione
+*🟢 100% locale · SpeechTranscriber su macOS*
 
 `⌘R` avvia la registrazione. La trascrizione è affidata a
 `SpeechTranscriber` di macOS ed è eseguita in locale: l'audio non lascia
@@ -99,8 +108,8 @@ frattempo.
 ![Il pannello delle lezioni, con la trascrizione e «Integrazione completa»](docs/immagini/lezioni.png)
 *Ogni lezione conserva la propria trascrizione; con l'audio salvato si riascolta dal minuto selezionato.*
 
-### Integrazione degli appunti
-*Richiede OpenRouter*
+### 🧩 Integrazione degli appunti
+*🤖 Richiede OpenRouter*
 
 A lezione conclusa, **Integra negli appunti** confronta il testo scritto
 con la trascrizione e inserisce le proposte nel punto in cui vanno lette.
@@ -132,8 +141,8 @@ in un'unica richiesta: i dati ripetuti in lezioni diverse producono una
 sola proposta e le precisazioni successive prevalgono su quelle
 precedenti.
 
-### Correzioni in diretta
-*Richiede OpenRouter / Jev*
+### ⚡ Correzioni in diretta
+*🤖 Richiede OpenRouter / Jev*
 
 Durante la registrazione, le righe che contengono dati verificabili —
 date, numeri, nomi propri, parti lasciate in sospeso — vengono
@@ -146,8 +155,8 @@ Il controllo è limitato a una richiesta ogni dieci secondi e ignora le
 righe prive di elementi verificabili, riducendo le chiamate al modello e
 le interruzioni durante la scrittura.
 
-### Domande sulla lezione
-*Richiede OpenRouter*
+### 💬 Domande sulla lezione
+*🤖 Richiede OpenRouter*
 
 Un pannello permette di interrogare la pagina. Il modello riceve due
 fonti: gli appunti e la trascrizione delle lezioni associate.
@@ -160,8 +169,8 @@ distinguono ciò che è stato detto a lezione da ciò che è già presente
 negli appunti. Se l'informazione non è in nessuna delle due fonti, il
 modello lo dichiara. Domande e risposte sono salvate nella pagina.
 
-### Commenti
-*100% locale*
+### 📝 Commenti
+*🟢 100% locale*
 
 `⌘⇧M` applica un commento al testo selezionato. Il passaggio commentato
 resta evidenziato; il clic riapre la nota, che si può modificare o
@@ -174,8 +183,8 @@ restano in fondo all'elenco con la citazione del passaggio originale.
 ![Un commento aperto su una frase segnata in viola](docs/immagini/commenti.png)
 *I commenti restano associati al passaggio di testo evidenziato o archiviati se il testo viene cancellato.*
 
-### Immagini
-*Wikipedia, Commons e Openverse senza chiavi · Google con Serper*
+### 🖼️ Immagini
+*🔍 Wikipedia, Commons e Openverse senza chiavi · 🌐 Google Immagini con Serper*
 
 Il pannello immagini cerca e inserisce illustrazioni per trascinamento;
 la sintassi `!termine!` avvia la ricerca durante la scrittura. Ogni
@@ -186,8 +195,8 @@ chiave Serper sono disponibili i risultati di Google Immagini.
 
 Le immagini inserite sono salvate in locale con autore e licenza.
 
-### Ripasso e quiz
-*Richiede OpenRouter per la generazione quiz*
+### 📚 Ripasso e quiz
+*🤖 Richiede OpenRouter per la generazione quiz*
 
 Ogni titolo di primo livello definisce un argomento. La scheda della
 materia raccoglie gli argomenti, il riepilogo delle ultime due lezioni e
@@ -197,29 +206,29 @@ collegamento al punto corrispondente della pagina.
 L'archivio riporta lo spazio occupato da pagine, trascrizioni, audio e
 immagini e ne permette l'eliminazione selettiva.
 
-### Sincronizzazione e telefono
-*Facoltativa · Richiede un progetto Supabase dell'utente*
+### 📱 Sincronizzazione e telefono
+*☁️ Facoltativa · Richiede un progetto Supabase dell'utente*
 
 Con un progetto Supabase configurato, le pagine si sincronizzano fra Mac
 e telefono. L'interfaccia per telefono è di sola lettura e usa lo stesso
 schema del documento. Senza Supabase l'applicazione resta locale e le
 altre funzioni sono invariate.
 
-#### Come aprire e usare Berto sul telefono
+#### 📲 Come aprire e usare Berto sul telefono
 Poiché Berto gira su `localhost` sul Mac, il telefono accede all'interfaccia in due modi:
 
-1. **Deploy statico su hosting gratuito (Consigliato):**  
+1. **🌐 Deploy statico su hosting gratuito (Consigliato):**  
    La vista telefono è un'applicazione web statica (PWA) che comunica **esclusivamente con Supabase**, senza toccare il Mac. Puoi compilare la build (`npm run build`) e pubblicarla su un servizio gratuito come **Vercel**, **Cloudflare Pages** o **GitHub Pages**, impostando come variabili di build `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY`.  
    Sul telefono apri l'URL generato e seleziona **«Aggiungi a schermata Home»**: grazie al Service Worker, l'app funzionerà anche offline e si sincronizzerà ovunque ti trovi, anche a Mac spento.
 
-2. **Rete Wi-Fi locale (Senza pubblicare online):**  
+2. **📶 Rete Wi-Fi locale (Senza pubblicare online):**  
    Se Mac e telefono sono sulla stessa rete Wi-Fi, avvia Vite con il flag host:
    ```bash
    npm run dev -- --host
    ```
    Apri sul browser del telefono l'indirizzo locale mostrato da Vite (es. `http://192.168.1.45:5180`). Il Service Worker salverà la copia nella cache locale.
 
-### Personalizzazione
+### ⚙️ Personalizzazione
 
 - **Scorciatoie** (Impostazioni › Tastiera): ogni combinazione si
   riassegna premendo i tasti; quelle già assegnate non possono essere
@@ -229,43 +238,43 @@ Poiché Berto gira su `localhost` sul Mac, il telefono accede all'interfaccia in
   risposta resta gestito dall'applicazione;
 - **Lingua** (Impostazioni › Aspetto): italiano e inglese; «come il
   sistema» segue la lingua del browser. Le lingue si aggiungono senza
-  toccare il codice, vedi [Traduzioni](#traduzioni);
+  toccare il codice, vedi [Traduzioni](#-traduzioni);
 - **Chiavi API**, tema, microfono, fonte delle immagini e correzioni in
   diretta sono configurabili dalle impostazioni.
 
 ---
 
-## Scorciatoie da tastiera
+## ⌨️ Scorciatoie da tastiera
 
 Berto è progettato per un flusso di lavoro rapido incentrato sulla tastiera:
 
 | Azione | Scorciatoia | Contesto |
 |---|---|---|
-| **Avvia / Ferma registrazione** | `⌘R` | Globale |
-| **Apri Impostazioni** | `⌘,` | Globale |
-| **Menu blocchi** | `/` | Editor (su riga vuota) |
-| **Sposta riga / blocco** | `⌘⇧↑` / `⌘⇧↓` | Editor |
-| **Applica commento** | `⌘⇧M` | Editor (su testo selezionato) |
-| **Formule matematiche KaTeX** | `$$…$$` (nel testo) · `$$$…$$$` (blocco) | Editor |
-| **Cerca immagine** | `!termine!` | Editor (durante la digitazione) |
-| **Scorri proposte di integrazione** | `J` (successiva) · `K` (precedente) | Barra revisione integrazione |
-| **Accetta proposta** | `↵` | Barra revisione integrazione |
-| **Rifiuta proposta** | `X` | Barra revisione integrazione |
-| **Apri correzione in diretta** | `⌥⌘↓` | Indicatore correzione nel margine |
-| **Applica / Mantieni correzione** | `↵` (applica) · `X` (mantieni) | Scheda di correzione |
+| 🎙️ **Avvia / Ferma registrazione** | `⌘R` | Globale |
+| ⚙️ **Apri Impostazioni** | `⌘,` | Globale |
+| 📑 **Menu blocchi** | `/` | Editor (su riga vuota) |
+| ↕️ **Sposta riga / blocco** | `⌘⇧↑` / `⌘⇧↓` | Editor |
+| 💬 **Applica commento** | `⌘⇧M` | Editor (su testo selezionato) |
+| 📐 **Formule matematiche KaTeX** | `$$…$$` (nel testo) · `$$$…$$$` (blocco) | Editor |
+| 🔍 **Cerca immagine** | `!termine!` | Editor (durante la digitazione) |
+| 🔁 **Scorri proposte di integrazione** | `J` (successiva) · `K` (precedente) | Barra revisione integrazione |
+| ✅ **Accetta proposta** | `↵` | Barra revisione integrazione |
+| ❌ **Rifiuta proposta** | `X` | Barra revisione integrazione |
+| 💡 **Apri correzione in diretta** | `⌥⌘↓` | Indicatore correzione nel margine |
+| ⚡ **Applica / Mantieni correzione** | `↵` (applica) · `X` (mantieni) | Scheda di correzione |
 
 ---
 
-## Requisiti
+## 📋 Requisiti
 
-- **macOS 26** (o versione con supporto al framework `SpeechTranscriber` di sistema) per la trascrizione audio in locale; senza questo requisito, le altre funzioni restano disponibili ma non è possibile registrare l'audio;
-- **Node 24** (`nvm use` legge `.nvmrc`);
-- **Strumenti da riga di comando di Xcode** (`xcode-select --install`), necessari una sola volta per compilare il componente nativo Swift che acquisisce l'audio;
-- Una **chiave OpenRouter** (opzionale) per le funzioni basate su modelli AI (integrazione, quiz, domande, correzioni).
+- 🍏 **macOS 26** (o versione con supporto al framework `SpeechTranscriber` di sistema) per la trascrizione audio in locale; senza questo requisito, le altre funzioni restano disponibili ma non è possibile registrare l'audio;
+- 🟢 **Node 24** (`nvm use` legge `.nvmrc`);
+- 🛠️ **Strumenti da riga di comando di Xcode** (`xcode-select --install`), necessari una sola volta per compilare il componente nativo Swift che acquisisce l'audio;
+- 🔑 Una **chiave OpenRouter** (opzionale) per le funzioni basate su modelli AI (integrazione, quiz, domande, correzioni).
 
 ---
 
-## Installazione
+## 🚀 Installazione e script
 
 ```bash
 git clone https://github.com/TCdesign-dev/Berto.git
@@ -278,7 +287,7 @@ npm run dev        # http://localhost:5180
 
 Il primo avvio esegue automaticamente `predev`, che compila il componente nativo (`nativo/ascolto/compila.sh`) nel file `build/berto-ascolto`. Al primo utilizzo di **Registra**, macOS richiede l'autorizzazione di accesso al microfono.
 
-### Script disponibili
+### 📦 Script disponibili
 
 | Comando | Descrizione |
 |---|---|
@@ -291,12 +300,12 @@ Il primo avvio esegue automaticamente `predev`, che compila il componente nativo
 
 ---
 
-## Chiavi API
+## 🔑 Chiavi API e modelli
 
 Due modalità alternative per configurare le chiavi:
 
-1. **Dall'interfaccia (Impostazioni › Chiavi, `⌘,`)**: la chiave è salvata in `localStorage` e inviata al server locale, l'unico componente che comunica con OpenRouter. Il pulsante **Prova** ne verifica la validità;
-2. **Dal file `.env.local`**, copiato da [`.env.example`](.env.example): la chiave resta fuori dal browser. Se presente, ha la precedenza.
+1. 🖥️ **Dall'interfaccia (Impostazioni › Chiavi, `⌘,`)**: la chiave è salvata in `localStorage` e inviata al server locale, l'unico componente che comunica con OpenRouter. Il pulsante **Prova** ne verifica la validità;
+2. 📄 **Dal file `.env.local`**, copiato da [`.env.example`](.env.example): la chiave resta fuori dal browser. Se presente, ha la precedenza.
 
 | Chiave | Funzioni | In assenza |
 |---|---|---|
@@ -312,7 +321,7 @@ I modelli si configurano da `.env.local` (`MODELLO_MERGE`, `MODELLO_QUIZ`, `MODE
 
 ---
 
-## Costi
+## 💰 Costi
 
 L'integrazione richiede una chiamata per lezione. Le correzioni in
 diretta passano da un filtro preliminare che costa una frazione di
@@ -325,7 +334,7 @@ immagini su Wikipedia, Commons e Openverse non richiedono chiavi.
 
 ---
 
-## Privacy e dati
+## 🔒 Privacy e dati
 
 Il testo è salvato in IndexedDB, l'audio in
 `~/Library/Application Support/Berto`. Escono dal computer soltanto
@@ -336,7 +345,7 @@ account né raccolta di dati d'uso.
 
 ---
 
-## Architettura
+## 🏗️ Architettura
 
 React, TypeScript e Vite. L'editor è TipTap (ProseMirror); il documento è
 un `Y.Doc` di Yjs persistito in IndexedDB e, se configurato,
@@ -401,27 +410,22 @@ supabase/schema.sql  tabella, indici e politiche di accesso
 docs/                quaderno di bordo e immagini
 ```
 
-Le scelte strutturali — identificatore stabile per blocco, stato dei menu
-fuori da React, documento come unica fonte — sono documentate nel
-[quaderno di bordo](docs/quaderno-di-bordo.md), insieme alle misure
-raccolte e alle soluzioni scartate.
-
 ---
 
-## Risoluzione problemi
+## 🛠️ Risoluzione problemi
 
-- **Mancata trascrizione o rilevamento continuo di silenzio:**  
+- 🎙️ **Mancata trascrizione o rilevamento continuo di silenzio:**  
   Assicurati che nelle impostazioni di registrazione sia selezionato il microfono corretto. Se macOS non rileva la voce, verifica in *Impostazioni di Sistema › Privacy e sicurezza › Microfono* che il terminale o l'app abbiano l'autorizzazione ad acquisire l'audio.
-- **Fallimento nella compilazione del modulo nativo Swift:**  
+- ⚙️ **Fallimento nella compilazione del modulo nativo Swift:**  
   Se `npm run dev` segnala un errore durante l'esecuzione di `compila.sh`, verifica che gli strumenti da riga di comando di Xcode siano presenti eseguendo `xcode-select --install`. Puoi ripetere la compilazione manuale in qualsiasi momento con `npm run ascolto`.
-- **Primo avvio con una lingua nuova:**  
+- 🌐 **Primo avvio con una lingua nuova:**  
   Quando selezioni una lingua per la prima volta, macOS scarica in background il modello linguistico locale di `SpeechTranscriber`. La prima trascrizione potrebbe richiedere qualche istante prima di iniziare a produrre testo.
-- **Errori di sincronizzazione con Supabase:**  
+- ☁️ **Errori di sincronizzazione con Supabase:**  
   Verifica di aver incollato ed eseguito lo script [`supabase/schema.sql`](supabase/schema.sql) nell'editor SQL del tuo progetto Supabase e che le credenziali in `.env.local` o nelle Impostazioni non contengano spazi accidentali.
 
 ---
 
-## Stato del progetto
+## 📌 Stato del progetto
 
 Sviluppo attivo, in uso quotidiano da settembre 2026. Le funzioni
 descritte sono complete e provate su lezioni reali; le istruzioni ai
@@ -432,7 +436,7 @@ l'applicazione si esegue localmente a partire dal codice sorgente.
 
 ---
 
-## Traduzioni
+## 🌐 Traduzioni
 
 L'interfaccia è disponibile in italiano e in inglese. Ogni lingua è un
 file JSON in `lingue/`: la chiave è la frase italiana, il valore la
@@ -451,7 +455,7 @@ Per la guida completa sui campi di configurazione della lingua (`_`), la gestion
 
 ---
 
-## Supporto e contributi
+## 🤝 Supporto e contributi
 
 Segnalazioni e domande:
 [issue](https://github.com/TCdesign-dev/Berto/issues). Per un
@@ -465,12 +469,12 @@ fonte, chiavi API fuori dal browser — condizionano l'implementazione.
 
 ---
 
-## Perché Berto?
+## 🐱 Perché Berto?
 
 Il progetto è dedicato alla memoria di **Berto**, il mio gatto, che con la sua presenza silenziosa mi ha fatto compagnia durante innumerevoli ore di lezioni, studio e sessioni di programmazione.
 
 ---
 
-## Licenza
+## 📄 Licenza
 
 Distribuito sotto licenza [MIT](LICENSE).

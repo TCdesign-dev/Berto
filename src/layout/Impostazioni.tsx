@@ -192,7 +192,7 @@ function Lingua() {
   return (
     <Riga
       titolo={tr('Lingua')}
-      spiega={<Tr frase="Le traduzioni le scrive chi usa Pergamena. Se la tua lingua non c’è, o c’è e va corretta, si aggiunge un file in <code>lingue/</code>." />}
+      spiega={<Tr frase="Le traduzioni le scrive chi usa Berto. Se la tua lingua non c’è, o c’è e va corretta, si aggiunge un file in <code>lingue/</code>." />}
     >
       <span className={s.tendina}>
         <select

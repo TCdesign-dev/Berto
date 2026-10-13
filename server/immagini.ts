@@ -127,7 +127,7 @@ function rispondi(res: ServerResponse, stato: number, corpo: unknown) {
 
 export function immagini(env: Record<string, string>): Plugin {
   return {
-    name: 'pergamena-immagini',
+    name: 'berto-immagini',
     configureServer(server) {
       server.middlewares.use('/api/immagini', async (req: IncomingMessage, res: ServerResponse) => {
         const url = new URL(req.url ?? '/', 'http://locale')
@@ -156,14 +156,14 @@ export function immagini(env: Record<string, string>): Plugin {
           try {
             // i rimandi si seguono a mano: ognuno deve restare un indirizzo pubblico
             let r = await conTempo(bersaglio.toString(), {
-              headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh) Pergamena', Accept: 'image/*' },
+              headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh) Berto', Accept: 'image/*' },
               redirect: 'manual',
             })
             for (let salti = 0; salti < 4 && r.status >= 300 && r.status < 400 && r.headers.get('location'); salti++) {
               bersaglio = new URL(r.headers.get('location')!, bersaglio)
               if (!indirizzoAmmesso(bersaglio)) return rispondi(res, 400, { errore: 'indirizzo non ammesso' })
               r = await conTempo(bersaglio.toString(), {
-                headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh) Pergamena', Accept: 'image/*' },
+                headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh) Berto', Accept: 'image/*' },
                 redirect: 'manual',
               })
             }

@@ -1,10 +1,10 @@
-# Contribuire a Pergamena
+# Contribuire a Berto
 
-*[English version below](#contributing-to-pergamena)*
+*[English version below](#contributing-to-berto)*
 
 ## Traduzioni
 
-L'interfaccia di Pergamena è scritta in italiano dentro il codice. Ogni
+L'interfaccia di Berto è scritta in italiano dentro il codice. Ogni
 altra lingua è un file JSON in `lingue/`: la chiave è la frase italiana,
 il valore la traduzione.
 
@@ -116,7 +116,7 @@ decide il campo `modello` del blocco `_`.
 ## Segnalazioni e pull request
 
 Segnalazioni e domande:
-[issue](https://github.com/TCdesign-dev/Pergamena/issues). Per un
+[issue](https://github.com/TCdesign-dev/Berto/issues). Per un
 problema di avvio sono utili la versione di macOS, quella di Node e
 l'output del terminale in cui gira `npm run dev`.
 
@@ -134,11 +134,11 @@ npm run lingue
 
 ---
 
-# Contributing to Pergamena
+# Contributing to Berto
 
 ## Translations
 
-Pergamena's interface is written in Italian inside the code. Every other
+Berto's interface is written in Italian inside the code. Every other
 language is a JSON file in `lingue/`: the key is the Italian phrase, the
 value is the translation.
 
@@ -251,7 +251,7 @@ set by the `modello` field of the `_` block.
 ## Issues and pull requests
 
 Issues and questions:
-[issue tracker](https://github.com/TCdesign-dev/Pergamena/issues). For a
+[issue tracker](https://github.com/TCdesign-dev/Berto/issues). For a
 start-up problem, the macOS version, the Node version and the output of
 the terminal running `npm run dev` are useful.
 

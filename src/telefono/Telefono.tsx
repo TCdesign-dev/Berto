@@ -51,7 +51,7 @@ export function Telefono() {
     return (
       <div className={s.telefono}>
         <div className={s.benvenuto}>
-          <h1>Pergamena</h1>
+          <h1>Berto</h1>
           <p>{tr('Entra per vedere gli appunti che hai preso sul Mac.')}</p>
         </div>
         <FinestraAccesso onChiudi={() => { /* resta finché non entra */ }} />
@@ -90,7 +90,7 @@ export function Telefono() {
               : dove.vista === 'scheda' ? (dove.quaderno.nome || tr('Indietro')) : tr('Materie')}
           </button>
         ) : (
-          <span className={s.marchio}>Pergamena</span>
+          <span className={s.marchio}>Berto</span>
         )}
         <span className={`${s.spia} ${s[sync]}`} title={sync} />
       </header>

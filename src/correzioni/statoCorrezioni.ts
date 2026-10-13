@@ -57,7 +57,7 @@ export function segnaIntoppo(registrazione: string | null, errore: string, fermo
 
 /*  Gli ultimi controlli, per chi collauda: cosa è stato mandato, cosa ha
  *  risposto Jev, cosa è comparso, in quanto tempo. Non finisce da
- *  nessuna parte e non si mostra: si legge da `pergamena.correzioni`. */
+ *  nessuna parte e non si mostra: si legge da `berto.correzioni`. */
 export type Voce = {
   quando: number; ultimoGiro: boolean; righe: string[]; probabilita: Record<string, number>; proposte: string[]; ms: number
 }

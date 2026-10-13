@@ -64,7 +64,7 @@ export function BarraLaterale({
   return (
     <nav className={s.barra} aria-label={tr('Materie e pagine')}>
       <div className={s.testa}>
-        <span className={s.marchio}>Pergamena</span>
+        <span className={s.marchio}>Berto</span>
         <button className={s.chiudi} onClick={onChiudi} aria-label={tr('Chiudi la barra laterale ({tasti})', { tasti: scrittaDiComando('barra') })} title={tr('Chiudi  {tasti}', { tasti: scrittaDiComando('barra') })}>
           <Icona nome="barra-laterale" />
         </button>

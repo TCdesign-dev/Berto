@@ -28,7 +28,7 @@ async function compitiDelDocumento(d: Documento): Promise<CompitoDiPagina[]> {
   }
 
   const doc = new Y.Doc()
-  const p = new IndexeddbPersistence(`pergamena:doc:${d.id}`, doc)
+  const p = new IndexeddbPersistence(`berto:doc:${d.id}`, doc)
   await p.whenSynced
   const fuori = compitiDi(doc).map(veste)
   await p.destroy()

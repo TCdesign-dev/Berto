@@ -1,4 +1,4 @@
-/*  Il set di icone di Pergamena (restyling, settembre 2026).
+/*  Il set di icone di Berto (restyling, settembre 2026).
  *  Griglia 20, tratto 1,5, estremità arrotondate. Prendono il colore
  *  dal testo (currentColor): nessun colore scritto qui.
  *  16 px nell'interfaccia, 14 nei pulsanti con testo.

@@ -11,11 +11,12 @@ export const ETICHETTE_ORDINE: Record<Ordine, string> = {
   titolo: 'titolo',
 }
 
-const CHIAVE = 'pergamena:ordine'
+const CHIAVE = 'berto:ordine'
+const CHIAVE_VECCHIA = 'pergamena:ordine'
 
 export function leggiOrdine(): Ordine {
   try {
-    const v = localStorage.getItem(CHIAVE) as Ordine | null
+    const v = (localStorage.getItem(CHIAVE) ?? localStorage.getItem(CHIAVE_VECCHIA)) as Ordine | null
     if (v && ORDINI.includes(v)) return v
   } catch { /* finestra privata */ }
   return 'modifica'

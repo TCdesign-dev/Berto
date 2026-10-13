@@ -5,7 +5,8 @@ import { tr } from '../lingua/lingua'
 
 export type Tema = 'sistema' | 'chiaro' | 'scuro'
 
-const CHIAVE = 'pergamena:tema'
+const CHIAVE = 'berto:tema'
+const CHIAVE_VECCHIA = 'pergamena:tema'
 
 export const ETICHETTE_TEMA: Record<Tema, string> = {
   sistema: tr('Tema: come il sistema'),
@@ -15,7 +16,7 @@ export const ETICHETTE_TEMA: Record<Tema, string> = {
 
 export function leggiTema(): Tema {
   try {
-    const v = localStorage.getItem(CHIAVE) as Tema | null
+    const v = (localStorage.getItem(CHIAVE) ?? localStorage.getItem(CHIAVE_VECCHIA)) as Tema | null
     if (v === 'chiaro' || v === 'scuro' || v === 'sistema') return v
   } catch { /* finestra privata */ }
   return 'sistema'

@@ -8,7 +8,7 @@
 import { carica, scaricaRemota, eliminaRemota } from './deposito-remoto'
 import { tr } from '../lingua/lingua'
 
-const DB = 'pergamena:immagini'
+const DB = 'berto:immagini'
 const DEPOSITO = 'file'
 
 export type MetaImmagine = {

@@ -1,4 +1,4 @@
-/*  Pergamena è scritta in italiano, e le frasi stanno dentro il codice
+/*  Berto è scritta in italiano, e le frasi stanno dentro il codice
  *  come le ha scritte chi l'ha fatta. Tradurla vuol dire affiancare a
  *  ogni frase la stessa frase in un'altra lingua, dentro un file di
  *  `lingue/`: la chiave è l'italiano, il valore la traduzione.

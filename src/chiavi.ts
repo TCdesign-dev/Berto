@@ -1,6 +1,6 @@
 /*  Le chiavi che metti tu, da dentro l'app.
  *
- *  Pergamena nasce con le chiavi in un `.env.local`, che è il posto
+ *  Berto nasce con le chiavi in un `.env.local`, che è il posto
  *  giusto quando il progetto è tuo e lo fai girare tu. Ma per chi se
  *  lo scarica, aprire un file nascosto in un editor di testo è il
  *  punto in cui si smette: quindi le chiavi si possono anche incollare
@@ -25,11 +25,13 @@ export type Chiavi = {
 }
 
 const VUOTE: Chiavi = { openrouter: '', serper: '', supabaseUrl: '', supabaseAnon: '' }
-const DOVE = 'pergamena:chiavi'
+const DOVE = 'berto:chiavi'
+const DOVE_VECCHIO = 'berto:chiavi'
 
 let valori: Chiavi = (() => {
   try {
-    return { ...VUOTE, ...JSON.parse(localStorage.getItem(DOVE) ?? '{}') }
+    const raw = localStorage.getItem(DOVE) ?? localStorage.getItem(DOVE_VECCHIO)
+    return { ...VUOTE, ...JSON.parse(raw ?? '{}') }
   } catch {
     return VUOTE
   }

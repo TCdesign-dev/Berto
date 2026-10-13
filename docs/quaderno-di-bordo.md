@@ -1,6 +1,6 @@
 # Quaderno di bordo
 
-Il diario di sviluppo di [Pergamena](../README.md): come è cresciuto il
+Il diario di sviluppo di [Berto](../README.md): come è cresciuto il
 progetto, fase per fase, e soprattutto **perché** le cose sono fatte
 così. Le misure sono quelle prese sul campo mentre si costruiva.
 
@@ -280,7 +280,7 @@ hai lasciato la presa.
 ### ✅ Fase 3 — registrazione e merge
 
 **Registra** nella barra in alto. Il microfono lo ascolta
-`pergamena-ascolto`, un piccolo programma nativo che trascrive in
+`berto-ascolto`, un piccolo programma nativo che trascrive in
 italiano con `SpeechTranscriber` di macOS 26 — sul Mac, senza mandare
 l'audio da nessuna parte. La prima volta macOS chiede il permesso del
 microfono per l'app da cui hai lanciato `npm run dev`.
@@ -331,7 +331,7 @@ striscia. Su un Mac con dei dispositivi virtuali installati il
 microfono «di sistema» può essere BlackHole,
 un ingresso virtuale: timer che correva, silenzio registrato. Dal
 pannello Lezioni si sceglie il microfono; i virtuali stanno in fondo.
-La prima volta macOS chiede il permesso a nome di **pergamena-ascolto**:
+La prima volta macOS chiede il permesso a nome di **berto-ascolto**:
 il programma si rilancia rinunciando alla responsabilità ereditata,
 altrimenti — lanciato da un server avviato con responsabilità già
 rinunciata, come fa l'app Claude — macOS negava in silenzio.
@@ -418,7 +418,7 @@ documento man mano, quindi erano già salve; mancavano tre cose:
 
 - *Server ripartito*: il programma di ascolto muore col server, ma le
   sue ultime frasi le scrive quando nessuno ascolta più. Il server le
-  mette in `~/Library/Application Support/Pergamena/sospese/`, la
+  mette in `~/Library/Application Support/Berto/sospese/`, la
   pagina le recupera appena torna. La registrazione si chiude da sola,
   segnata **interrotta**, e resta integrabile. (Prima restava «in
   corso» per sempre, senza il pulsante del merge.)
@@ -458,7 +458,7 @@ una lezione finita mentre nessuna pagina la scriveva aveva 12 frasi solo
 nella memoria del server, e un riavvio le avrebbe perse.
 
 **Una copia di prova dell'app ha la sua cartella.** Con
-`PERGAMENA_CARTELLA` nel suo `.env.local` (e senza le chiavi di
+`BERTO_CARTELLA` nel suo `.env.local` (e senza le chiavi di
 Supabase): altrimenti potrebbe prendersi le frasi sospese di una lezione
 vera, o cancellarne l'audio.
 
@@ -641,14 +641,14 @@ finita, e andando a capo si risparmiano. Dopo Ferma, 2,3 s.
 
 Le regole di input di ProseMirror (`# ` → titolo, `- ` → elenco) non
 si possono verificare con l'automazione del browser, che inserisce
-testo senza eventi di tastiera veri. In sviluppo `window.pergamena`
+testo senza eventi di tastiera veri. In sviluppo `window.berto`
 espone `{ editor, doc, documento }` per pilotare l'editor dalla console.
 
 Per collaudare le regole di input (frecce, `# `, `- `) si può simulare
 la digitazione vera:
 
 ```js
-const { editor } = window.pergamena, view = editor.view
+const { editor } = window.berto, view = editor.view
 const digita = (t) => { for (const ch of t) {
   const { from, to } = view.state.selection
   if (!view.someProp('handleTextInput', f => f(view, from, to, ch)))

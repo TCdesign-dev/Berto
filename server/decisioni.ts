@@ -26,7 +26,7 @@ async function chiama(chiave: string, corpo: string) {
         Authorization: `Bearer ${chiave}`,
         'Content-Type': 'application/json',
         'HTTP-Referer': 'http://localhost:5180',
-        'X-Title': 'Pergamena',
+        'X-Title': 'Berto',
       },
       body: corpo,
       signal: interruttore.signal,
@@ -38,7 +38,7 @@ async function chiama(chiave: string, corpo: string) {
 
 export function decisioni(env: Record<string, string>): Plugin {
   return {
-    name: 'pergamena-decisioni',
+    name: 'berto-decisioni',
     configureServer(server) {
       server.middlewares.use('/api/decisioni', async (req: IncomingMessage, res: ServerResponse) => {
         const rispondi = (stato: number, corpo: unknown) => {

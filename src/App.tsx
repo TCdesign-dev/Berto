@@ -41,8 +41,8 @@ import { Archivio } from './archivio/Archivio'
 import s from './App.module.css'
 import { tr } from './lingua/lingua'
 
-const ULTIMO = 'pergamena:ultimo-documento'
-const leggiUltimo = () => { try { return localStorage.getItem(ULTIMO) } catch { return null } }
+const ULTIMO = 'berto:ultimo-documento'
+const leggiUltimo = () => { try { return localStorage.getItem(ULTIMO) ?? localStorage.getItem('pergamena:ultimo-documento') } catch { return null } }
 
 type DaEliminare =
   | { tipo: 'pagina'; documento: Documento }

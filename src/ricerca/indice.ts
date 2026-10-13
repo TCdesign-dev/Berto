@@ -51,7 +51,7 @@ async function testoDi(id: string, modificato: number): Promise<string> {
     testo = estrai(aperto.doc)
   } else {
     const doc = new Y.Doc()
-    const p = new IndexeddbPersistence(`pergamena:doc:${id}`, doc)
+    const p = new IndexeddbPersistence(`berto:doc:${id}`, doc)
     await p.whenSynced
     testo = estrai(doc)
     await p.destroy()

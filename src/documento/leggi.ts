@@ -16,7 +16,7 @@ export async function leggiDocumento<T>(id: string, leggi: (doc: Y.Doc) => T): P
     return leggi(aperto.doc)
   }
   const doc = new Y.Doc()
-  const persistenza = new IndexeddbPersistence(`pergamena:doc:${id}`, doc)
+  const persistenza = new IndexeddbPersistence(`berto:doc:${id}`, doc)
   try {
     await persistenza.whenSynced
     return leggi(doc)

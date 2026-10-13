@@ -1,15 +1,15 @@
 // ─────────────────────────────────────────────────────────────────────
-//  pergamena-ascolto
+//  berto-ascolto
 //
 //  Ascolta (il microfono o un file) e trascrive in italiano con
 //  SpeechTranscriber di macOS 26, sul Mac, senza mandare l'audio da
 //  nessuna parte. Scrive su stdout una riga JSON per evento.
 //
-//    pergamena-ascolto                         microfono
-//    pergamena-ascolto --file lezione.m4a      un file, alla massima velocità
-//    pergamena-ascolto --file x --tempo-reale  un file, come se fosse dal vivo
-//    pergamena-ascolto --salva lezione.m4a     tiene anche l'audio (AAC 32 kbps)
-//    pergamena-ascolto --contesto "Juvarra,Superga"
+//    berto-ascolto                         microfono
+//    berto-ascolto --file lezione.m4a      un file, alla massima velocità
+//    berto-ascolto --file x --tempo-reale  un file, come se fosse dal vivo
+//    berto-ascolto --salva lezione.m4a     tiene anche l'audio (AAC 32 kbps)
+//    berto-ascolto --contesto "Juvarra,Superga"
 //
 //  Si ferma con SIGINT/SIGTERM, oppure quando stdin si chiude: se il
 //  processo che l'ha lanciato muore, non deve restare un microfono
@@ -41,7 +41,7 @@ import Speech
 //  privata non c'è, si va avanti come prima.
 
 func diventaResponsabile() {
-    let chiave = "PERGAMENA_ASCOLTO_AUTONOMO"
+    let chiave = "BERTO_ASCOLTO_AUTONOMO"
     if getenv(chiave) != nil { return }
     setenv(chiave, "1", 1)
 
@@ -495,10 +495,10 @@ struct Ascolto {
             case .authorized: break
             case .notDetermined:
                 if !(await AVCaptureDevice.requestAccess(for: .audio)) {
-                    muori("microfono non autorizzato: Impostazioni di Sistema › Privacy e sicurezza › Microfono › attiva «pergamena-ascolto»")
+                    muori("microfono non autorizzato: Impostazioni di Sistema › Privacy e sicurezza › Microfono › attiva «berto-ascolto»")
                 }
             default:
-                muori("microfono non autorizzato: Impostazioni di Sistema › Privacy e sicurezza › Microfono › attiva «pergamena-ascolto»")
+                muori("microfono non autorizzato: Impostazioni di Sistema › Privacy e sicurezza › Microfono › attiva «berto-ascolto»")
             }
 
             let motore = AVAudioEngine()

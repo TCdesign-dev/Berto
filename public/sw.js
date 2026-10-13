@@ -1,8 +1,8 @@
-/*  Guscio in cache, così Pergamena si apre anche senza rete.
+/*  Guscio in cache, così Berto si apre anche senza rete.
  *  Gli appunti non passano di qui: vivono in IndexedDB e li gestisce
  *  Yjs. Questo tiene in cache soltanto l'involucro dell'app. */
 
-const CACHE = 'pergamena-guscio-v1'
+const CACHE = 'berto-guscio-v1'
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(['/', '/manifest.webmanifest', '/icona.svg'])))

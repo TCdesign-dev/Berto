@@ -4,7 +4,7 @@
     "locale": "en-GB",
     "ascolto": "en-GB",
     "modello": "Answer in English, and address the student as \"you\".",
-    "tradotta": "Pergamena"
+    "tradotta": "Berto"
   },
   "Eliminare «{titolo}»?": "Delete “{titolo}”?",
   "Senza titolo": "Untitled",
@@ -270,7 +270,7 @@
   "Sintassi che scrivi, e i tasti della revisione.": "Syntax you type, and the review keys.",
   "Nascondi": "Hide",
   "Mostra": "Show",
-  "Le traduzioni le scrive chi usa Pergamena. Se la tua lingua non c’è, o c’è e va corretta, si aggiunge un file in <code>lingue/</code>.": "Translations are written by the people who use Pergamena. If your language is missing, or is there and needs fixing, add a file in <code>lingue/</code>.",
+  "Le traduzioni le scrive chi usa Berto. Se la tua lingua non c’è, o c’è e va corretta, si aggiunge un file in <code>lingue/</code>.": "Translations are written by the people who use Berto. If your language is missing, or is there and needs fixing, add a file in <code>lingue/</code>.",
   "Sono la prima cosa che il modello legge, prima dei tuoi appunti e della trascrizione. {segnaposto} diventa il numero massimo di proposte: 8 per una lezione, 16 per tutte insieme.": "They are the first thing the model reads, before your notes and the transcript. {segnaposto} becomes the maximum number of suggestions: 8 for one lecture, 16 for all of them together.",
   "Serve all’integratore, ai quiz e alle correzioni in diretta. Si prende su <code>openrouter.ai/keys</code>: qualche centesimo al mese ai ritmi di una persona che studia.": "Needed by the merge, the quizzes and the live corrections. You get one at <code>openrouter.ai/keys</code>: a few cents a month at the pace of someone studying.",
   "Per sincronizzare Mac e telefono. Finisce per <code>.supabase.co</code>.": "For syncing Mac and phone. It ends in <code>.supabase.co</code>.",

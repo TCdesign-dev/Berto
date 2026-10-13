@@ -1,349 +1,367 @@
-# Pergamena
+# Berto
 
-![licenza MIT](https://img.shields.io/badge/licenza-MIT-black)
+[![MIT License](https://img.shields.io/badge/license-MIT-black)](LICENSE)
 ![macOS 26](https://img.shields.io/badge/macOS-26%2B-black)
-![Node 24](https://img.shields.io/badge/Node-24-black)
-![stato: sviluppo attivo](https://img.shields.io/badge/stato-sviluppo%20attivo-brightgreen)
-![lingue: italiano, inglese](https://img.shields.io/badge/lingue-italiano%20%C2%B7%20inglese-black)
+[![Node 24](https://img.shields.io/badge/Node-24-black)](.nvmrc)
+![status: active development](https://img.shields.io/badge/status-active%20development-brightgreen)
+[![languages: Italian, English](https://img.shields.io/badge/languages-Italian%20%C2%B7%20English-black)](#translations)
 
-Applicazione per prendere appunti a lezione. Registra e trascrive l'audio
-in locale sul Mac, poi confronta la trascrizione con gli appunti e
-propone le integrazioni mancanti, una per una, da accettare o rifiutare.
+[🇬🇧 English](README.md) · [🇮🇹 Italiano](README.it.md)
 
-È un'applicazione locale: il testo è salvato in IndexedDB, l'audio in una
-cartella del Mac. La sincronizzazione fra dispositivi è facoltativa e usa
-un progetto Supabase configurato dall'utente.
+A lecture note-taking application designed for students. Records and transcribes audio locally on macOS, then compares the live transcript with your handwritten notes and suggests missing details — line by line, for you to accept or decline.
 
-![Una pagina di appunti aperta accanto alla barra laterale delle materie](docs/immagini/scrittura.png)
+An offline-first, local application: text documents live in IndexedDB, audio is kept on your Mac. Cross-device synchronization is optional and backed by a user-configured Supabase project.
 
----
-
-## Funzionalità
-
-### Editor
-
-Editor a blocchi basato su TipTap, senza barra degli strumenti fissa: il
-menu di formattazione compare sulla selezione (grassetto, corsivo,
-sottolineato, titoli, cinque colori, evidenziatore, codice, commento,
-quiz sul passaggio selezionato). Su una riga vuota `/` apre l'elenco dei
-blocchi; una maniglia a sinistra della riga permette di trascinarla,
-`⌘⇧↑` e `⌘⇧↓` la spostano da tastiera.
-
-Blocchi disponibili: titoli su tre livelli, elenchi puntati e numerati
-anche annidati, citazioni, codice, immagini, formule LaTeX rese con KaTeX
-(`$$…$$` nel testo, `$$$…$$$` su una riga a sé). Le frecce si compongono
-automaticamente: `->` diventa `→`.
-
-### Registrazione e trascrizione
-
-`⌘R` avvia la registrazione. La trascrizione è affidata a
-`SpeechTranscriber` di macOS ed è eseguita in locale: l'audio non lascia
-il computer e non transita da servizi esterni.
-
-Durante la registrazione una fascia in fondo alla pagina mostra le ultime
-frasi riconosciute e il dispositivo in uso. Dopo sei secondi senza
-segnale viene segnalato il silenzio — condizione frequente quando il
-microfono di sistema è un dispositivo virtuale che non riceve l'audio
-dell'aula. Sono disponibili pausa, scelta del microfono e salvataggio
-dell'audio (circa 17 MB l'ora, disattivato per impostazione predefinita).
-
-La lingua in cui si ascolta segue quella scelta nelle impostazioni: il
-primo utilizzo di una lingua nuova comporta il download del modello di
-riconoscimento da parte di macOS.
-
-Se la pagina viene ricaricata o il Mac va in stop la registrazione
-prosegue: alla riconnessione il server restituisce le frasi prodotte nel
-frattempo.
-
-![Il pannello delle lezioni, con la trascrizione e «Integrazione completa»](docs/immagini/lezioni.png)
-*Ogni lezione conserva la propria trascrizione; con l'audio salvato si riascolta dal minuto selezionato.*
-
-### Integrazione degli appunti
-
-A lezione conclusa, **Integra negli appunti** confronta il testo scritto
-con la trascrizione e inserisce le proposte nel punto in cui vanno lette.
-Si scorrono con `J` e `K`, si accettano con `↵`, si rifiutano con `X`.
-
-Comportamento delle proposte:
-
-- **completamento invece di riscrittura.** Se la riga esiste già ma è
-  incompleta, la proposta viene inserita nella riga stessa — in fondo o
-  nel punto indicato dal modello. Un blocco nuovo viene creato solo
-  quando l'argomento non è presente;
-- **adattamento allo stile.** Prima della richiesta l'applicazione misura
-  la pagina: lunghezza media delle righe, iniziale minuscola o maiuscola,
-  punteggiatura finale, simboli ricorrenti, uso di grassetto e colori. Le
-  istruzioni al modello includono queste misure e due righe di esempio
-  prese dagli appunti;
-- **tracciabilità.** Il testo proposto è sottolineato a puntini e
-  mantiene il segno anche dopo l'accettazione.
-
-![Tre proposte nel testo, sottolineate a puntini, e la barra della revisione in basso](docs/immagini/integratore.png)
-*La prima proposta è un completamento: prosegue una riga esistente invece di aggiungerne una nuova.*
-
-L'integratore propone inoltre i titoli degli argomenti mancanti, le
-formule dettate a lezione (in LaTeX) e le immagini per i concetti che ne
-richiedono una.
-
-Con più lezioni sulla stessa pagina, **Integrazione completa** le elabora
-in un'unica richiesta: i dati ripetuti in lezioni diverse producono una
-sola proposta e le precisazioni successive prevalgono su quelle
-precedenti.
-
-### Correzioni in diretta
-
-Durante la registrazione, le righe che contengono dati verificabili —
-date, numeri, nomi propri, parti lasciate in sospeso — vengono
-confrontate con gli ultimi novanta secondi di trascrizione. In caso di
-discordanza compare un indicatore nel margine; `⌥⌘↓` apre la scheda con
-la citazione e la correzione proposta, `↵` applica, `X` mantiene il testo
-originale.
-
-Il controllo è limitato a una richiesta ogni dieci secondi e ignora le
-righe prive di elementi verificabili, riducendo le chiamate al modello e
-le interruzioni durante la scrittura.
-
-### Domande sulla lezione
-
-Un pannello permette di interrogare la pagina. Il modello riceve due
-fonti: gli appunti e la trascrizione delle lezioni associate.
-
-![Il pannello «Chiedi alla lezione» con una domanda e la risposta che cita il professore](docs/immagini/chiedi.png)
-
-Le risposte citano la trascrizione con il minuto di riferimento e
-distinguono ciò che è stato detto a lezione da ciò che è già presente
-negli appunti. Se l'informazione non è in nessuna delle due fonti, il
-modello lo dichiara. Domande e risposte sono salvate nella pagina.
-
-### Commenti
-
-`⌘⇧M` applica un commento al testo selezionato. Il passaggio commentato
-resta evidenziato; il clic riapre la nota, che si può modificare o
-risolvere. Un pannello elenca i commenti della pagina nell'ordine in cui
-compaiono nel testo.
-
-I commenti il cui testo di riferimento viene eliminato non vanno persi:
-restano in fondo all'elenco con la citazione del passaggio originale.
-
-![Un commento aperto su una frase segnata in viola](docs/immagini/commenti.png)
-
-### Immagini
-
-Il pannello immagini cerca e inserisce illustrazioni per trascinamento;
-la sintassi `!termine!` avvia la ricerca durante la scrittura. Ogni
-ricerca passa da Wikipedia, che risolve il termine e fornisce l'immagine
-principale dell'articolo e la traduzione inglese, usata poi su Wikimedia
-Commons e Openverse — indicizzati prevalentemente in inglese. Con una
-chiave Serper sono disponibili i risultati di Google Immagini.
-
-Le immagini inserite sono salvate in locale con autore e licenza.
-
-### Ripasso e quiz
-
-Ogni titolo di primo livello definisce un argomento. La scheda della
-materia raccoglie gli argomenti, il riepilogo delle ultime due lezioni e
-i quiz generati dagli appunti e dalla trascrizione; ogni domanda ha un
-collegamento al punto corrispondente della pagina.
-
-L'archivio riporta lo spazio occupato da pagine, trascrizioni, audio e
-immagini e ne permette l'eliminazione selettiva.
-
-### Sincronizzazione e telefono
-
-Con un progetto Supabase configurato, le pagine si sincronizzano fra Mac
-e telefono. L'interfaccia per telefono è di sola lettura e usa lo stesso
-schema del documento. Senza Supabase l'applicazione resta locale e le
-altre funzioni sono invariate.
-
-### Personalizzazione
-
-- **Scorciatoie** (Impostazioni › Tastiera): ogni combinazione si
-  riassegna premendo i tasti; quelle già assegnate non possono essere
-  sovrascritte;
-- **Istruzioni dell'integratore** (Impostazioni › Integratore): il testo
-  che precede appunti e trascrizione è modificabile; il formato della
-  risposta resta gestito dall'applicazione;
-- **Lingua** (Impostazioni › Aspetto): italiano e inglese; «come il
-  sistema» segue la lingua del browser. Le lingue si aggiungono senza
-  toccare il codice, vedi [Traduzioni](#traduzioni);
-- **Chiavi API**, tema, microfono, fonte delle immagini e correzioni in
-  diretta sono configurabili dalle impostazioni.
+![A notes page open beside the subject sidebar](docs/immagini/scrittura.png)
+*A note-taking workspace open beside the course sidebar.*
 
 ---
 
-## Requisiti
+## Table of Contents
 
-- **macOS 26** per la trascrizione (`SpeechTranscriber` di sistema);
-  senza, le altre funzioni restano disponibili ma non è possibile
-  registrare;
-- **Node 24** (`nvm use` legge `.nvmrc`);
-- **strumenti da riga di comando di Xcode** (`xcode-select --install`),
-  necessari una sola volta per compilare il componente nativo che
-  acquisisce l'audio;
-- una **chiave OpenRouter** per le funzioni basate su modelli.
+- [Quick Start](#quick-start)
+- [Features](#features)
+- [Keyboard Shortcuts](#keyboard-shortcuts)
+- [Requirements](#requirements)
+- [Installation and Scripts](#installation)
+- [API Keys and Models](#api-keys)
+- [Sync and Mobile Access](#sync-and-mobile-access)
+- [Costs](#costs)
+- [Privacy and Data](#privacy-and-data)
+- [Architecture](#architecture)
+- [Troubleshooting](#troubleshooting)
+- [Project Status](#project-status)
+- [Translations](#translations)
+- [Contributing](#contributing)
+- [Why Berto?](#why-berto)
+- [License](#license)
 
-## Installazione
+---
+
+## Quick Start
 
 ```bash
-git clone https://github.com/TCdesign-dev/Pergamena.git
-cd Pergamena
-nvm use            # Node 24: Vite 8 richiede una versione superiore alla 20
+git clone https://github.com/TCdesign-dev/Berto.git
+cd Berto
+nvm use            # Node 24: Vite 8 requires Node > 20
 npm install
+cp .env.example .env.local
 npm run dev        # http://localhost:5180
 ```
 
-Il primo avvio compila il componente nativo
-(`nativo/ascolto/compila.sh`). Al primo utilizzo di **Registra** macOS
-richiede l'autorizzazione al microfono.
-
-`npm run check` esegue il controllo dei tipi.
-
-## Chiavi API
-
-Due modalità alternative:
-
-1. **Impostazioni › Chiavi** (`⌘,`): la chiave è salvata in
-   `localStorage` e inviata al server locale, l'unico componente che
-   comunica con OpenRouter. Il pulsante **Prova** ne verifica la validità;
-2. **file `.env.local`**, copiato da [`.env.example`](.env.example): la
-   chiave resta fuori dal browser. Se presente, ha la precedenza.
-
-| chiave | funzioni | in assenza |
-|---|---|---|
-| `OPENROUTER_API_KEY` | integrazione, domande, quiz, correzioni | scrittura, registrazione e trascrizione restano disponibili |
-| `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` | sincronizzazione fra dispositivi | i dati restano sul computer |
-| `SERPER_API_KEY` | immagini da Google | immagini da Wikipedia, Commons e Openverse |
-
-I modelli si configurano dal `.env.local` (`MODELLO_MERGE`,
-`MODELLO_QUIZ`, `MODELLO_VELOCE`, `MODELLO_TRIAGE`) senza modificare il
-codice.
-
-## Costi
-
-L'integrazione richiede una chiamata per lezione. Le correzioni in
-diretta passano da un filtro preliminare che costa una frazione di
-centesimo per riga controllata e scarta le righe prive di dati
-verificabili. Con i modelli predefiniti la spesa è nell'ordine di alcune
-decine di centesimi al mese anche con molte ore di lezione settimanali.
-
-La trascrizione non ha costi, essendo eseguita in locale. Le ricerche di
-immagini su Wikipedia, Commons e Openverse non richiedono chiavi.
-
-## Privacy e dati
-
-Il testo è salvato in IndexedDB, l'audio in
-`~/Library/Application Support/Pergamena`. Escono dal computer soltanto
-le pagine — se è configurata la sincronizzazione su un progetto Supabase
-dell'utente — e le porzioni di appunti e trascrizione inviate al modello
-quando si usano le funzioni che lo richiedono. Non è previsto alcun
-account né raccolta di dati d'uso.
+The first run automatically compiles the native Swift audio component (`nativo/ascolto/compila.sh`). On your first click of **Record**, macOS prompts for microphone access permission.
 
 ---
 
-## Architettura
+## Features
 
-React, TypeScript e Vite. L'editor è TipTap (ProseMirror); il documento è
-un `Y.Doc` di Yjs persistito in IndexedDB e, se configurato,
-sincronizzato tramite Supabase. Non sono usati framework CSS né librerie
-di componenti: CSS Modules e un file di token.
+### Editor
+*100% Local · No internet connection required*
 
-Il server di sviluppo Vite funge anche da backend: quattro plugin in
-`server/` espongono l'acquisizione audio, il proxy verso i modelli,
-l'endpoint delle decisioni e la ricerca immagini. Le chiavi API restano
-lato server.
+A block-based editor built on TipTap, free of cluttered fixed toolbars: the formatting menu floats directly on active selection (bold, italic, underline, headings, five colors, highlighter, code, comments, quiz generator on selected excerpts). On an empty line, pressing `/` summons the block picker; a grab handle on the left enables drag-and-drop reordering, while `⌘⇧↑` and `⌘⇧↓` move blocks directly from the keyboard.
+
+Supported blocks: three levels of headings, nested bulleted and numbered lists, quotes, code snippets, local and web images, and LaTeX formulas rendered with KaTeX (`$$…$$` inline, `$$$…$$$` block). Arrows compose automatically: typing `->` turns into `→`.
+
+### Recording and Transcription
+*100% Local · Powered by macOS SpeechTranscriber*
+
+`⌘R` triggers live recording. Transcription is performed by Apple's built-in `SpeechTranscriber` framework directly on macOS: audio never leaves your machine and avoids third-party speech APIs entirely.
+
+During recording, a status bar along the bottom displays recognized phrases and active audio input. If silence persists for longer than six seconds, a visual prompt warns you — a common scenario when a virtual loopback device is active instead of the classroom microphone. Includes pause controls, device switching, and optional raw audio archiving (~17 MB/hour, disabled by default).
+
+The listening language mirrors your settings choice: using a new language for the first time triggers an on-demand download of Apple's local recognition model.
+
+If you refresh the browser or the Mac enters sleep mode, recording continues uninterrupted in the background: upon reconnecting, the server replays any queued sentences.
+
+![Lectures drawer showing transcriptions and Full Integration](docs/immagini/lezioni.png)
+*Each lecture retains its own transcript; with saved audio you can replay starting from any chosen timestamp.*
+
+### Note Integration (Smart Merge)
+*Requires OpenRouter*
+
+Once a lecture wraps up, **Integrate into notes** compares your written notes against the transcript and places targeted insertion proposals exactly where they belong in the document. Cycle proposals with `J` and `K`, accept with `↵`, or dismiss with `X`.
+
+Smart proposal mechanics:
+
+- **Completion over rewrite.** If an existing note line is incomplete, the proposal finishes the sentence — inline or at the relevant position indicated by the model. A brand-new block is introduced only when an entire topic was omitted;
+- **Style matching.** Before issuing prompts, Berto analyzes your page: median line length, capitalization patterns, punctuation, recurring symbols, bold tags, and color choices. Instructions fed to the model include these measurements along with two real sample excerpts;
+- **Full traceability.** Proposed additions are marked with a dotted underline and retain their provenance even after acceptance.
+
+![Three proposals in note text with dotted underlines and review bar](docs/immagini/integratore.png)
+*The first proposal is a completion: it continues an existing sentence instead of appending a new block.*
+
+The integrator also detects missing section titles, dictation of mathematical formulas (in LaTeX), and suggests illustrative diagrams for visual concepts.
+
+When multiple lectures are linked to the same document, **Full Integration** aggregates them in a single pass: deduplicating overlapping material and prioritizing later clarifications over earlier statements.
+
+### Live Corrections
+*Requires OpenRouter / Jev*
+
+While recording, lines containing verifiable factual assertions — dates, figures, proper names, or trailing thoughts — are verified against the preceding 90 seconds of transcript. When a mismatch is identified, an indicator appears in the left margin; pressing `⌥⌘↓` reveals the exact spoken citation and proposed adjustment. Press `↵` to adopt or `X` to keep your original wording.
+
+Checks are throttled to at most one request every 10 seconds and bypass lines without factual claims, saving tokens and preserving your focus while typing.
+
+### Ask the Lecture
+*Requires OpenRouter*
+
+A dedicated query drawer allows you to interrogate the page. The LLM receives two grounded sources: your written notes and the transcript of all associated lectures.
+
+![The Ask Lecture panel with question and answers quoting the professor](docs/immagini/chiedi.png)
+*The query panel cites timestamps and distinguishes what was spoken by the lecturer from what was already noted.*
+
+Answers quote the transcript with exact minute markers and clearly delineate what was stated in class versus what was already documented. If an answer cannot be grounded in either source, the model explicitly acknowledges it. All queries and answers persist alongside the page.
+
+### Comments
+*100% Local*
+
+`⌘⇧M` attaches an inline comment to selected text. Commented passages remain subtly highlighted; clicking opens the note for editing or resolving. A sidebar lists all active comments ordered by document appearance.
+
+If commented text is later deleted, the note is never lost: it moves to the bottom of the drawer preserving a citation of the original deleted passage.
+
+![Comment card pinned to a purple highlighted sentence](docs/immagini/commenti.png)
+*Comments stay anchored to highlighted passages or archive gracefully if parent text is removed.*
+
+### Images
+*Wikipedia, Commons, and Openverse without keys · Google Images via Serper*
+
+A media panel lets you discover and drag-and-drop illustrations; typing `!query!` triggers immediate image discovery right from the editor. Queries route through Wikipedia to resolve canonical entities, retrieving the article lead image and English translations used to search Wikimedia Commons and Openverse. Providing an optional Serper API key unlocks Google Images search results.
+
+Inserted illustrations are cached locally with author and licensing attribution.
+
+### Review and Quizzes
+*Requires OpenRouter for quiz generation*
+
+Every top-level heading designates a study topic. The subject dashboard gathers topics, summaries of the last two lectures, and flashcards/quizzes generated from notes and transcripts. Every question links directly back to the relevant source paragraph.
+
+The storage inspector reports disk usage for documents, transcripts, audio, and media, enabling selective cleanup.
+
+---
+
+## Sync and Mobile Access
+*Optional · Requires user-provisioned Supabase project*
+
+Configuring Supabase enables bi-directional synchronization between your Mac and smartphone. The mobile view is read-only and shares the exact same ProseMirror document schema. Without Supabase, Berto operates purely offline as a local application.
+
+### How to Access Berto on Your Phone
+
+Because Berto runs on `localhost` on macOS, your smartphone can open the reader through two straightforward approaches:
+
+1. **Free Static Hosting (Recommended):**  
+   The mobile view is a static Progressive Web App (PWA) that talks **directly to Supabase** in the cloud without needing your Mac online. Build the app (`npm run build`) and deploy the output to free hosting providers such as **Vercel**, **Cloudflare Pages**, or **GitHub Pages**, providing `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` as environment variables.  
+   On your phone, navigate to your deployed URL and tap **«Add to Home Screen»**: the Service Worker caches the app shell, allowing you to review your notes anytime, anywhere — even when your Mac is sleeping at home.
+
+2. **Local Wi-Fi Network (Zero cloud deployment):**  
+   When your phone and Mac share the same Wi-Fi network, launch Vite with network exposure:
+   ```bash
+   npm run dev -- --host
+   ```
+   Open the local IP displayed in your terminal on your phone browser (e.g. `http://192.168.1.45:5180`). The Service Worker will automatically cache the reader shell for offline review.
+
+---
+
+## Keyboard Shortcuts
+
+Berto is optimized for a fast, keyboard-first workflow:
+
+| Action | Shortcut | Context |
+|---|---|---|
+| **Start / Stop Recording** | `⌘R` | Global |
+| **Open Settings** | `⌘,` | Global |
+| **Block Slash Menu** | `/` | Editor (empty line) |
+| **Move Line / Block Up & Down** | `⌘⇧↑` / `⌘⇧↓` | Editor |
+| **Attach Comment** | `⌘⇧M` | Editor (selected text) |
+| **KaTeX Math Formulas** | `$$…$$` (inline) · `$$$…$$$` (block) | Editor |
+| **Search Image** | `!query!` | Editor (inline typing) |
+| **Cycle Merge Proposals** | `J` (next) · `K` (previous) | Integration review bar |
+| **Accept Proposal** | `↵` | Integration review bar |
+| **Reject Proposal** | `X` | Integration review bar |
+| **Inspect Live Correction** | `⌥⌘↓` | Margin indicator |
+| **Apply / Keep Live Correction** | `↵` (apply) · `X` (keep) | Correction sheet |
+
+---
+
+## Requirements
+
+- **macOS 26** (or macOS release with Apple `SpeechTranscriber` support) for local on-device speech transcription; without this, writing, organizing, and review features remain fully operational, but live recording is disabled;
+- **Node 24** (`nvm use` reads `.nvmrc`);
+- **Xcode Command Line Tools** (`xcode-select --install`), required once to build the native Swift audio capture executable;
+- An **OpenRouter API Key** (optional) for AI features (integration merge, quiz generation, live corrections, lecture Q&A).
+
+---
+
+## Installation
+
+```bash
+git clone https://github.com/TCdesign-dev/Berto.git
+cd Berto
+nvm use            # Node 24: Vite 8 requires Node > 20
+npm install
+cp .env.example .env.local
+npm run dev        # http://localhost:5180
+```
+
+Launching `npm run dev` triggers the `predev` lifecycle hook, which compiles the native Swift module (`nativo/ascolto/compila.sh`) into `build/berto-ascolto` if not already present.
+
+### Available Scripts
+
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Starts the Vite dev server at `http://localhost:5180` (builds native binary if missing) |
+| `npm run check` | Runs TypeScript type checking without emitting files (`tsc -b --noEmit`) |
+| `npm run build` | Validates types and compiles production frontend bundle (`tsc -b && vite build`) |
+| `npm run preview` | Serves a local preview of the production build |
+| `npm run ascolto` | Manually recompiles the native Swift audio binary (`nativo/ascolto/compila.sh`) |
+| `npm run lingue` | Scans source code and synchronizes translation dictionaries in `lingue/` |
+
+---
+
+## API Keys
+
+Credentials can be configured via two alternate pathways:
+
+1. **From the UI (Settings › Keys, `⌘,`)**: keys are stored in `localStorage` and dispatched only to the local Vite backend proxy. The **Test** button validates credentials immediately;
+2. **Via `.env.local`**, cloned from [`.env.example`](.env.example): keys remain strictly off browser memory. If defined, `.env.local` takes precedence.
+
+| Variable | Enabled Features | Fallback Behavior |
+|---|---|---|
+| `OPENROUTER_API_KEY` | Merge integration, Q&A, quizzes, live corrections | Text editing, recording, and local transcription remain available |
+| `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` | Real-time cross-device sync (Mac and mobile) | All notes remain exclusively on your local machine |
+| `SERPER_API_KEY` | Google Images search | Creative Commons media from Wikipedia, Wikimedia Commons, and Openverse |
+
+AI model identifiers can be switched from `.env.local` (`MODELLO_MERGE`, `MODELLO_QUIZ`, `MODELLO_VELOCE`, `MODELLO_TRIAGE`) without altering application code.
+
+> [!NOTE]
+> **Supabase Database Provisioning:**  
+> If enabling cross-device sync, create a free project on [supabase.com](https://supabase.com), open the **SQL Editor**, and execute the script in [`supabase/schema.sql`](supabase/schema.sql). This sets up the `aggiornamenti` delta table, Yjs indexes, and Row Level Security (RLS) policies.
+
+---
+
+## Costs
+
+Merge integrations issue a single API call per lecture. Live factual corrections pass through a low-latency triage filter costing fractions of a cent per evaluated statement. Under default models, typical students spend under a few dozen cents per month even across heavy weekly lecture schedules.
+
+Audio transcription incurs zero cost, running entirely on local Apple Silicon hardware. Image lookups via Wikipedia and Wikimedia Commons require no keys.
+
+---
+
+## Privacy and Data
+
+Documents are persisted in IndexedDB; audio recordings are saved to `~/Library/Application Support/Berto`. Data leaves your machine solely when optional Supabase sync is enabled or when note snippets are dispatched to user-configured LLM providers for merge and Q&A. There are zero tracking scripts, telemetry, or user accounts.
+
+---
+
+## Architecture
+
+React, TypeScript, and Vite. The editor core is TipTap (ProseMirror); documents are modeled as Yjs `Y.Doc` instances persisted to IndexedDB and synchronized via Supabase when configured. No monolithic CSS libraries: crafted with scoped CSS Modules and a design token sheet.
+
+Vite acts as a dual development server and local backend: four custom plugins in `server/` expose Swift audio capture, LLM proxying, decision triage, and image discovery. Secrets never reach the client.
+
+```mermaid
+flowchart TD
+    subgraph Client["Mac (Browser / Local)"]
+        UI["React + TipTap UI"] <--> Doc["Yjs Document (IndexedDB)"]
+    end
+
+    subgraph ViteServer["Vite Dev Server (localhost:5180)"]
+        AudioPlugin["Audio Plugin"] <--> Swift["Native Swift (SpeechTranscriber)"]
+        ProxyPlugin["LLM & Triage Plugin"]
+        ImgPlugin["Images Plugin"]
+    end
+
+    subgraph External["External Services (Optional)"]
+        OpenRouter["OpenRouter (LLMs)"]
+        Supabase["Supabase (Yjs Sync)"]
+        Wiki["Wikipedia / Commons / Serper"]
+    end
+
+    UI <--> ViteServer
+    ProxyPlugin --> OpenRouter
+    Doc -.->|optional sync| Supabase
+    ImgPlugin --> Wiki
+```
 
 ```
 src/
-├── editor/          editor: estensioni TipTap, menu, formule, immagini
-├── documento/       Yjs e IndexedDB: quaderni, pagine, archivio
-├── registrazione/   acquisizione audio, trascrizione, pannello lezioni
-├── merge/           integrazione: prompt, proposte, revisione
-├── correzioni/      correzioni in diretta, dal filtro alla scheda
-├── domande/         domande sulla lezione
-├── commenti/        commenti sul testo
-├── immagini/        Wikipedia, Commons, ricerca web, immagini consigliate
-├── ripasso/         argomenti, quiz, riepilogo
-├── materia/         scheda della materia, esami, collegamenti
-├── ricerca/         indice e ricerca nel testo
-├── sync/            Supabase: autenticazione e sincronizzazione
-├── tastiera/        registro delle scorciatoie
-├── lingua/          dizionari, frasi e formati della lingua scelta
-├── telefono/        interfaccia di sola lettura
-├── layout/          struttura, barre, pannelli, impostazioni
-├── lib/             modelli, decisioni, utilità di testo, icone
-└── stili/           token, colori, animazioni, stile del contenuto
+├── editor/          TipTap extensions, menus, formulas, image integration
+├── documento/       Yjs and IndexedDB: notebooks, documents, archives
+├── registrazione/   Audio capture, transcription, lecture dashboard
+├── merge/           Smart integration: prompts, suggestions, review UI
+├── correzioni/      Live corrections, from triage filter to sheet
+├── domande/         Lecture Q&A drawer
+├── commenti/        Inline text annotations
+├── immagini/        Media search, Commons, web results, recommendations
+├── ripasso/         Topic explorer, quizzes, subject review
+├── materia/         Course overview, exam schedules, backlinks
+├── ricerca/         Full-text search and indexing
+├── sync/            Supabase: authentication and replication
+├── tastiera/        Keyboard shortcuts registry
+├── lingua/          I18n dictionaries, formatters, and locales
+├── telefono/        Read-only mobile reader PWA
+├── layout/          Chrome, drawers, sidebars, settings
+├── lib/             Models, decision client, string helpers, icons
+└── stili/           Design tokens, color palettes, animations
 
-server/              plugin Vite: audio, modelli, decisioni, immagini
-nativo/ascolto/      componente Swift per acquisizione e trascrizione
-lingue/              un file JSON per lingua: frase italiana → traduzione
-strumenti/           lingue.mjs: estrae le frasi e aggiorna i dizionari
-supabase/schema.sql  tabella, indici e politiche di accesso
-docs/                quaderno di bordo e immagini
+server/              Vite plugins: audio, llm, triage, images
+nativo/ascolto/      Swift binary for audio capture and SpeechTranscriber
+lingue/              Language JSON files: phrase → translation
+strumenti/           lingue.mjs: string extraction and dictionary sync
+supabase/schema.sql  Table schema, indexes, and RLS security policies
+docs/                Architecture logbook and documentation assets
 ```
-
-Le scelte strutturali — identificatore stabile per blocco, stato dei menu
-fuori da React, documento come unica fonte — sono documentate nel
-[quaderno di bordo](docs/quaderno-di-bordo.md), insieme alle misure
-raccolte e alle soluzioni scartate.
-
-## Stato del progetto
-
-Sviluppo attivo, in uso quotidiano da settembre 2026. Le funzioni
-descritte sono complete e provate su lezioni reali; le istruzioni ai
-modelli sono la parte soggetta a modifiche più frequenti.
-
-Non sono previsti pacchetti di installazione né servizi ospitati:
-l'applicazione si esegue localmente a partire dal codice sorgente.
-
-## Traduzioni
-
-L'interfaccia è disponibile in italiano e in inglese. Ogni lingua è un
-file JSON in `lingue/`: la chiave è la frase italiana, il valore la
-traduzione. Le frasi senza traduzione compaiono in italiano, quindi una
-lingua è utilizzabile anche incompleta.
-
-```bash
-npm run lingue -- --nuova es
-```
-
-Il comando crea `lingue/es.json` con tutte le frasi da tradurre e un
-blocco `_` con i dati della lingua: nome, locale per date e numeri,
-locale della trascrizione, riga che indica al modello in che lingua
-rispondere. La lingua compare nelle impostazioni appena il file esiste.
-
-`npm run lingue`, senza argomenti, rilegge il codice e aggiorna tutti i
-file: aggiunge le frasi nuove, toglie quelle sparite, indica quante ne
-mancano.
-
-Procedura completa, in italiano e in inglese, in
-[CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Supporto e contributi
-
-Segnalazioni e domande:
-[issue](https://github.com/TCdesign-dev/Pergamena/issues). Per un
-problema di avvio sono utili la versione di macOS, quella di Node e
-l'output del terminale in cui gira `npm run dev`.
-
-Le pull request sono benvenute: [CONTRIBUTING.md](CONTRIBUTING.md). Per
-modifiche sostanziali conviene aprire prima una issue: alcune scelte
-strutturali — assenza di librerie di componenti, documento come unica
-fonte, chiavi API fuori dal browser — condizionano l'implementazione.
-
-## Licenza
-
-[MIT](LICENSE).
 
 ---
 
-*In short, in English: Pergamena is a note-taking application for
-students. It records and transcribes lectures locally on macOS, then
-compares the transcript with your notes and proposes the missing
-information — completing existing lines rather than rewriting them. It
-also checks dates and figures against the lecture in real time, answers
-questions using only your notes and the transcript, and keeps data on
-your machine unless you configure your own Supabase project. The
-interface is available in Italian and English; other languages are a
-single JSON file each, and
-[CONTRIBUTING.md](CONTRIBUTING.md#contributing-to-pergamena) explains
-how to add one. Documentation is in Italian.*
+## Troubleshooting
+
+- **No transcription or perpetual silence detected:**  
+  Verify that the appropriate microphone input is selected in the lecture drawer. If macOS fails to capture voice, ensure your terminal has microphone permissions under *System Settings › Privacy & Security › Microphone*.
+- **Native Swift compilation error:**  
+  If `npm run dev` reports an error compiling `nativo/ascolto/compila.sh`, ensure Xcode CLI Tools are installed by executing `xcode-select --install`. You can force re-compilation manually at any time with `npm run ascolto`.
+- **First run with a new language:**  
+  When selecting a new speech recognition language, macOS downloads speech assets in the background. The initial transcription may pause briefly before streaming text.
+- **Supabase synchronization errors:**  
+  Ensure you executed [`supabase/schema.sql`](supabase/schema.sql) in your Supabase SQL Editor and confirm that API keys in `.env.local` or Settings do not contain accidental whitespaces.
+
+---
+
+## Project Status
+
+Active development, in daily academic use since September 2026. Described features are tested on real university lectures. Model instructions undergo continuous optimization.
+
+No pre-packaged binaries or hosted web services are planned: Berto is executed locally from source.
+
+---
+
+## Translations
+
+The interface supports English and Italian out of the box. Additional languages require only a single JSON file in `lingue/`: keys represent source strings, and missing translations fall back cleanly to default text.
+
+```bash
+# Generate a new template lingue/es.json ready for translation
+npm run lingue -- --nuova es
+
+# Scan code and synchronize all dictionary files
+npm run lingue
+```
+
+For full details on locale metadata, plural forms, and formatting tags, see [CONTRIBUTING.md](CONTRIBUTING.md#translations).
+
+---
+
+## Contributing
+
+Questions and bug reports: [issue tracker](https://github.com/TCdesign-dev/Berto/issues). When reporting start-up issues, please provide your macOS version, Node version, and terminal logs.
+
+Pull requests are welcome: see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+---
+
+## Why Berto?
+
+This project is named in loving memory of **Berto**, my cat, who faithfully kept me company through countless hours of study, lecture listening, and coding sessions.
+
+---
+
+## License
+
+Distributed under the [MIT License](LICENSE).

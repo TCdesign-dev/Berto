@@ -64,7 +64,7 @@ export const soloFormule = () => new RegExp(FORMULA, 'g')
  *  sull'HTML: «σ<sub>0,2</sub>». Nell'editor un segno per il pedice non
  *  c'è — ci sono le formule — e quei tag finivano a schermo come testo,
  *  parentesi angolari comprese. Si traducono in formula, che è il posto
- *  dove in Pergamena un pedice vive davvero. */
+ *  dove in Berto un pedice vive davvero. */
 const GRECHE: Record<string, string> = {
   α: '\\alpha', β: '\\beta', γ: '\\gamma', δ: '\\delta', ε: '\\varepsilon',
   ζ: '\\zeta', η: '\\eta', θ: '\\theta', κ: '\\kappa', λ: '\\lambda',

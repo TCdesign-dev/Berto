@@ -8,7 +8,7 @@ import type { Trovata } from '../../immagini/commons'
 
 /** Il tipo MIME con cui il pannello laterale passa un'immagine
  *  all'editor durante il trascinamento. */
-export const TIPO_TRASCINAMENTO = 'application/x-pergamena-immagine'
+export const TIPO_TRASCINAMENTO = 'application/x-berto-immagine'
 
 /*  Dove cade davvero un'immagine trascinata.
  *

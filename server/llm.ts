@@ -47,7 +47,7 @@ async function chiama(chiave: string, corpo: string, attesa: number) {
         Authorization: `Bearer ${chiave}`,
         'Content-Type': 'application/json',
         'HTTP-Referer': 'http://localhost:5180',
-        'X-Title': 'Pergamena',
+        'X-Title': 'Berto',
       },
       body: corpo,
       signal: interruttore.signal,
@@ -59,7 +59,7 @@ async function chiama(chiave: string, corpo: string, attesa: number) {
 
 export function llm(env: Record<string, string>): Plugin {
   return {
-    name: 'pergamena-llm',
+    name: 'berto-llm',
     configureServer(server) {
       server.middlewares.use('/api/llm', async (req: IncomingMessage, res: ServerResponse) => {
         const rispondi = (stato: number, corpo: unknown) => {

@@ -35,7 +35,7 @@ export async function allineaTutto(idDocumenti: string[]) {
       if (stanzaRegistrata(`doc:${id}`)) continue
 
       const doc = new Y.Doc()
-      const locale = new IndexeddbPersistence(`pergamena:doc:${id}`, doc)
+      const locale = new IndexeddbPersistence(`berto:doc:${id}`, doc)
 
       try {
         await locale.whenSynced

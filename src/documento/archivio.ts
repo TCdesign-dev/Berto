@@ -16,7 +16,7 @@ import type { Quaderno, Documento } from './tipi'
  *  una riga di questo file. E ci dà l'undo che sopravvive alle
  *  modifiche dell'AI mentre stai scrivendo. */
 
-const PREFISSO = 'pergamena'
+const PREFISSO = 'berto'
 
 // ── Indice: l'elenco dei quaderni e dei documenti ──────────────
 export const indice = new Y.Doc()

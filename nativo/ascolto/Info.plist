@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
   <key>CFBundleIdentifier</key>
-  <string>it.pergamena.ascolto</string>
+  <string>it.berto.ascolto</string>
   <key>CFBundleName</key>
-  <string>Pergamena · ascolto</string>
+  <string>Berto · ascolto</string>
   <key>NSMicrophoneUsageDescription</key>
-  <string>Pergamena ascolta la lezione per trascriverla e completare i tuoi appunti.</string>
+  <string>Berto ascolta la lezione per trascriverla e completare i tuoi appunti.</string>
   <key>NSSpeechRecognitionUsageDescription</key>
   <string>La trascrizione avviene sul tuo Mac, senza mandare l'audio da nessuna parte.</string>
 </dict>

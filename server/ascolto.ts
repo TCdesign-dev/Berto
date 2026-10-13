@@ -7,14 +7,14 @@ import type { Plugin } from 'vite'
 
 /*  Il ponte fra il programma nativo di ascolto e l'app.
  *
- *  Vive dentro al server di sviluppo di Vite: lancia pergamena-ascolto,
+ *  Vive dentro al server di sviluppo di Vite: lancia berto-ascolto,
  *  ne legge le righe JSON e le gira al browser come Server-Sent Events.
  *  Quando arriverà il guscio Tauri sarà lui a lanciare il programma;
  *  l'app non se ne accorgerà, perché parla sempre con /api/ascolto. */
 
-const BINARIO = resolve(process.cwd(), 'build/pergamena-ascolto')
+const BINARIO = resolve(process.cwd(), 'build/berto-ascolto')
 /*  Dove vanno l'audio e le frasi messe da parte. Si può spostare con
- *  PERGAMENA_CARTELLA nel .env.local: una copia di prova dell'app non
+ *  BERTO_CARTELLA nel .env.local: una copia di prova dell'app non
  *  deve mai toccare i file di quella vera — potrebbe prendersi le
  *  frasi sospese di una lezione vera, o cancellarne l'audio. */
 let CARTELLA_AUDIO = ''
@@ -124,7 +124,7 @@ const idValido = (id: unknown): id is string => typeof id === 'string' && /^[\w-
 
 function avvia(corpo: Record<string, unknown>) {
   if (processo) return { ok: false, errore: 'sto già ascoltando' }
-  if (!existsSync(BINARIO)) return { ok: false, errore: 'manca build/pergamena-ascolto: lancia nativo/ascolto/compila.sh' }
+  if (!existsSync(BINARIO)) return { ok: false, errore: 'manca build/berto-ascolto: lancia nativo/ascolto/compila.sh' }
   if (!idValido(corpo.id)) return { ok: false, errore: 'id registrazione non valido' }
 
   const args: string[] = []
@@ -202,12 +202,18 @@ function ferma(corpo: Record<string, unknown>) {
 }
 
 export function ascolto(env: Record<string, string> = {}): Plugin {
-  const base = env.PERGAMENA_CARTELLA || join(homedir(), 'Library/Application Support/Pergamena')
+  const base = env.BERTO_CARTELLA
+    || env.PERGAMENA_CARTELLA
+    || (existsSync(join(homedir(), 'Library/Application Support/Berto'))
+        ? join(homedir(), 'Library/Application Support/Berto')
+        : existsSync(join(homedir(), 'Library/Application Support/Pergamena'))
+          ? join(homedir(), 'Library/Application Support/Pergamena')
+          : join(homedir(), 'Library/Application Support/Berto'))
   CARTELLA_AUDIO = join(base, 'registrazioni')
   CARTELLA_SOSPESE = join(base, 'sospese')
 
   return {
-    name: 'pergamena-ascolto',
+    name: 'berto-ascolto',
     configureServer(server) {
       server.middlewares.use('/api/ascolto', async (req, res) => {
         const url = req.url ?? '/'

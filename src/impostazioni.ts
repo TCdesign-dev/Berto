@@ -25,11 +25,13 @@ const PREDEFINITE: Impostazioni = {
   sintassiImmagini: true, salvaAudio: false, microfono: null, fonteImmagini: 'web', correzioniInDiretta: true,
   promptMerge: null, scorciatoie: {}, lingua: null,
 }
-const CHIAVE = 'pergamena:impostazioni'
+const CHIAVE = 'berto:impostazioni'
+const CHIAVE_VECCHIA = 'pergamena:impostazioni'
 
 let valori: Impostazioni = (() => {
   try {
-    return { ...PREDEFINITE, ...JSON.parse(localStorage.getItem(CHIAVE) ?? '{}') }
+    const raw = localStorage.getItem(CHIAVE) ?? localStorage.getItem(CHIAVE_VECCHIA)
+    return { ...PREDEFINITE, ...JSON.parse(raw ?? '{}') }
   } catch {
     return PREDEFINITE
   }

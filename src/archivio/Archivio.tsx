@@ -72,7 +72,7 @@ export function Archivio({ onHome, onApri, onEliminaPagina }: {
                 <div className={s.tutto}><dt>{tr('In tutto')}</dt><dd>{quanto(totale)}</dd></div>
               </dl>
               {misure.browser !== null && (
-                <p className={s.nota}>Il browser, per Pergamena, usa in tutto {quanto(misure.browser)} (con le copie di lavoro e le cache).</p>
+                <p className={s.nota}>Il browser, per Berto, usa in tutto {quanto(misure.browser)} (con le copie di lavoro e le cache).</p>
               )}
 
               <ol className={s.materie}>

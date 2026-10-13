@@ -15,11 +15,12 @@ export { COLORI, ETICHETTE, type Colore } from '../../stili/colori'
  *  CAMBIARE l'ultimo colore, ⌘⇧C ti costringerebbe a passare dal menu
  *  ogni volta che cambi colore, e la scorciatoia perderebbe senso. */
 
-const CHIAVE = 'pergamena:ultimo-colore'
+const CHIAVE = 'berto:ultimo-colore'
+const CHIAVE_VECCHIA = 'pergamena:ultimo-colore'
 
 export function ultimoColore(): Colore {
   try {
-    const v = localStorage.getItem(CHIAVE) as Colore | null
+    const v = (localStorage.getItem(CHIAVE) ?? localStorage.getItem(CHIAVE_VECCHIA)) as Colore | null
     if (v && COLORI.includes(v)) return v
   } catch { /* finestra privata: si usa il predefinito */ }
   return 'rosso'

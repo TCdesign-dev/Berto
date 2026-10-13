@@ -36,7 +36,7 @@ export type MisuraMateria = { id: string; nome: string; colore: string; pagine: 
 export type Misure = {
   materie: MisuraMateria[]
   totali: { appunti: number; trascrizioni: number; audio: number; immagini: number }
-  /** quanto usa il browser per Pergamena (IndexedDB e resto), se lo dice */
+  /** quanto usa il browser per Berto (IndexedDB e resto), se lo dice */
   browser: number | null
 }
 

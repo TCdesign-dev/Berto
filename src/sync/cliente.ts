@@ -9,7 +9,7 @@ const tue = leggiChiavi()
 const url = import.meta.env.VITE_SUPABASE_URL || tue.supabaseUrl
 const chiave = import.meta.env.VITE_SUPABASE_ANON_KEY || tue.supabaseAnon
 
-/*  Se le chiavi non ci sono, Pergamena resta un'app locale e basta:
+/*  Se le chiavi non ci sono, Berto resta un'app locale e basta:
  *  niente accesso, niente sincronizzazione, tutto il resto funziona.
  *  Non è un ripiego, è il comportamento giusto — gli appunti devono
  *  aprirsi anche se Supabase è giù o se sei su un Mac nuovo senza

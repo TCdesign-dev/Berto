@@ -1,5 +1,5 @@
 -- ════════════════════════════════════════════════════════════════════
---  PERGAMENA · schema di sincronizzazione
+--  BERTO · schema di sincronizzazione
 --
 --  Da incollare una volta sola nel SQL Editor di Supabase.
 --  È sicuro rilanciarlo: non distrugge niente.

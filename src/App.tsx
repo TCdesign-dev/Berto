@@ -231,7 +231,7 @@ export function App() {
          *  Immagini, uno per volta. Sotto, sono tendine della barra. */
         destra={largo && !mostraHome && !archivioAperto && !materiaScheda && !materiaRipasso && docAperto && (lezioniAperte || commentiAperti || domandeAperte || compitiAperti || pannello.aperto)
           ? lezioniAperte
-            ? <PannelloLezioni key={aperto!.id} doc={docAperto} materia={materiaAperta?.nome ?? ''} rifEditore={rifEditore} modo="lato" onChiudi={() => apriLezioni(false)} />
+            ? <PannelloLezioni key={aperto!.id} doc={docAperto} documentoId={aperto!.id} materia={materiaAperta?.nome ?? ''} rifEditore={rifEditore} modo="lato" onChiudi={() => apriLezioni(false)} />
             : domandeAperte
               ? <PannelloDomande key={aperto!.id} doc={docAperto} rifEditore={rifEditore} materia={materiaAperta?.nome ?? ''} modo="lato" onChiudi={() => apriDomande(false)} />
               : compitiAperti

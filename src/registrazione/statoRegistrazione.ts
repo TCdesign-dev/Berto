@@ -16,6 +16,10 @@ export type StatoRegistrazione = {
   silenzio: boolean          // 6 s senza suono: probabilmente il microfono sbagliato
   virtuale: boolean          // il dispositivo è un ingresso virtuale (BlackHole & c.)
   scollegato: boolean        // il collegamento col server è caduto: si sta riprovando
+  /*  L'audio arriva da un file caricato, non dal microfono: niente
+      cronometro, niente avviso di silenzio (un file non «sente»), e la
+      barra in alto dice che sta trascrivendo invece che registrando. */
+  daFile: string | null      // il nome del file, se viene da lì
   pausa: boolean             // in pausa: il microfono manda silenzio
   pausaDa: number | null     // ms, da quando (la pausa in corso)
   pausaTotale: number        // ms di pause già finite, da togliere al cronometro
@@ -26,7 +30,7 @@ export type StatoRegistrazione = {
 const FERMO: StatoRegistrazione = {
   attiva: false, avvio: 'fermo', id: null, documentoId: null,
   inizio: null, livello: -160, provvisorio: '', errore: null,
-  dispositivo: null, silenzio: false, virtuale: false, scollegato: false,
+  dispositivo: null, silenzio: false, virtuale: false, scollegato: false, daFile: null,
   pausa: false, pausaDa: null, pausaTotale: 0, altrove: null,
 }
 

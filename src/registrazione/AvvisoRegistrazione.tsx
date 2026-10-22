@@ -74,7 +74,7 @@ function quale(
   // un errore mentre registra ancora: di solito la fine arriva subito dopo
   if (r.attiva && r.errore && qui) return { tono: 'rosso', icona: 'errore', testo: frase(r.errore) }
 
-  if (r.attiva && r.silenzio && !r.pausa) {
+  if (r.attiva && r.silenzio && !r.pausa && !r.daFile) {
     return {
       tono: 'arancio',
       icona: 'microfono-muto',

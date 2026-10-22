@@ -122,6 +122,53 @@ function rispondi(res: ServerResponse, stato: number, corpo: unknown) {
 
 const idValido = (id: unknown): id is string => typeof id === 'string' && /^[\w-]{6,64}$/.test(id)
 
+/*  L'audio di una lezione: registrato dal microfono è un .m4a, caricato
+ *  da te può essere qualunque cosa sappia leggere il Mac. Si cerca per
+ *  id, non per estensione. */
+const ESTENSIONI = ['.m4a', '.mp3', '.wav', '.aac', '.mp4', '.m4b', '.caf', '.aiff', '.aif', '.flac']
+
+function fileAudio(id: string): string | null {
+  if (!existsSync(CARTELLA_AUDIO)) return null
+  for (const e of ESTENSIONI) {
+    const f = join(CARTELLA_AUDIO, `${id}${e}`)
+    if (existsSync(f)) return f
+  }
+  return null
+}
+
+/** Mezzo giga: quattro ore di lezione in m4a ne pesano settanta. */
+const MASSIMO_CARICO = 500 * 1024 * 1024
+
+function leggiByte(req: IncomingMessage): Promise<Buffer> {
+  return new Promise((risolvi, rifiuta) => {
+    const pezzi: Buffer[] = []
+    let quanti = 0
+    req.on('data', (c: Buffer) => {
+      quanti += c.length
+      if (quanti > MASSIMO_CARICO) { rifiuta(new Error('file troppo grande')); req.destroy(); return }
+      pezzi.push(c)
+    })
+    req.on('end', () => risolvi(Buffer.concat(pezzi)))
+    req.on('error', rifiuta)
+  })
+}
+
+/*  Un file audio caricato da te: si salva accanto alle registrazioni e
+ *  da lì lo trascrive lo stesso programma che ascolta il microfono. */
+async function carica(req: IncomingMessage) {
+  const id = String(req.headers['x-id'] ?? '')
+  if (!idValido(id)) return { ok: false, errore: 'id registrazione non valido' }
+  const nome = String(req.headers['x-nome'] ?? '')
+  const est = (nome.match(/\.[a-z0-9]{1,5}$/i)?.[0] ?? '.m4a').toLowerCase()
+  if (!ESTENSIONI.includes(est)) return { ok: false, errore: `formato non riconosciuto (${est})` }
+  const byte = await leggiByte(req)
+  if (!byte.length) return { ok: false, errore: 'file vuoto' }
+  mkdirSync(CARTELLA_AUDIO, { recursive: true })
+  const file = join(CARTELLA_AUDIO, `${id}${est}`)
+  writeFileSync(file, byte)
+  return { ok: true, file, byte: byte.length }
+}
+
 function avvia(corpo: Record<string, unknown>) {
   if (processo) return { ok: false, errore: 'sto già ascoltando' }
   if (!existsSync(BINARIO)) return { ok: false, errore: 'manca build/berto-ascolto: lancia nativo/ascolto/compila.sh' }
@@ -129,10 +176,15 @@ function avvia(corpo: Record<string, unknown>) {
 
   const args: string[] = []
   if (typeof corpo.file === 'string') {
-    // solo per i collaudi: una lezione registrata al posto del microfono
-    args.push('--file', corpo.file, '--tempo-reale')
+    //  un file al posto del microfono: caricato da te, o una lezione
+    //  registrata nei collaudi. Alla massima velocità, a meno che non
+    //  si chieda di farlo scorrere al ritmo del parlato.
+    args.push('--file', corpo.file)
+    if (corpo.tempoReale === true) args.push('--tempo-reale')
   }
-  if (corpo.salvaAudio === true) {
+  //  con un file caricato l'audio è già su disco: risalvarlo vorrebbe
+  //  dire riscriverlo accanto a sé stesso, con lo stesso id
+  if (corpo.salvaAudio === true && typeof corpo.file !== 'string') {
     mkdirSync(CARTELLA_AUDIO, { recursive: true })
     args.push('--salva', join(CARTELLA_AUDIO, `${corpo.id}.m4a`))
   }
@@ -265,6 +317,10 @@ export function ascolto(env: Record<string, string> = {}): Plugin {
           })
           return
         }
+        if (req.method === 'POST' && url.startsWith('/carica')) {
+          try { return rispondi(res, 200, await carica(req)) }
+          catch (e) { return rispondi(res, 413, { ok: false, errore: e instanceof Error ? e.message : 'caricamento fallito' }) }
+        }
         if (req.method === 'POST' && url.startsWith('/avvia')) return rispondi(res, 200, avvia(await leggiCorpo(req)))
         if (req.method === 'POST' && url.startsWith('/ferma')) return rispondi(res, 200, ferma(await leggiCorpo(req)))
         if (req.method === 'POST' && url.startsWith('/pausa')) return rispondi(res, 200, comanda(await leggiCorpo(req), 'pausa'))
@@ -316,19 +372,20 @@ export function ascolto(env: Record<string, string> = {}): Plugin {
           const pesi: Record<string, number> = {}
           if (existsSync(CARTELLA_AUDIO)) {
             for (const f of readdirSync(CARTELLA_AUDIO)) {
-              if (f.endsWith('.m4a')) pesi[f.slice(0, -4)] = statSync(join(CARTELLA_AUDIO, f)).size
+              const est = ESTENSIONI.find((e) => f.endsWith(e))
+              if (est) pesi[f.slice(0, -est.length)] = statSync(join(CARTELLA_AUDIO, f)).size
             }
           }
           return rispondi(res, 200, pesi)
         }
         if (!idValido(id)) return rispondi(res, 400, { errore: 'id non valido' })
-        const file = join(CARTELLA_AUDIO, `${id}.m4a`)
+        const file = fileAudio(id)
 
         if (req.method === 'DELETE') {
-          if (existsSync(file)) unlinkSync(file)
+          if (file) unlinkSync(file)
           return rispondi(res, 200, { ok: true })
         }
-        if (!existsSync(file)) return rispondi(res, 404, { errore: 'audio non salvato' })
+        if (!file) return rispondi(res, 404, { errore: 'audio non salvato' })
 
         // il riascolto salta nel mezzo: servono le richieste a intervalli
         const { size } = statSync(file)

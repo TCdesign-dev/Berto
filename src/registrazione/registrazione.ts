@@ -107,7 +107,14 @@ export async function avviaRegistrazione(opzioni: {
   editor: () => Editor | null
   materia: string
   salvaAudio: boolean
-  file?: string   // solo per i collaudi: una lezione registrata al posto del microfono
+  /** un file al posto del microfono: caricato da te, o un collaudo */
+  file?: string
+  /** l'id da usare, se è già stato deciso fuori (un file caricato) */
+  id?: string
+  /** quando è stata tenuta la lezione, se non è adesso */
+  quando?: number
+  /** il nome del file caricato, se l'audio viene da lì */
+  nomeFile?: string
 }) {
   if (leggiRegistrazione().attiva) return
   // il microfono è già acceso (un'altra finestra, o questa prima di
@@ -115,13 +122,15 @@ export async function avviaRegistrazione(opzioni: {
   const s = await chiediStato()
   if (s?.attivo) return prendiQui()
 
-  const id = `reg-${Date.now().toString(36)}`
+  const id = opzioni.id ?? `reg-${Date.now().toString(36)}`
   const { doc } = apriDocumento(opzioni.documentoId)
 
   // la voce nel documento nasce subito, prima ancora che il microfono parta
   const voce = new Y.Map<unknown>()
   doc.transact(() => {
-    voce.set('inizio', Date.now())
+    //  un audio caricato porta la data del file: «giovedì prossimo»
+    //  si conta da quando la lezione è stata tenuta, non da oggi
+    voce.set('inizio', opzioni.quando ?? Date.now())
     voce.set('fine', null)
     voce.set('audio', opzioni.salvaAudio)
     voce.set('segmenti', new Y.Array<Segmento>())
@@ -130,7 +139,10 @@ export async function avviaRegistrazione(opzioni: {
     mappaRegistrazioni(doc).set(id, voce)
   })
 
-  aggiorna({ attiva: true, avvio: 'parto', id, documentoId: opzioni.documentoId, errore: null, provvisorio: '', altrove: null })
+  aggiorna({
+    attiva: true, avvio: 'parto', id, documentoId: opzioni.documentoId,
+    errore: null, provvisorio: '', altrove: null, daFile: opzioni.nomeFile ?? null,
+  })
 
   const ed = opzioni.editor()
   ascolta(voce, opzioni, 'nuova')
@@ -150,6 +162,50 @@ export async function avviaRegistrazione(opzioni: {
     mappaRegistrazioni(doc).delete(id)
     azzera(r.errore ?? tr('avvio fallito'))
   }
+}
+
+/*  Un file audio al posto del microfono.
+ *
+ *  Il programma che ascolta sa già leggere un file: è la stessa strada
+ *  della registrazione dal vivo, solo che l'audio arriva da te invece
+ *  che dal microfono, e alla massima velocità — un'ora di lezione in
+ *  pochi minuti. Quella che ne esce è una lezione come le altre: si
+ *  integra, si riascolta, entra nella riscrittura.
+ *
+ *  La data è quella del file, non di oggi: una lezione di tre settimane
+ *  fa deve restare di tre settimane fa, o i compiti con la scadenza si
+ *  contano dal giorno sbagliato. */
+export async function caricaAudio(opzioni: {
+  documentoId: string
+  editor: () => Editor | null
+  materia: string
+  file: File
+}) {
+  if (leggiRegistrazione().attiva) throw new Error(tr('c’è già una lezione in corso'))
+  const id = `reg-${Date.now().toString(36)}`
+
+  const r = await fetch('/api/ascolto/carica', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/octet-stream',
+      'x-id': id,
+      'x-nome': encodeURIComponent(opzioni.file.name),
+    },
+    body: opzioni.file,
+  }).then((x) => x.json()).catch(() => ({ ok: false, errore: tr('server non raggiungibile') }))
+
+  if (!r.ok || typeof r.file !== 'string') throw new Error(r.errore ?? tr('caricamento fallito'))
+
+  await avviaRegistrazione({
+    documentoId: opzioni.documentoId,
+    editor: opzioni.editor,
+    materia: opzioni.materia,
+    salvaAudio: true,
+    file: r.file,
+    id,
+    quando: opzioni.file.lastModified || Date.now(),
+    nomeFile: opzioni.file.name,
+  })
 }
 
 /** All'avvio della pagina: se il microfono è acceso e nessuno lo sta
@@ -435,6 +491,6 @@ export async function eliminaRegistrazione(doc: Y.Doc, id: string) {
 esponi({
   registrazione: {
     avviaRegistrazione, fermaRegistrazione, pausaRegistrazione, riprendiRegistrazione,
-    riprendiSeInCorso, prendiQui, eliminaRegistrazione, leggiRegistrazione,
+    riprendiSeInCorso, prendiQui, eliminaRegistrazione, leggiRegistrazione, caricaAudio,
   },
 })

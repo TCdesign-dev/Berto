@@ -4,7 +4,8 @@ import type { Editor } from '@tiptap/core'
 import type { RifEditore } from '../editor/Editor'
 import type { Registrazione } from './tipi'
 import { useRegistrazioni } from './useRegistrazioni'
-import { eliminaRegistrazione } from './registrazione'
+import { caricaAudio, eliminaRegistrazione } from './registrazione'
+import { iscrivitiRegistrazione, leggiRegistrazione } from './statoRegistrazione'
 import { integraLezione, integraTutto, type EsitoMerge, type FaseMerge } from '../merge/merge'
 import { riscriviPagina } from '../merge/riscrivi'
 import { avviaRevisione } from '../merge/statoRevisione'
@@ -103,8 +104,9 @@ function pausePrima(r: Registrazione, i: number) {
 // quante frasi si vedono aprendo la trascrizione; le altre a richiesta
 const PRIME = 5
 
-export function PannelloLezioni({ doc, materia, rifEditore, modo, onChiudi }: {
+export function PannelloLezioni({ doc, documentoId, materia, rifEditore, modo, onChiudi }: {
   doc: Y.Doc
+  documentoId: string
   materia: string
   rifEditore: RifEditore
   /** tendina sotto a «Lezioni», o colonna di destra da 1200 px */
@@ -112,6 +114,7 @@ export function PannelloLezioni({ doc, materia, rifEditore, modo, onChiudi }: {
   onChiudi: () => void
 }) {
   const lezioni = useRegistrazioni(doc)
+  const registrazione = useSyncExternalStore(iscrivitiRegistrazione, leggiRegistrazione)
   const impostazioni = useSyncExternalStore(iscrivitiImpostazioni, leggiImpostazioni)
   const correzioni = useSyncExternalStore(iscrivitiStatoCorrezioni, leggiStatoCorrezioni)
   const [aperta, setAperta] = useState<string | null>(null)
@@ -119,6 +122,8 @@ export function PannelloLezioni({ doc, materia, rifEditore, modo, onChiudi }: {
   const [lavoro, setLavoro] = useState<Lavoro | null>(null)
   const [daEliminare, setDaEliminare] = useState<Registrazione | null>(null)
   const [daRifare, setDaRifare] = useState(false)
+  const [caricando, setCaricando] = useState<string | null>(null)
+  const [erroreCarico, setErroreCarico] = useState<string | null>(null)
   const lettore = useRef<HTMLAudioElement>(null)
   const [microfoni, setMicrofoni] = useState<Microfono[]>([])
 
@@ -164,6 +169,25 @@ export function PannelloLezioni({ doc, materia, rifEditore, modo, onChiudi }: {
     } catch (e) {
       setLavoro({ id, fase: 'errore', inizio, messaggio: e instanceof Error ? e.message : tr('merge fallito') })
     }
+  }
+
+  /*  Un audio che non hai registrato qui. Il caricamento è l'unica
+   *  parte che si vede: la trascrizione poi va da sé, e la lezione
+   *  compare in elenco come tutte le altre. */
+  async function carica(file: File) {
+    setErroreCarico(null)
+    setCaricando(file.name)
+    try {
+      await caricaAudio({
+        documentoId,
+        editor: () => rifEditore.current,
+        materia,
+        file,
+      })
+    } catch (e) {
+      setErroreCarico(e instanceof Error ? e.message : tr('caricamento fallito'))
+    }
+    setCaricando(null)
   }
 
   /*  Rifare la pagina non è un merge: tocca tutto, e si conferma prima.
@@ -338,6 +362,27 @@ export function PannelloLezioni({ doc, materia, rifEditore, modo, onChiudi }: {
             )
           })}
         </ul>
+
+        {/*  Una lezione che non hai registrato qui: un vocale, una
+             registrazione del telefono, l'audio di una videolezione.
+             La trascrive lo stesso programma, alla massima velocità. */}
+        <label className={s.carica}>
+          {caricando
+            ? <><Rotella /> {tr('Carico {nome}…', { nome: caricando })}</>
+            : <><Icona nome="trascrizione" dimensione={14} /> {tr('Trascrivi un audio')}</>}
+          <input
+            type="file"
+            accept="audio/*,video/mp4,video/quicktime"
+            hidden
+            disabled={!!caricando || registrazione.attiva}
+            onChange={(e) => {
+              const f = e.target.files?.[0]
+              e.target.value = ''
+              if (f) void carica(f)
+            }}
+          />
+        </label>
+        {erroreCarico && <p className={s.erroreCarico}>{erroreCarico}</p>}
 
         {insieme.length > 1 && (
           <div className={s.insieme}>

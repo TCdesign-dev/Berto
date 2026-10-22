@@ -187,3 +187,26 @@ button.minuto:hover { color: var(--accento-testo); }
 .come { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .impostazioni { composes: trasparente from '../layout/Superficie.module.css'; flex: none; }
 .piede .impostazioni { height: calc(var(--u) * 3); padding: 0 var(--u); font-size: calc(var(--t-piccolo) * 1.04); }
+
+/*  Trascrivi un audio: un'etichetta che nasconde il selettore di file.
+    Niente `composes`: la classe composta finisce dopo nel foglio e
+    vincerebbe su padding e allineamento. */
+.carica {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--u) * 0.75);
+  width: 100%;
+  height: var(--controllo);
+  margin-top: calc(var(--u) * 1.5);
+  border: calc(var(--u) / 8) dashed var(--linea-forte);
+  border-radius: var(--raggio);
+  color: var(--inchiostro-tenue);
+  font-size: var(--t-ui);
+  font-weight: 500;
+  cursor: pointer;
+}
+.carica:hover { border-color: var(--accento); color: var(--inchiostro); }
+.carica:has(input:disabled) { opacity: 0.5; cursor: default; }
+
+.erroreCarico { margin: calc(var(--u) / 2) 0 0; color: var(--avviso); font-size: var(--t-piccolo); }

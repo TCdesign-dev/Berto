@@ -36,12 +36,16 @@ export function durata(ms: number) {
 export type Forma =
   | 'pronta' | 'parto' | 'chiudo'
   | 'registra' | 'pausa' | 'perso' | 'muto'
+  | 'file'
   | 'finestra' | 'pagina' | 'interrotta'
 
 /** La forma del controllo nella pagina `documentoId`. */
 export function formaDi(r: StatoRegistrazione, documentoId: string): Forma {
   if (r.attiva && r.documentoId !== documentoId) return 'pagina'
   if (r.attiva) {
+    //  un file non ha un microfono che sente, né un cronometro che
+    //  conta: finché scorre, dice solo che sta trascrivendo
+    if (r.daFile && r.avvio !== 'chiudo') return 'file'
     if (r.avvio === 'parto') return 'parto'
     if (r.avvio === 'chiudo') return 'chiudo'
     if (r.scollegato) return 'perso'
@@ -143,6 +147,13 @@ export function PulsanteRegistra({ documentoId, materia, rifEditore }: {
         <span className={`${s.stato} ${s.grigio}`} title={tr('La lezione si sta registrando in un’altra pagina')}>
           <span className={`${s.pallino} ${s.acceso}`} />
           {tr('In un’altra pagina')}
+        </span>
+      )
+    case 'file':
+      return (
+        <span className={s.stato}>
+          <Icona nome="attesa" dimensione={14} className={s.gira} />
+          {tr('Trascrivo l’audio…')}
         </span>
       )
     case 'interrotta':

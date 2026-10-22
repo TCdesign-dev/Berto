@@ -169,7 +169,7 @@ export function BarraSuperiore({
 
       {!largo && lezioniAperte && (
         <Tendina escludi={rifLezioni} onChiudi={() => apriLezioni(false)}>
-          <PannelloLezioni doc={doc} materia={materia} rifEditore={rifEditore} modo="tendina" onChiudi={() => apriLezioni(false)} />
+          <PannelloLezioni doc={doc} documentoId={documento.id} materia={materia} rifEditore={rifEditore} modo="tendina" onChiudi={() => apriLezioni(false)} />
         </Tendina>
       )}
       {!largo && domandeAperte && (

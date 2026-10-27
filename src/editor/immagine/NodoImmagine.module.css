@@ -31,7 +31,7 @@
   border-radius: var(--raggio);
   color: var(--tenue);
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: calc(var(--t-ui) * 0.92);
   text-align: center;
 }
 
@@ -74,7 +74,7 @@
   height: 20px;
   border-radius: 2px;
   color: rgb(255 255 255 / 0.72);
-  font-size: 11px;
+  font-size: calc(var(--t-ui) * 0.85);
   line-height: 1;
 }
 .comandi button:hover { background: rgb(255 255 255 / 0.16); color: #fff; }
@@ -85,7 +85,7 @@
   margin-top: 6px;
   color: var(--inchiostro-tenue);
   font-family: var(--font-ui);
-  font-size: 11.5px;
+  font-size: calc(var(--t-ui) * 0.88);
   line-height: 1.45;
 }
 .credito {
@@ -94,7 +94,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   color: var(--tenue);
-  font-size: 10.5px;
+  font-size: calc(var(--t-ui) * 0.81);
 }
 
 /* mentre arriva dal deposito: il suo posto, che luccica */

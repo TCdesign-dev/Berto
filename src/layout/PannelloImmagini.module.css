@@ -9,7 +9,7 @@
 }
 .titolo {
   flex: 1;
-  font-size: 11.5px;
+  font-size: calc(var(--t-ui) * 0.88);
   font-weight: 600;
   letter-spacing: 0.055em;
   text-transform: uppercase;
@@ -32,7 +32,7 @@
   background: var(--carta);
   color: var(--inchiostro);
   font-family: var(--font-ui);
-  font-size: 12.5px;
+  font-size: calc(var(--t-ui) * 0.96);
   outline: none;
 }
 .campo:focus { border-color: var(--accento); }
@@ -44,12 +44,12 @@
   gap: 6px;
   padding: calc(var(--u) * 1.25) calc(var(--u) * 1.5);
   color: var(--tenue);
-  font-size: 11px;
+  font-size: calc(var(--t-ui) * 0.85);
   cursor: pointer;
 }
 .interruttore code {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: calc(var(--t-ui) * 0.77);
   color: var(--inchiostro-tenue);
 }
 
@@ -58,10 +58,10 @@
 .vuoto {
   margin: calc(var(--u) * 2) 0;
   color: var(--tenue);
-  font-size: 11.5px;
+  font-size: calc(var(--t-ui) * 0.88);
   line-height: 1.7;
 }
-.vuoto code { font-family: var(--font-mono); font-size: 10.5px; }
+.vuoto code { font-family: var(--font-mono); font-size: calc(var(--t-ui) * 0.81); }
 
 .gruppo { margin-bottom: calc(var(--u) * 2.5); }
 
@@ -75,7 +75,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size: 12px;
+  font-size: calc(var(--t-ui) * 0.92);
   font-weight: 550;
 }
 .marchio {
@@ -84,7 +84,7 @@
   border-radius: 2px;
   background: color-mix(in srgb, var(--accento) 14%, transparent);
   color: var(--accento);
-  font-size: 9px;
+  font-size: calc(var(--t-ui) * 0.69);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -98,7 +98,7 @@
 }
 .scarta:hover { background: var(--linea); color: var(--inchiostro); }
 
-.stato { margin: 0 0 var(--u); color: var(--tenue); font-size: 11px; }
+.stato { margin: 0 0 var(--u); color: var(--tenue); font-size: calc(var(--t-ui) * 0.85); }
 
 .griglia { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
 
@@ -121,7 +121,7 @@
   padding: 7px 4px 2px;
   background: linear-gradient(transparent, rgb(0 0 0 / 0.66));
   color: rgb(255 255 255 / 0.88);
-  font-size: 8.5px;
+  font-size: calc(var(--t-ui) * 0.65);
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
@@ -146,7 +146,7 @@
   padding: 5px 0;
   border-radius: 4px;
   color: var(--inchiostro-tenue);
-  font-size: 12px;
+  font-size: calc(var(--t-ui) * 0.92);
 }
 .schede button:hover { color: var(--inchiostro); }
 .schedaAttiva { background: var(--carta); color: var(--inchiostro) !important; font-weight: 550; box-shadow: var(--ombra-bassa); }
@@ -156,7 +156,7 @@
   border-radius: 8px;
   background: var(--accento);
   color: #fff;
-  font-size: 10px;
+  font-size: calc(var(--t-ui) * 0.77);
   font-weight: 600;
   line-height: 16px;
 }
@@ -169,12 +169,12 @@
   background: var(--carta);
   box-shadow: var(--ombra-bassa);
 }
-.concetto { display: block; margin: 0; font-size: 13px; font-weight: 600; }
+.concetto { display: block; margin: 0; font-size: calc(var(--t-ui) * 1.0); font-weight: 600; }
 .citazione {
   display: block;
   margin: 2px 0 var(--u);
   color: var(--inchiostro-tenue);
-  font-size: 11px;
+  font-size: calc(var(--t-ui) * 0.85);
   text-align: left;
   line-height: 1.45;
 }
@@ -204,11 +204,11 @@
   border-radius: var(--raggio);
   background: var(--accento);
   color: #fff;
-  font-size: 11.5px;
+  font-size: calc(var(--t-ui) * 0.88);
   font-weight: 550;
 }
 .metti:hover { filter: brightness(1.07); }
-.nonServe { padding: 5px 8px; border-radius: var(--raggio); color: var(--tenue); font-size: 11.5px; }
+.nonServe { padding: 5px 8px; border-radius: var(--raggio); color: var(--tenue); font-size: calc(var(--t-ui) * 0.88); }
 .nonServe:hover { background: var(--sfiorata); color: var(--inchiostro-tenue); }
 
 /* ── un consiglio chiuso: una riga ──────────────────────────── */
@@ -228,7 +228,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   color: var(--tenue);
-  font-size: 11px;
+  font-size: calc(var(--t-ui) * 0.85);
 }
 
 .suggerisci, .ancora {
@@ -236,7 +236,7 @@
   border-radius: var(--raggio);
   background: var(--sfiorata);
   color: var(--inchiostro);
-  font-size: 12px;
+  font-size: calc(var(--t-ui) * 0.92);
 }
 .suggerisci:hover, .ancora:hover { background: var(--premuta); }
 .suggerisci:disabled, .ancora:disabled { opacity: 0.6; }
@@ -261,6 +261,6 @@
   padding: 3px 0;
   border-radius: 4px;
   color: var(--inchiostro-tenue);
-  font-size: 11.5px;
+  font-size: calc(var(--t-ui) * 0.88);
 }
 .fonti .fonteScelta { background: var(--carta); color: var(--inchiostro); box-shadow: var(--ombra-bassa); }

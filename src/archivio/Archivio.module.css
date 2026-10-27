@@ -3,7 +3,7 @@
 .percorso {
   display: flex; align-items: center; gap: 5px;
   flex: none; height: var(--barra); padding: 0 calc(var(--u) * 2);
-  font-size: 12px;
+  font-size: calc(var(--t-ui) * 0.92);
 }
 .passo { padding: 3px 5px; border-radius: 4px; color: var(--tenue); }
 button.passo:hover { background: var(--sfiorata); color: var(--inchiostro-tenue); }
@@ -18,7 +18,7 @@ button.passo:hover { background: var(--sfiorata); color: var(--inchiostro-tenue)
   animation: var(--entra-velo);
 }
 .titolo { margin: 0; font-family: var(--font-testo); font-size: 2.1em; font-weight: 600; letter-spacing: -0.02em; }
-.sotto { margin: 6px 0 calc(var(--u) * 3); color: var(--inchiostro-tenue); font-size: 13px; line-height: 1.6; }
+.sotto { margin: 6px 0 calc(var(--u) * 3); color: var(--inchiostro-tenue); font-size: calc(var(--t-ui) * 1.0); line-height: 1.6; }
 
 .attesa { display: flex; flex-direction: column; gap: 8px; }
 .rigaAttesa { height: 30px; }
@@ -31,10 +31,10 @@ button.passo:hover { background: var(--sfiorata); color: var(--inchiostro-tenue)
   animation: var(--entra);
 }
 .totali div { padding: 10px 12px; border-radius: var(--raggio-g); background: var(--carta-alt); }
-.totali dt { color: var(--tenue); font-size: 11px; }
-.totali dd { margin: 2px 0 0; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.totali dt { color: var(--tenue); font-size: calc(var(--t-ui) * 0.85); }
+.totali dd { margin: 2px 0 0; font-size: calc(var(--t-ui) * 1.15); font-weight: 600; font-variant-numeric: tabular-nums; }
 .tutto { background: color-mix(in srgb, var(--accento) 10%, var(--carta-alt)) !important; }
-.nota { margin: 0 0 calc(var(--u) * 3); color: var(--tenue); font-size: 12px; }
+.nota { margin: 0 0 calc(var(--u) * 3); color: var(--tenue); font-size: calc(var(--t-ui) * 0.92); }
 
 .materie, .pagine { margin: 0; padding: 0; list-style: none; }
 .materia { border-bottom: 1px solid var(--linea); animation: var(--entra); }
@@ -54,15 +54,15 @@ button.passo:hover { background: var(--sfiorata); color: var(--inchiostro-tenue)
 .pallino[data-colore="verde"]   { background: var(--c-verde); }
 .pallino[data-colore="blu"]     { background: var(--c-blu); }
 .pallino[data-colore="viola"]   { background: var(--c-viola); }
-.nome { font-size: 14px; font-weight: 600; }
-.dettagli { flex: 1; color: var(--tenue); font-size: 12px; }
-.peso { color: var(--inchiostro-tenue); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.nome { font-size: calc(var(--t-ui) * 1.08); font-weight: 600; }
+.dettagli { flex: 1; color: var(--tenue); font-size: calc(var(--t-ui) * 0.92); }
+.peso { color: var(--inchiostro-tenue); font-size: calc(var(--t-ui) * 0.96); font-variant-numeric: tabular-nums; }
 
 .pagina { margin: 0 0 10px 24px; padding: 10px 12px; border-radius: var(--raggio-g); background: var(--carta-alt); animation: var(--entra); }
 .rigaPagina { display: flex; align-items: baseline; gap: 8px; }
-.titoloPagina { flex: 1; text-align: left; font-size: 13.5px; font-weight: 550; }
+.titoloPagina { flex: 1; text-align: left; font-size: calc(var(--t-ui) * 1.04); font-weight: 550; }
 .titoloPagina:hover { color: var(--accento); }
-.voci { color: var(--inchiostro-tenue); font-size: 12px; }
+.voci { color: var(--inchiostro-tenue); font-size: calc(var(--t-ui) * 0.92); }
 .pagina > .voci { margin: 2px 0 6px; }
 
 .lezione {
@@ -73,14 +73,14 @@ button.passo:hover { background: var(--sfiorata); color: var(--inchiostro-tenue)
   padding: 5px 0;
   border-top: 1px solid var(--linea);
 }
-.quando { font-size: 12px; font-variant-numeric: tabular-nums; }
+.quando { font-size: calc(var(--t-ui) * 0.92); font-variant-numeric: tabular-nums; }
 .azioni { display: flex; gap: 4px; }
 .azioni button, .pericolo {
   padding: 3px 8px;
   border-radius: var(--raggio);
   background: var(--sfiorata);
   color: var(--inchiostro-tenue);
-  font-size: 11.5px;
+  font-size: calc(var(--t-ui) * 0.88);
 }
 .azioni button:hover { background: var(--premuta); color: var(--inchiostro); }
 .fondo { display: flex; justify-content: flex-end; margin-top: 6px; }

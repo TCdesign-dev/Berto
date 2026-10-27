@@ -40,7 +40,7 @@ button.passo:hover { background: var(--sfiorata); color: var(--inchiostro); }
   font-size: var(--t-schermata);
   font-weight: 700;
   line-height: 1.15;
-  letter-spacing: -0.022em;
+  letter-spacing: -0.025em;
 }
 .sotto { margin: var(--u) 0 calc(var(--u) * 4); color: var(--inchiostro-tenue); font-size: var(--t-ui); }
 

@@ -14,7 +14,7 @@
   font-size: var(--t-schermata);
   font-weight: 700;
   line-height: 1.15;
-  letter-spacing: -0.022em;
+  letter-spacing: -0.025em;
 }
 
 .riga { display: flex; align-items: center; gap: var(--u); margin-top: var(--u); }

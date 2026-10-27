@@ -32,7 +32,7 @@
   font-size: var(--t-pagina);
   font-weight: 700;
   line-height: 1.15;
-  letter-spacing: -0.022em;
+  letter-spacing: -0.03em;
   outline: none;
 }
 .titolo::placeholder { color: var(--tenue); }

@@ -28,7 +28,7 @@
 .citazione {
   margin: var(--u) 0 0;
   color: var(--inchiostro-tenue);
-  font-size: calc(var(--t-ui) * 14 / 13);
+  font-size: calc(var(--t-ui) * 1.08);
   line-height: 1.5;
 }
 .citazione b { color: var(--inchiostro); font-weight: 600; }
@@ -40,7 +40,7 @@
   align-items: center;
   gap: var(--u);
   margin-top: calc(var(--u) * 1.25);
-  font-size: calc(var(--t-ui) * 17 / 13);
+  font-size: calc(var(--t-ui) * 1.31);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }

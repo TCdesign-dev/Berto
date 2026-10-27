@@ -29,7 +29,7 @@
   padding: calc(var(--u) * 0.75) calc(var(--u) / 2);
   overflow-x: auto;
   color: var(--inchiostro);
-  font-size: calc(var(--t-ui) * 15 / 13);
+  font-size: calc(var(--t-ui) * 1.15);
 }
 .anteprima :global(.vuota) { color: var(--tenue-testo); font-size: var(--t-piccolo); }
 .aSe { text-align: center; }

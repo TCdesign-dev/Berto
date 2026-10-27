@@ -38,7 +38,7 @@
   background: var(--carta-alt);
   color: var(--inchiostro);
   font-family: var(--font-ui);
-  font-size: calc(var(--t-ui) * 14 / 13);
+  font-size: calc(var(--t-ui) * 1.08);
   line-height: 1.5;
   outline: none;
 }
@@ -49,7 +49,7 @@
 .testo {
   margin: calc(var(--u) * 1.25) 0 0;
   color: var(--inchiostro);
-  font-size: calc(var(--t-ui) * 14 / 13);
+  font-size: calc(var(--t-ui) * 1.08);
   line-height: 1.55;
   white-space: pre-wrap;
 }

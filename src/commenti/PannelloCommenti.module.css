@@ -77,7 +77,7 @@
   overflow: hidden;
   margin-top: calc(var(--u) * 0.75);
   color: var(--inchiostro);
-  font-size: calc(var(--t-ui) * 14 / 13);
+  font-size: calc(var(--t-ui) * 1.08);
   line-height: 1.55;
   white-space: pre-wrap;
 }

@@ -39,7 +39,7 @@
   color: var(--registra);
   font-size: var(--t-etichetta);
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 .pallino { width: calc(var(--u) * 0.75); height: calc(var(--u) * 0.75); border-radius: 50%; background: var(--registra); }
@@ -54,7 +54,7 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
   margin: 0;
-  font-size: calc(var(--t-ui) * 14 / 13);
+  font-size: calc(var(--t-ui) * 1.08);
   line-height: 1.5;
 }
 .sicuro { color: var(--inchiostro-tenue); }

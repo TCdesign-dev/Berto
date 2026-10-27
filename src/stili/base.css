@@ -7,10 +7,21 @@ body {
   background: var(--carta);
   color: var(--inchiostro);
   font-family: var(--font-ui);
-  font-size: 13.5px;
+  font-size: var(--t-ui);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+
+  /*  Le varianti di Inter che usa SpaceUI: cv01 e cv03 danno la «a» e
+   *  la «g» a un piano solo, cv04 la «l» con la coda. Senza queste
+   *  Inter resta Inter, ma non suona come la loro. */
+  font-feature-settings: 'cv01', 'cv03', 'cv04', 'ss03';
+  font-variation-settings: 'opsz' 20;
 }
+
+/*  Cifre della stessa larghezza dove un numero cambia da solo: il
+ *  cronometro della registrazione, i contatori, i punteggi. Senza, la
+ *  riga si allarga e si stringe a ogni secondo. */
+time, kbd, [data-cifre] { font-variant-numeric: tabular-nums; }
 
 button {
   font: inherit;

@@ -19,7 +19,7 @@
 
 .riga { display: flex; align-items: center; gap: var(--u); margin-top: var(--u); }
 .conto { flex: 1; min-width: 0; color: var(--inchiostro-tenue); font-size: var(--t-ui); }
-.nuova { composes: secondario from './Superficie.module.css'; flex: none; }
+.nuova { composes: primario from './Superficie.module.css'; flex: none; }
 
 /* ── la griglia delle materie ───────────────────────────────── */
 .griglia {
@@ -95,7 +95,7 @@
   width: 100%;
   color: var(--inchiostro);
   font-family: var(--font-ui);
-  font-size: calc(var(--t-ui) * 15 / 13);
+  font-size: calc(var(--t-ui) * 1.15);
   font-weight: 600;
   text-align: left;
 }
@@ -160,7 +160,7 @@
   height: calc(var(--u) * 5);
   padding: 0 calc(var(--u) * 1.5);
   border-top: calc(var(--u) / 8) solid var(--linea);
-  font-size: calc(var(--t-ui) * 14 / 13);
+  font-size: calc(var(--t-ui) * 1.08);
   text-align: left;
 }
 .ultima:hover { background: var(--sfiorata); }

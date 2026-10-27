@@ -28,7 +28,7 @@
   background: none;
   color: var(--inchiostro);
   font-family: var(--font-ui);
-  font-size: calc(var(--t-ui) * 15 / 13);
+  font-size: calc(var(--t-ui) * 1.15);
   outline: none;
 }
 .campo::placeholder { color: var(--tenue-testo); }

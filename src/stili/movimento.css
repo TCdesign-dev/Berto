@@ -1,19 +1,26 @@
 /*  Il movimento di Berto.
  *
  *  Poco e breve: le cose compaiono, non ballano. Un pannello scende di
- *  quattro pixel, una finestra cresce del tre per cento, e in 200 ms è
+ *  quattro pixel, una finestra cresce del tre per cento, e in 220 ms è
  *  finito tutto. Chi ha chiesto al Mac di ridurre il movimento
  *  (Accessibilità → Schermo) non ne vede affatto.
+ *
+ *  Restyling SpaceUI: le curve sono le loro, prese dal sito. Una per
+ *  le superfici che arrivano — cubic-bezier(.16, 1, .3, 1), che parte
+ *  forte e si posa senza rimbalzare — e una per i cambi di stato,
+ *  cubic-bezier(.4, 0, .2, 1) in 150 ms. Sono solo due, e si vede: il
+ *  movimento diventa una firma invece di un effetto.
  *
  *  Le animazioni sono globali e i moduli CSS le usano attraverso le
  *  variabili: dentro var() il nome non viene rinominato dai CSS
  *  Modules, e ogni componente scrive solo `animation: var(--entra)`. */
 
 :root {
-  --veloce: 120ms;
-  --medio: 200ms;
-  --lento: 320ms;
-  --curva: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --veloce: 150ms;
+  --medio: 220ms;
+  --lento: 300ms;
+  --curva: cubic-bezier(0.16, 1, 0.3, 1);        /* le superfici che arrivano */
+  --curva-stato: cubic-bezier(0.4, 0, 0.2, 1);   /* sfiorato, scelto, acceso */
 
   --entra: pg-compare var(--medio) var(--curva) both;          /* un elemento che arriva */
   --entra-tendina: pg-scende var(--medio) var(--curva) both;    /* sotto al pulsante che l'ha aperto */
@@ -46,11 +53,12 @@
 /* il passaggio del mouse si addolcisce, ovunque */
 button, a {
   transition:
-    background-color var(--veloce) ease,
-    color var(--veloce) ease,
-    opacity var(--veloce) ease,
-    box-shadow var(--veloce) ease,
-    filter var(--veloce) ease;
+    background-color var(--veloce) var(--curva-stato),
+    color var(--veloce) var(--curva-stato),
+    border-color var(--veloce) var(--curva-stato),
+    opacity var(--veloce) var(--curva-stato),
+    box-shadow var(--veloce) var(--curva-stato),
+    filter var(--veloce) var(--curva-stato);
 }
 
 @media (prefers-reduced-motion: reduce) {

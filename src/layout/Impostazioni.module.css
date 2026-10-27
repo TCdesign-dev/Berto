@@ -33,7 +33,7 @@
   height: min(calc(var(--u) * 77.5), calc(100vh - var(--u) * 15));
 }
 
-.nome { font-size: calc(var(--t-ui) * 15 / 13); font-weight: 650; }
+.nome { font-size: calc(var(--t-ui) * 1.15); font-weight: 650; }
 .tasto { composes: tasto from './Superficie.module.css'; }
 .chiudi { composes: icona from './Superficie.module.css'; }
 
@@ -82,7 +82,7 @@ section:first-child > .etichetta { padding-top: calc(var(--u) * 2); }
 
 .contenuto { overflow-y: auto; padding: calc(var(--u) * 2.5) calc(var(--u) * 3); }
 .testaSezione { display: flex; align-items: center; gap: calc(var(--u) * 0.75); margin-bottom: calc(var(--u) * 2); }
-.titoloSezione { flex: 1; margin: 0; font-size: calc(var(--t-ui) * 20 / 13); font-weight: 650; }
+.titoloSezione { flex: 1; margin: 0; font-size: calc(var(--t-ui) * 1.54); font-weight: 650; }
 
 /* ── le righe: titolo e spiegazione a sinistra, il controllo a destra ── */
 .riga {
@@ -94,7 +94,7 @@ section:first-child > .etichetta { padding-top: calc(var(--u) * 2); }
 }
 .larga .riga { gap: calc(var(--u) * 3); padding: calc(var(--u) * 1.75) 0; }
 .testo { flex: 1; min-width: 0; }
-.titoloRiga { font-size: calc(var(--t-ui) * 14 / 13); font-weight: 500; }
+.titoloRiga { font-size: calc(var(--t-ui) * 1.08); font-weight: 500; }
 .spiega { margin-top: calc(var(--u) * 0.375); color: var(--inchiostro-tenue); font-size: var(--t-piccolo); line-height: 1.45; }
 .spiega code { font-family: var(--font-mono); font-size: var(--t-etichetta); }
 .controllo { flex: none; padding-top: calc(var(--u) / 8); }
@@ -156,7 +156,7 @@ section:first-child > .etichetta { padding-top: calc(var(--u) * 2); }
   box-shadow: var(--ombra-bassa);
   transition: left var(--veloce) ease;
 }
-.interruttore[aria-checked="true"] { background: var(--accento); }
+.interruttore[aria-checked="true"] { background: var(--primario); }
 .interruttore[aria-checked="true"]::after { left: calc(var(--u) * 1.75); }
 
 /* il controllo segmentato: Sistema, Chiaro, Scuro */

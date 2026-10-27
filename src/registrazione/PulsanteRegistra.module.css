@@ -1,7 +1,7 @@
-/*  Il controllo della registrazione. Tutto alto 28 (--controllo): gli
- *  stati fermi hanno gli angoli dei pulsanti, la lezione in corso è
- *  una pillola tonda. Rosso solo mentre registra o quando si è fermata
- *  da sola; arancio quando registra ma c'è da sapere una cosa. */
+/*  Il controllo della registrazione. Tutto alto quanto --controllo:
+ *  gli stati fermi hanno gli angoli dei pulsanti, la lezione in corso
+ *  è una pillola tonda. Rosso solo mentre registra o quando si è
+ *  fermata da sola; arancio quando registra ma c'è da sapere una cosa. */
 
 .registra, .stato {
   display: inline-flex;
@@ -21,7 +21,8 @@
 .registra:hover { background: var(--sfiorata); }
 
 .tasto {
-  padding: calc(var(--u) * 0.375) calc(var(--u) * 0.625);
+  padding: calc(var(--u) * 0.25) calc(var(--u) * 0.625);
+  border: calc(var(--u) / 8) solid var(--linea);
   border-radius: calc(var(--u) / 2);
   background: var(--carta-alt-2);
   color: var(--inchiostro-tenue);

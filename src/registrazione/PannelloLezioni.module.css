@@ -54,7 +54,7 @@
 [data-modo="lato"] .aperta { background: var(--carta); }
 
 .riga { display: flex; flex-wrap: wrap; align-items: baseline; gap: calc(var(--u) / 4) var(--u); }
-.data { font-size: calc(var(--t-ui) * 14 / 13); font-weight: 600; }
+.data { font-size: calc(var(--t-ui) * 1.08); font-weight: 600; }
 .misure { color: var(--tenue-testo); font-size: var(--t-piccolo); font-variant-numeric: tabular-nums; }
 [data-modo="lato"] .misure { order: 3; flex-basis: 100%; }
 .interrotta { color: var(--avviso); cursor: help; }

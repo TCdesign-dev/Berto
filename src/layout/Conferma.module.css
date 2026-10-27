@@ -17,7 +17,7 @@
   animation: var(--entra-finestra);
 }
 
-.titolo { margin: 0; font-size: calc(var(--t-ui) * 15 / 13); font-weight: 600; line-height: 1.4; }
+.titolo { margin: 0; font-size: calc(var(--t-ui) * 1.15); font-weight: 600; line-height: 1.4; }
 
 .dettaglio {
   margin: var(--u) 0 0;

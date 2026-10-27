@@ -37,7 +37,7 @@
 .testo {
   margin: 0;
   color: var(--inchiostro);
-  font-size: calc(var(--t-ui) * 14 / 13);
+  font-size: calc(var(--t-ui) * 1.08);
   line-height: 1.45;
 }
 .fatto .testo { color: var(--tenue-testo); text-decoration: line-through; }

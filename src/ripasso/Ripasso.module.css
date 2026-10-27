@@ -71,7 +71,7 @@ button.passo:hover { background: var(--sfiorata); color: var(--inchiostro); }
 .lezione h3 { margin: 0 0 calc(var(--u) * 0.75); font-size: var(--t-ui); font-weight: 600; }
 .lezione h3::first-letter { text-transform: uppercase; }
 .pagine { margin-left: var(--u); color: var(--tenue-testo); font-weight: 400; font-size: var(--t-piccolo); }
-.lezione ul { margin: 0; padding-left: calc(var(--u) * 2.25); font-family: var(--font-testo); font-size: calc(var(--t-ui) * 14.5 / 13); line-height: 1.6; }
+.lezione ul { margin: 0; padding-left: calc(var(--u) * 2.25); font-family: var(--font-testo); font-size: calc(var(--t-ui) * 1.12); line-height: 1.6; }
 .lezione li + li { margin-top: calc(var(--u) / 2); }
 
 /* ── gli argomenti ──────────────────────────────────────────── */
@@ -105,7 +105,7 @@ button.passo:hover { background: var(--sfiorata); color: var(--inchiostro); }
   text-overflow: ellipsis;
   text-align: left;
   font-family: var(--font-testo);
-  font-size: calc(var(--t-ui) * 14.5 / 13);
+  font-size: calc(var(--t-ui) * 1.12);
   font-weight: 550;
 }
 .nomeArgomento:hover { color: var(--accento-testo); }

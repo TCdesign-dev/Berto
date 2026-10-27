@@ -1,6 +1,10 @@
 import { StrictMode, Suspense, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 
+// i caratteri di SpaceUI, ospitati qui: nessuna chiamata di rete all'avvio
+import '@fontsource-variable/inter'
+import '@fontsource-variable/geist-mono'
+
 import './stili/token.css'
 import './stili/base.css'
 import './stili/editor.css'

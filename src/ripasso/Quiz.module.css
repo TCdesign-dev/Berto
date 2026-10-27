@@ -61,7 +61,7 @@
 .domanda {
   margin: calc(var(--u) * 2.25) 0 calc(var(--u) * 2);
   font-family: var(--font-testo);
-  font-size: calc(var(--t-ui) * 20 / 13);
+  font-size: calc(var(--t-ui) * 1.54);
   font-weight: 650;
   line-height: 1.35;
   letter-spacing: -0.01em;
@@ -81,7 +81,7 @@
   box-shadow: inset 0 0 0 calc(var(--u) / 8) var(--linea);
   color: var(--inchiostro);
   text-align: left;
-  font-size: calc(var(--t-ui) * 15 / 13);
+  font-size: calc(var(--t-ui) * 1.15);
   line-height: 1.45;
 }
 .opzione:hover:not(:disabled) { background: var(--sfiorata); box-shadow: inset 0 0 0 calc(var(--u) / 8) var(--linea-forte); }
@@ -114,7 +114,7 @@
   border-radius: var(--raggio-g);
   background: var(--carta-alt);
   color: var(--inchiostro-tenue);
-  font-size: calc(var(--t-ui) * 14 / 13);
+  font-size: calc(var(--t-ui) * 1.08);
   line-height: 1.55;
   animation: var(--entra);
 }
@@ -135,7 +135,7 @@
   border-left: calc(var(--u) * 0.375) solid var(--accento);
   background: var(--carta-alt);
   font-family: var(--font-testo);
-  font-size: calc(var(--t-ui) * 14.5 / 13);
+  font-size: calc(var(--t-ui) * 1.12);
   line-height: 1.55;
   animation: var(--entra);
 }
@@ -149,7 +149,7 @@
 .principale { composes: primario from '../layout/Superficie.module.css'; }
 .secondario { composes: trasparente from '../layout/Superficie.module.css'; }
 
-.punteggio { margin: calc(var(--u) / 2) 0 calc(var(--u) / 4); font-size: calc(var(--t-ui) * 15 / 13); color: var(--inchiostro-tenue); animation: var(--entra-conferma); }
+.punteggio { margin: calc(var(--u) / 2) 0 calc(var(--u) / 4); font-size: calc(var(--t-ui) * 1.15); color: var(--inchiostro-tenue); animation: var(--entra-conferma); }
 .punteggio strong { color: var(--inchiostro); font-size: var(--t-schermata); font-weight: 650; margin-right: calc(var(--u) / 2); }
 .commento { margin: 0 0 calc(var(--u) * 1.75); color: var(--inchiostro-tenue); font-size: var(--t-ui); }
 

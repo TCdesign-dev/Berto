@@ -7,7 +7,14 @@
  *
  *  Dentro, pezzi che si possono comporre allo stesso modo: intestazione
  *  a etichetta o a titolo, contenuto, piede coi tasti a sinistra e le
- *  azioni a destra, pulsanti e tasti. */
+ *  azioni a destra, pulsanti e tasti.
+ *
+ *  Restyling SpaceUI: qui cambia una cosa sola ma si vede dappertutto.
+ *  Il pulsante principale non è più azzurro — è il CONTRARIO della
+ *  pagina, nero su chiaro e bianco su scuro, in una pillola piena. È
+ *  la firma di SpaceUI e risolve anche un equivoco che avevamo: prima
+ *  l'azzurro voleva dire «AI» nelle proposte e «premi qui» nei
+ *  pulsanti. Adesso l'azzurro vuol dire solo AI. */
 
 .superficie {
   background: var(--superficie);
@@ -19,16 +26,16 @@
 }
 
 /* ── intestazione ───────────────────────────────────────────── */
-/*  a etichetta: 11 px, maiuscolo */
+/*  a etichetta: 12 px, maiuscolo, +0.05em — la misura di SpaceUI */
 .etichetta {
   color: var(--tenue-testo);
   font-size: var(--t-etichetta);
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
-/*  a titolo: una riga alta 44, il titolo a 14 e chiudi a destra */
+/*  a titolo: una riga alta quanto la barra, il titolo a 16 e chiudi a destra */
 .testa {
   display: flex;
   align-items: center;
@@ -42,14 +49,15 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size: calc(var(--t-ui) * 14 / 13);
+  font-size: calc(var(--t-ui) * 1.15);
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
-/* ── contenuto: 14-16 di margine, testo a 14 ────────────────── */
+/* ── contenuto ──────────────────────────────────────────────── */
 .corpo {
   padding: calc(var(--u) * 1.75) calc(var(--u) * 2);
-  font-size: calc(var(--t-ui) * 14 / 13);
+  font-size: var(--t-ui);
   line-height: 1.5;
 }
 
@@ -75,52 +83,74 @@
 .azioni { display: flex; gap: calc(var(--u) / 2); margin-left: auto; }
 
 /* ── tasti ──────────────────────────────────────────────────── */
+/*  Geist Mono dentro un contorno sottile: in SpaceUI il tasto è un
+ *  oggetto con un bordo, non una macchia grigia. */
 .tasto {
-  padding: calc(var(--u) * 0.375) calc(var(--u) * 0.625);
+  padding: calc(var(--u) * 0.25) calc(var(--u) * 0.625);
+  border: calc(var(--u) / 8) solid var(--linea);
   border-radius: calc(var(--u) / 2);
   background: var(--carta-alt-2);
   color: var(--inchiostro-tenue);
   font-family: var(--font-mono);
-  font-size: var(--t-etichetta);
+  font-size: var(--t-piccolo);
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.4;
 }
 
-/* ── pulsanti: alti 28, testo 13, icona 14 ──────────────────── */
+/* ── pulsanti: alti 32, testo 14, icona 14, fianchi 12 ──────── */
 .pulsante {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: calc(var(--u) * 0.75);
   height: var(--controllo);
-  padding: 0 calc(var(--u) * 1.25);
+  padding: 0 calc(var(--u) * 1.5);
+  border: calc(var(--u) / 8) solid transparent;
   border-radius: var(--raggio);
   font-size: var(--t-ui);
   font-weight: 500;
   line-height: 1;
   white-space: nowrap;
 }
-.pulsante:disabled { opacity: 0.5; cursor: default; }
+.pulsante:disabled { opacity: 0.45; cursor: default; }
 
 .trasparente { composes: pulsante; color: var(--inchiostro-tenue); }
 .trasparente:hover:not(:disabled) { background: var(--sfiorata); color: var(--inchiostro); }
 
-.secondario { composes: pulsante; background: var(--carta-alt-2); color: var(--inchiostro); }
-.secondario:hover:not(:disabled) { background: var(--premuta); }
+.secondario { composes: pulsante; background: var(--carta-alt-2); border-color: var(--linea); color: var(--inchiostro); }
+.secondario:hover:not(:disabled) { background: var(--premuta); border-color: var(--linea-forte); }
 
-/*  Il principale: testo del colore della carta, cioè bianco in chiaro
- *  e scuro in scuro, sul blu che in scuro si schiarisce. */
-.primario { composes: pulsante; background: var(--accento); color: var(--carta); }
-.primario:hover:not(:disabled) { background: color-mix(in srgb, var(--accento) 88%, var(--inchiostro)); }
+/*  Il principale: il contrario della pagina, in una pillola piena.
+ *  Più fianchi degli altri — una pillola stretta sembra schiacciata. */
+.primario {
+  composes: pulsante;
+  padding: 0 calc(var(--u) * 2);
+  border-radius: var(--raggio-pillola);
+  background: var(--primario);
+  color: var(--primario-testo);
+  font-weight: 600;
+}
+.primario:hover:not(:disabled) { background: var(--primario-sfiorato); }
 
-/*  Per le azioni che tolgono qualcosa: come il principale, in rosso. */
-.pericolo { composes: pulsante; background: var(--c-rosso); color: var(--carta); }
-.pericolo:hover:not(:disabled) { background: color-mix(in srgb, var(--c-rosso) 88%, var(--inchiostro)); }
+/*  Per le azioni che tolgono qualcosa: stessa pillola, in rosso. */
+.pericolo {
+  composes: pulsante;
+  padding: 0 calc(var(--u) * 2);
+  border-radius: var(--raggio-pillola);
+  background: var(--c-rosso);
+  color: var(--carta);
+  font-weight: 600;
+}
+.pericolo:hover:not(:disabled) { background: color-mix(in srgb, var(--c-rosso) 85%, var(--inchiostro)); }
 
 /* il tasto dentro un pulsante pieno: un velo del colore del testo */
-.primario .tasto, .pericolo .tasto { background: color-mix(in srgb, currentColor 20%, transparent); color: inherit; }
+.primario .tasto, .pericolo .tasto {
+  border-color: transparent;
+  background: color-mix(in srgb, currentColor 18%, transparent);
+  color: inherit;
+}
 
-/*  Pulsante con la sola icona: 28×28, icona 16 */
+/*  Pulsante con la sola icona: 32×32, icona 16 */
 .icona {
   display: inline-grid;
   place-items: center;

@@ -83,6 +83,25 @@
 }
 button.nome:hover { color: var(--accento-testo); }
 
+/*  Un compito è una frase — «consegnare le tavole del portico entro
+ *  giovedì» — non un titolo. Tagliarlo coi puntini toglie proprio la
+ *  cosa che si deve leggere, quindi va a capo e la riga si alza; il
+ *  pallino, l'icona e la data restano in cima, allineati alla prima
+ *  riga del testo. Esami e titoli di pagina invece sono nomi corti e
+ *  restano su una riga sola. */
+.rigaCompito { align-items: flex-start; }
+.disteso {
+  flex: 1;
+  overflow: visible;
+  white-space: normal;
+  line-height: 1.45;
+}
+.rigaCompito .pallino { margin-top: calc(var(--u) * 0.75); }
+.rigaCompito .segno,
+.rigaCompito .nota,
+.rigaCompito .quando { margin-top: calc(var(--u) / 4); }
+.rigaCompito .nota { flex: none; }
+
 .nota {
   flex: 1;
   min-width: 0;

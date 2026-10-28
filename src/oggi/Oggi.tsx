@@ -139,13 +139,13 @@ export function Oggi({ quaderni, onApri, onRipasso }: {
               </p>
             )}
             {recap.scadenze.map((d) => (
-              <div key={d.chiave} className={s.riga}>
+              <div key={d.chiave} className={`${s.riga} ${d.tipo === 'compito' ? s.rigaCompito : ''}`}>
                 <span className={s.pallino} data-colore={d.colore} />
                 <span className={s.segno} aria-hidden>
                   <Icona nome={d.tipo === 'esame' ? 'esame' : 'compiti'} dimensione={14} />
                 </span>
                 {d.tipo === 'compito'
-                  ? <button className={s.nome} onClick={() => onApri(d.documentoId)}>{d.testo}</button>
+                  ? <button className={`${s.nome} ${s.disteso}`} onClick={() => onApri(d.documentoId)}>{d.testo}</button>
                   : <span className={s.nome}>{d.testo}</span>}
                 <span className={s.nota}>
                   {d.materia}

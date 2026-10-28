@@ -10,9 +10,12 @@
  *  fondo apposta: aprire la giornata su quello che hai già fatto è un
  *  modo elegante per non cominciare.
  *
- *  Se non c'è niente in nessuna delle tre, la schermata lo dice e
- *  basta. Una dashboard che inventa righe per non restare vuota smette
- *  di essere guardata dopo una settimana. */
+ *  Le sezioni ci sono sempre, anche vuote, e quando sono vuote lo
+ *  dicono. È la differenza fra «oggi non hai scadenze» e una schermata
+ *  dove la parola «scadenze» non compare: la seconda sembra un pezzo
+ *  non fatto, e infatti la prima volta è sembrata proprio quello. La
+ *  forma della schermata resta la stessa ogni giorno, e si impara dove
+ *  guardare. Righe inventate per riempire, quelle no. */
 
 import { useEffect, useState } from 'react'
 import type { Quaderno } from '../documento/tipi'
@@ -87,7 +90,6 @@ export function Oggi({ quaderni, onApri, onRipasso }: {
   }
 
   const giorno = new Date().toLocaleDateString(locale(), { weekday: 'long', day: 'numeric', month: 'long' })
-  const nienteDaFare = recap && !recap.quiz.length && !recap.scadenze.length && !recap.daIntegrare.length
 
   return (
     <div className={s.pagina}>
@@ -97,19 +99,18 @@ export function Oggi({ quaderni, onApri, onRipasso }: {
 
         {!recap && <p className={s.attesa}>{tr('Guardo com’è messa la giornata…')}</p>}
 
-        {nienteDaFare && (
+        {recap && !quaderni.length && (
           <p className={s.sereno}>
             <Icona nome="accetta" dimensione={16} />
-            {quaderni.length
-              ? tr('Niente in scadenza e niente da ripassare. Buona giornata.')
-              : tr('Non c’è ancora niente. Crea una materia e comincia a prendere appunti.')}
+            {tr('Non c’è ancora niente. Crea una materia e comincia a prendere appunti.')}
           </p>
         )}
 
         {/* ── da ripassare ─────────────────────────────────────── */}
-        {!!recap?.quiz.length && (
+        {recap && !!quaderni.length && (
           <section className={s.sezione}>
             <h2 className={s.etichetta}>{tr('Da ripassare')}</h2>
+            {!recap.quiz.length && <p className={s.niente}>{tr('Tutto ripassato di recente.')}</p>}
             {recap.quiz.map((q) => (
               <div key={q.quadernoId} className={s.riga}>
                 <span className={s.pallino} data-colore={q.colore} />
@@ -129,9 +130,14 @@ export function Oggi({ quaderni, onApri, onRipasso }: {
         )}
 
         {/* ── in scadenza ──────────────────────────────────────── */}
-        {!!recap?.scadenze.length && (
+        {recap && !!quaderni.length && (
           <section className={s.sezione}>
             <h2 className={s.etichetta}>{tr('In scadenza')}</h2>
+            {!recap.scadenze.length && (
+              <p className={s.niente}>
+                <Tr frase="Niente in scadenza. Gli esami si scrivono nella <b>scheda della materia</b>; i compiti li tira fuori l’integratore dalla lezione." classi={{ b: s.dove }} />
+              </p>
+            )}
             {recap.scadenze.map((d) => (
               <div key={d.chiave} className={s.riga}>
                 <span className={s.pallino} data-colore={d.colore} />
@@ -154,9 +160,10 @@ export function Oggi({ quaderni, onApri, onRipasso }: {
         )}
 
         {/* ── lezioni rimaste fuori dagli appunti ──────────────── */}
-        {!!recap?.daIntegrare.length && (
+        {recap && !!quaderni.length && (
           <section className={s.sezione}>
             <h2 className={s.etichetta}>{tr('Lezioni da integrare')}</h2>
+            {!recap.daIntegrare.length && <p className={s.niente}>{tr('Nessuna lezione in attesa.')}</p>}
             {recap.daIntegrare.map((l) => (
               <div key={l.chiave} className={s.riga}>
                 <span className={s.pallino} data-colore={l.colore} />
@@ -171,6 +178,7 @@ export function Oggi({ quaderni, onApri, onRipasso }: {
         )}
 
         {/* ── il consuntivo ────────────────────────────────────── */}
+        {recap && !!quaderni.length && (
         <section className={s.sezione}>
           <h2 className={s.etichetta}>{tr('Fatto oggi')}</h2>
           {recap && (
@@ -198,6 +206,7 @@ export function Oggi({ quaderni, onApri, onRipasso }: {
             </>
           )}
         </section>
+        )}
       </div>
     </div>
   )

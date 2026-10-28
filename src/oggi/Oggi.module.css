@@ -119,3 +119,13 @@ button.nome:hover { color: var(--accento-testo); }
   color: var(--inchiostro-tenue);
   font-size: var(--t-ui);
 }
+
+/*  Quando una sezione non ha righe: una riga di testo al posto loro,
+ *  più tenue, così si vede subito che è un'assenza e non un elenco. */
+.niente {
+  margin: calc(var(--u) * 0.75) 0 0;
+  color: var(--tenue-testo);
+  font-size: var(--t-ui);
+  line-height: 1.5;
+}
+.dove { color: var(--inchiostro-tenue); font-weight: 500; }

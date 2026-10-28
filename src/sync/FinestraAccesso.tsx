@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { entraConPassword, inviaCodice, verificaCodice } from './accesso'
+import { CampoCodice } from './CampoCodice'
 import s from './FinestraAccesso.module.css'
 import { tr } from '../lingua/lingua'
 
@@ -22,6 +23,13 @@ export function FinestraAccesso({ onChiudi }: { onChiudi: () => void }) {
 
   async function prosegui(e: React.FormEvent) {
     e.preventDefault()
+    void avanza(codice)
+  }
+
+  /*  Il codice arriva come argomento, non dallo stato: all'ultima cifra
+   *  il campo entra da sé, e in quel momento setCodice non è ancora
+   *  passato di qui. */
+  async function avanza(c: string) {
     setErrore('')
     setInCorso(true)
     try {
@@ -32,7 +40,7 @@ export function FinestraAccesso({ onChiudi }: { onChiudi: () => void }) {
         await inviaCodice(email)
         setPasso('codice')
       } else {
-        await verificaCodice(email, codice)
+        await verificaCodice(email, c)
         onChiudi()
       }
     } catch (err) {
@@ -84,15 +92,13 @@ export function FinestraAccesso({ onChiudi }: { onChiudi: () => void }) {
         )}
 
         {passo === 'codice' && (
-          <input
-            className={`${s.campo} ${s.cifre}`}
-            inputMode="numeric"
-            autoFocus
-            required
-            value={codice}
-            placeholder="000000"
-            maxLength={8}
-            onChange={(e) => setCodice(e.target.value)}
+          <CampoCodice
+            classe={s.caselle}
+            classeCampo={s.campoCodice}
+            classeCasella={s.casella}
+            valore={codice}
+            onCambia={(v) => { setCodice(v); setErrore('') }}
+            onCompleto={(v) => void avanza(v)}
           />
         )}
 

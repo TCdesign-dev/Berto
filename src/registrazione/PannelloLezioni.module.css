@@ -170,8 +170,6 @@ button.minuto:hover { color: var(--accento-testo); }
 }
 .pausaTrascritta::before, .pausaTrascritta::after { content: ' — '; }
 
-.lettore { display: block; width: calc(100% - var(--u) * 4); height: calc(var(--u) * 3.75); margin: var(--u) calc(var(--u) * 2); }
-.lettore:not([src]) { display: none; }
 
 /* ── piede: com'è messo il microfono, e le Impostazioni ─────── */
 .piede {

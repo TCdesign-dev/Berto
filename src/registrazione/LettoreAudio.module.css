@@ -1,0 +1,97 @@
+/*  La barra del lettore: appoggiata in fondo al pannello, sopra il
+ *  piede, della stessa pasta della superficie che la ospita. */
+
+.barra {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 0.75);
+  padding: calc(var(--u) * 0.75) calc(var(--u) * 1.25);
+  border-top: calc(var(--u) / 8) solid var(--linea);
+  background: var(--carta-alt);
+  animation: var(--entra);
+}
+
+.comando {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: calc(var(--u) * 3.5);
+  height: calc(var(--u) * 3.5);
+  border-radius: var(--raggio);
+  color: var(--inchiostro-tenue);
+}
+.comando:hover { background: var(--premuta); color: var(--inchiostro); }
+
+.titolo {
+  flex: none;
+  max-width: calc(var(--u) * 14);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--inchiostro-tenue);
+  font-size: var(--t-piccolo);
+}
+
+.quando {
+  flex: none;
+  color: var(--tenue-testo);
+  font-size: var(--t-etichetta);
+  font-variant-numeric: tabular-nums;
+}
+
+/*  Il cursore. Il binario è un fondo sfumato che si ferma dove siamo
+ *  arrivati: una sola proprietà da aggiornare, nessun elemento in più
+ *  da tenere allineato. La pallina appare quando serve — passando
+ *  sopra o col fuoco — perché a riposo conta la posizione, non il
+ *  manico. */
+.corsa {
+  flex: 1;
+  min-width: calc(var(--u) * 6);
+  height: calc(var(--u) * 2);
+  appearance: none;
+  background: none;
+  cursor: pointer;
+}
+.corsa::-webkit-slider-runnable-track {
+  height: calc(var(--u) / 2);
+  border-radius: var(--raggio-pillola);
+  background: linear-gradient(
+    to right,
+    var(--inchiostro-tenue) var(--avanzamento),
+    var(--linea-forte) var(--avanzamento)
+  );
+}
+.corsa::-moz-range-track {
+  height: calc(var(--u) / 2);
+  border-radius: var(--raggio-pillola);
+  background: linear-gradient(
+    to right,
+    var(--inchiostro-tenue) var(--avanzamento),
+    var(--linea-forte) var(--avanzamento)
+  );
+}
+.corsa::-webkit-slider-thumb {
+  appearance: none;
+  width: calc(var(--u) * 1.5);
+  height: calc(var(--u) * 1.5);
+  margin-top: calc(var(--u) * -0.5);
+  border: none;
+  border-radius: 50%;
+  background: var(--inchiostro);
+  opacity: 0;
+  transition: opacity var(--veloce) var(--curva-stato);
+}
+.corsa::-moz-range-thumb {
+  width: calc(var(--u) * 1.5);
+  height: calc(var(--u) * 1.5);
+  border: none;
+  border-radius: 50%;
+  background: var(--inchiostro);
+  opacity: 0;
+  transition: opacity var(--veloce) var(--curva-stato);
+}
+.corsa:hover::-webkit-slider-thumb,
+.corsa:focus-visible::-webkit-slider-thumb { opacity: 1; }
+.corsa:hover::-moz-range-thumb,
+.corsa:focus-visible::-moz-range-thumb { opacity: 1; }

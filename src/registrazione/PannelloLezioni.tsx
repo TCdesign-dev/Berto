@@ -15,6 +15,7 @@ import { iscrivitiStatoCorrezioni, leggiStatoCorrezioni } from '../correzioni/st
 import { apriImpostazioni } from '../layout/statoImpostazioni'
 import { Barra, Rotella } from '../layout/Attesa'
 import { Conferma } from '../layout/Conferma'
+import { LettoreAudio } from './LettoreAudio'
 import { MenuPagina } from '../layout/MenuPagina'
 import { CorrezioniInAttesa, ContiCorrezioni } from '../correzioni/RiepilogoCorrezioni'
 import { Icona } from '../lib/Icona'
@@ -125,6 +126,7 @@ export function PannelloLezioni({ doc, documentoId, materia, rifEditore, modo, o
   const [caricando, setCaricando] = useState<string | null>(null)
   const [erroreCarico, setErroreCarico] = useState<string | null>(null)
   const lettore = useRef<HTMLAudioElement>(null)
+  const [inAscolto, setInAscolto] = useState<Registrazione | null>(null)
   const [microfoni, setMicrofoni] = useState<Microfono[]>([])
 
   useEffect(() => {
@@ -223,9 +225,23 @@ export function PannelloLezioni({ doc, documentoId, materia, rifEditore, modo, o
   function riascolta(r: Registrazione, secondo: number) {
     const a = lettore.current
     if (!a) return
-    if (!a.src.includes(r.id)) a.src = `/api/audio/${encodeURIComponent(r.id)}`
-    a.currentTime = Math.max(0, secondo - 1)
+    const da = Math.max(0, secondo - 1)
+    setInAscolto(r)
+    if (a.src.includes(r.id)) {
+      a.currentTime = da
+    } else {
+      a.src = `/api/audio/${encodeURIComponent(r.id)}`
+      /*  Con preload="none" qui i metadati non ci sono ancora, e un
+       *  currentTime scritto prima che arrivino non va da nessuna
+       *  parte: partiva sempre da capo invece che dal minuto cliccato. */
+      a.addEventListener('loadedmetadata', () => { a.currentTime = da }, { once: true })
+    }
     void a.play()
+  }
+
+  function chiudiLettore() {
+    lettore.current?.pause()
+    setInAscolto(null)
   }
 
   function scaricaAudio(r: Registrazione) {
@@ -414,8 +430,13 @@ export function PannelloLezioni({ doc, documentoId, materia, rifEditore, modo, o
         )}
 
         <ContiCorrezioni lezioni={lezioni} />
-        <audio ref={lettore} className={s.lettore} controls preload="none" />
       </div>
+
+      <LettoreAudio
+        riferimento={lettore}
+        titolo={inAscolto ? quando(inAscolto.inizio) : null}
+        onChiudi={chiudiLettore}
+      />
 
       <footer className={s.piede}>
         <Icona nome="microfono" dimensione={14} />

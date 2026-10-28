@@ -9,21 +9,23 @@ import { tr } from '../lingua/lingua'
  *  900 px è così di partenza (a 716, in aula, la colonna di scrittura si
  *  riprende quasi 200 px); sopra, quando la chiudi con ⌘\.
  *
- *  Dall'alto: la barra intera, la ricerca, le materie; un pallino per
+ *  Dall'alto: la barra intera, la ricerca, Oggi, le materie; un pallino per
  *  materia, che apre l'ultima pagina toccata come la copertina nella
  *  home; una materia nuova. In fondo l'archivio e le impostazioni. */
 
 export function Rotaia({
-  quaderni, documenti, materiaInVista, inHome, archivioAperto, onBarra, onCerca, onHome, onApri, onArchivio, onImpostazioni,
+  quaderni, documenti, materiaInVista, inHome, oggiAperto, archivioAperto, onBarra, onCerca, onOggi, onHome, onApri, onArchivio, onImpostazioni,
 }: {
   quaderni: Quaderno[]
   documenti: Documento[]
   /** la materia della pagina, della scheda o del ripasso che si sta guardando */
   materiaInVista: string | null
   inHome: boolean
+  oggiAperto: boolean
   archivioAperto: boolean
   onBarra: () => void
   onCerca: () => void
+  onOggi: () => void
   onHome: () => void
   onApri: (id: string, fuoco?: Fuoco) => void
   onArchivio: () => void
@@ -45,6 +47,9 @@ export function Rotaia({
       </button>
       <button className={s.pulsante} onClick={onCerca} aria-label={tr('Cerca e comandi (⌘K)')} title={tr('Cerca  ⌘K')}>
         <Icona nome="cerca" />
+      </button>
+      <button className={`${s.pulsante} ${oggiAperto ? s.attivo : ''}`} onClick={onOggi} aria-label={tr('Oggi')} title={tr('Oggi')}>
+        <Icona nome="oggi" />
       </button>
       <button className={`${s.pulsante} ${inHome ? s.attivo : ''}`} onClick={onHome} aria-label={tr('Le tue materie')} title={tr('Le tue materie')}>
         <Icona nome="materie" />

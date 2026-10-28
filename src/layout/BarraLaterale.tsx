@@ -21,19 +21,21 @@ import { Tr } from '../lingua/Tr'
  *  delle materie e delle pagine; in fondo l'archivio e le impostazioni. */
 
 export function BarraLaterale({
-  quaderni, documenti, paginaInVista, inHome, schedaAperta, archivioAperto,
-  onApri, onScheda, onRipasso, onHome, onArchivio, onImpostazioni, onCerca, onChiudi, onAccedi, onEliminaPagina, onEliminaMateria,
+  quaderni, documenti, paginaInVista, inHome, oggiAperto, schedaAperta, archivioAperto,
+  onApri, onScheda, onRipasso, onOggi, onHome, onArchivio, onImpostazioni, onCerca, onChiudi, onAccedi, onEliminaPagina, onEliminaMateria,
 }: {
   quaderni: Quaderno[]
   documenti: Documento[]
   /** la pagina aperta nel foglio, se è una pagina quella che si guarda */
   paginaInVista: string | null
   inHome: boolean
+  oggiAperto: boolean
   schedaAperta: string | null
   archivioAperto: boolean
   onApri: (id: string, fuoco?: Fuoco) => void
   onScheda: (quadernoId: string) => void
   onRipasso: (quadernoId: string) => void
+  onOggi: () => void
   onHome: () => void
   onArchivio: () => void
   onImpostazioni: () => void
@@ -79,6 +81,11 @@ export function BarraLaterale({
         <Icona nome="cerca" dimensione={14} />
         <span className={s.cercaTesto}>{tr('Cerca o dai un comando')}</span>
         <Tasto className={s.tasto}>{scrittaDiComando('cerca')}</Tasto>
+      </button>
+
+      <button className={`${s.voce} ${oggiAperto ? s.corrente : ''}`} onClick={onOggi}>
+        <Icona nome="oggi" dimensione={14} />
+        {tr('Oggi')}
       </button>
 
       <button className={`${s.voce} ${inHome ? s.corrente : ''}`} onClick={onHome}>

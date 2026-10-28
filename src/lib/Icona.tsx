@@ -24,7 +24,7 @@ import {
   Check, CircleNotch, Command, Control, DotsSixVertical, DotsThree, DownloadSimple,
   EyeSlash, FadersHorizontal, House, Image, Key, KeyReturn, Keyboard, LinkBreak,
   ListChecks, MagnifyingGlass, MathOperations, Microphone, MicrophoneSlash, Moon,
-  Option, Pause, Plus, Record, Sidebar, Sparkle, Stop, Subtitles, Sun, TextT,
+  Option, Pause, Plus, Record, Sidebar, Sparkle, Stop, Subtitles, Sun, SunHorizon, TextT,
   Trash, Warning, Waveform, X,
   type Icon,
 } from '@phosphor-icons/react'
@@ -35,6 +35,7 @@ const SEGNI = {
   'barra-laterale': Sidebar,
   'cerca': MagnifyingGlass,
   'materie': House,
+  'oggi': SunHorizon,
   'microfono': Microphone,
   'microfono-muto': MicrophoneSlash,
   'pausa': Pause,

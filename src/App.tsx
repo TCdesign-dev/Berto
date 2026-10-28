@@ -8,6 +8,7 @@ import { Rotaia } from './layout/Rotaia'
 import { useLargo, useStretto } from './layout/larghezza'
 import { BarraSuperiore } from './layout/BarraSuperiore'
 import { Home } from './layout/Home'
+import { Oggi } from './oggi/Oggi'
 import { Conferma } from './layout/Conferma'
 import { SceltaCopertina } from './layout/SceltaCopertina'
 import { Editor, type Fuoco, type RifEditore } from './editor/Editor'
@@ -53,6 +54,7 @@ export function App() {
   const [apertoId, setApertoId] = useState<string | null>(leggiUltimo)
   const [fuoco, setFuoco] = useState<Fuoco>('corpo')
   const [inHome, setInHome] = useState(false)
+  const [oggiAperto, setOggiAperto] = useState(false)
   const [schedaAperta, setSchedaAperta] = useState<string | null>(null)   // id della materia
   const [ripassoAperto, setRipassoAperto] = useState<string | null>(null) // id della materia
   const [archivioAperto, setArchivioAperto] = useState(false)
@@ -101,6 +103,7 @@ export function App() {
     if (d?.scheda) {
       setSchedaAperta(d.quadernoId)
       setInHome(false)
+      setOggiAperto(false)
       return
     }
     setApertoId(id)
@@ -109,6 +112,7 @@ export function App() {
     setSchedaAperta(null)
     setRipassoAperto(null)
     setArchivioAperto(false)
+    setOggiAperto(false)
   }, [])
 
   const apriScheda = useCallback((quadernoId: string) => {
@@ -117,6 +121,7 @@ export function App() {
     setRipassoAperto(null)
     setArchivioAperto(false)
     setInHome(false)
+    setOggiAperto(false)
   }, [])
 
   const apriRipasso = useCallback((quadernoId: string) => {
@@ -125,6 +130,7 @@ export function App() {
     setSchedaAperta(null)
     setArchivioAperto(false)
     setInHome(false)
+    setOggiAperto(false)
   }, [])
 
   const apriArchivio = useCallback(() => {
@@ -133,11 +139,22 @@ export function App() {
     setRipassoAperto(null)
     setSchedaAperta(null)
     setInHome(false)
+    setOggiAperto(false)
   }, [])
 
   const vaiHome = useCallback(() => {
     setSopraAperto(false)
     setInHome(true)
+    setSchedaAperta(null)
+    setRipassoAperto(null)
+    setArchivioAperto(false)
+    setOggiAperto(false)
+  }, [])
+
+  const apriOggi = useCallback(() => {
+    setSopraAperto(false)
+    setOggiAperto(true)
+    setInHome(false)
     setSchedaAperta(null)
     setRipassoAperto(null)
     setArchivioAperto(false)
@@ -209,9 +226,9 @@ export function App() {
   const materiaAperta = aperto ? quaderni.find((q) => q.id === aperto.quadernoId) ?? null : null
   const materiaScheda = schedaAperta ? quaderni.find((q) => q.id === schedaAperta) ?? null : null
   const materiaRipasso = ripassoAperto ? quaderni.find((q) => q.id === ripassoAperto) ?? null : null
-  const mostraHome = !archivioAperto && !materiaScheda && !materiaRipasso && (inHome || !aperto)
+  const mostraHome = !oggiAperto && !archivioAperto && !materiaScheda && !materiaRipasso && (inHome || !aperto)
   // quello che si sta guardando, per segnarlo nella barra e nella rotaia
-  const paginaInVista = !mostraHome && !archivioAperto && !materiaScheda && !materiaRipasso && aperto ? aperto.id : null
+  const paginaInVista = !mostraHome && !oggiAperto && !archivioAperto && !materiaScheda && !materiaRipasso && aperto ? aperto.id : null
   const materiaInVista = materiaRipasso?.id ?? materiaScheda?.id ?? (paginaInVista ? aperto!.quadernoId : null)
   const docAperto = useMemo(() => (aperto ? apriDocumento(aperto.id).doc : null), [aperto?.id])
 
@@ -229,7 +246,7 @@ export function App() {
         onChiudiSopra={chiudiSopra}
         /*  Da 1200 px la colonna di destra: Lezioni, Commenti o
          *  Immagini, uno per volta. Sotto, sono tendine della barra. */
-        destra={largo && !mostraHome && !archivioAperto && !materiaScheda && !materiaRipasso && docAperto && (lezioniAperte || commentiAperti || domandeAperte || compitiAperti || pannello.aperto)
+        destra={largo && !mostraHome && !oggiAperto && !archivioAperto && !materiaScheda && !materiaRipasso && docAperto && (lezioniAperte || commentiAperti || domandeAperte || compitiAperti || pannello.aperto)
           ? lezioniAperte
             ? <PannelloLezioni key={aperto!.id} doc={docAperto} documentoId={aperto!.id} materia={materiaAperta?.nome ?? ''} rifEditore={rifEditore} modo="lato" onChiudi={() => apriLezioni(false)} />
             : domandeAperte
@@ -246,9 +263,11 @@ export function App() {
             documenti={documenti}
             materiaInVista={materiaInVista}
             inHome={mostraHome}
+            oggiAperto={oggiAperto}
             archivioAperto={archivioAperto}
             onBarra={apriBarra}
             onCerca={cerca}
+            onOggi={apriOggi}
             onHome={vaiHome}
             onApri={apri}
             onArchivio={apriArchivio}
@@ -261,11 +280,13 @@ export function App() {
             documenti={documenti}
             paginaInVista={paginaInVista}
             inHome={mostraHome}
+            oggiAperto={oggiAperto}
             schedaAperta={materiaScheda?.id ?? null}
             archivioAperto={archivioAperto}
             onApri={apri}
             onScheda={apriScheda}
             onRipasso={apriRipasso}
+            onOggi={apriOggi}
             onHome={vaiHome}
             onArchivio={apriArchivio}
             onImpostazioni={() => apriImpostazioni()}
@@ -277,7 +298,9 @@ export function App() {
           />
         }
         centro={
-          archivioAperto ? (
+          oggiAperto ? (
+            <Oggi quaderni={quaderni} onApri={apri} onRipasso={apriRipasso} />
+          ) : archivioAperto ? (
             <Archivio onHome={vaiHome} onApri={apri} onEliminaPagina={(d) => setDaEliminare({ tipo: 'pagina', documento: d })} />
           ) : materiaRipasso ? (
             <RipassoMateria key={materiaRipasso.id} quaderno={materiaRipasso} onHome={vaiHome} />
@@ -348,7 +371,7 @@ export function App() {
       )}
 
       {comandiAperti && (
-        <Comandi quaderni={quaderni} documenti={documenti} onApri={apri} onRipasso={apriRipasso} onArchivio={apriArchivio} onChiudi={chiudiComandi} />
+        <Comandi quaderni={quaderni} documenti={documenti} onApri={apri} onRipasso={apriRipasso} onOggi={apriOggi} onArchivio={apriArchivio} onChiudi={chiudiComandi} />
       )}
     </>
   )

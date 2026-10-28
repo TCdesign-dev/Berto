@@ -1,4 +1,5 @@
-import { Fragment, createElement, type ReactNode } from 'react'
+import { Fragment, createElement, type ElementType, type ReactNode } from 'react'
+import { Tasto } from '../tastiera/Tasto'
 import { voce } from './lingua'
 
 /*  Certe frasi hanno dentro una parola in grassetto, un tasto, un
@@ -15,6 +16,9 @@ import { voce } from './lingua'
  *
  *    <Tr frase="Rifiuta <kbd>X</kbd>" classi={{ kbd: s.tasto }} />
  *
+ *  Il <kbd> passa dal <Tasto>, che dei segni dei modificatori fa icone:
+ *  chi scrive la frase mette ⌘ e ⇧ come li scriverebbe a mano.
+ *
  *  Per infilare qualcosa che non è testo — un'icona, un pulsante — si
  *  lascia un buco e lo si riempie:
  *
@@ -23,6 +27,9 @@ import { voce } from './lingua'
 const PEZZI = /<(b|i|code|kbd)>([\s\S]*?)<\/\1>|<br\s*\/?>|\{(\w+)\}/g
 
 type Marca = 'b' | 'i' | 'code' | 'kbd'
+
+/*  Il tasto ha un componente suo; gli altri tre restano il tag nudo. */
+const COME: Partial<Record<Marca, ElementType>> = { kbd: Tasto }
 
 export function Tr({ frase, valori, classi, n }: {
   frase: string
@@ -37,7 +44,7 @@ export function Tr({ frase, valori, classi, n }: {
   let ultimo = 0
   for (let p; (p = PEZZI.exec(testo)) !== null; ) {
     if (p.index > ultimo) fuori.push(testo.slice(ultimo, p.index))
-    if (p[1]) fuori.push(createElement(p[1], { key: fuori.length, className: classi?.[p[1] as Marca] }, p[2]))
+    if (p[1]) fuori.push(createElement(COME[p[1] as Marca] ?? p[1], { key: fuori.length, className: classi?.[p[1] as Marca] }, p[2]))
     else if (p[3]) fuori.push(<Fragment key={fuori.length}>{valori?.[p[3]] ?? p[0]}</Fragment>)
     else fuori.push(<br key={fuori.length} />)
     ultimo = p.index + p[0].length

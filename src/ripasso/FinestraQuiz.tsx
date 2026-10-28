@@ -5,6 +5,7 @@ import { segnaEsito } from './risultati'
 import { vaiA } from '../layout/navigazione'
 import { Barra } from '../layout/Attesa'
 import { Icona } from '../lib/Icona'
+import { Tasto } from '../tastiera/Tasto'
 import s from './Quiz.module.css'
 import { tr } from '../lingua/lingua'
 import { Tr } from '../lingua/Tr'
@@ -207,7 +208,7 @@ function Quiz({ ambito }: { ambito: Ambito }) {
               <span className={s.aiuto}>
                 {!risposto && (d.tipo === 'scelta'
                   ? <Tr frase="premi <kbd>1</kbd>–<kbd>4</kbd>, o clicca" classi={{ kbd: s.tasto }} />
-                  : svelata ? <Tr frase="{si} o {no}" valori={{ si: <kbd className={s.tasto}>S</kbd>, no: <kbd className={s.tasto}>N</kbd> }} />
+                  : svelata ? <Tr frase="{si} o {no}" valori={{ si: <Tasto className={s.tasto}>S</Tasto>, no: <Tasto className={s.tasto}>N</Tasto> }} />
                   : <Tr frase="<kbd>↵</kbd> per scoprire la risposta" classi={{ kbd: s.tasto }} />)}
               </span>
               {risposto && (
@@ -219,7 +220,7 @@ function Quiz({ ambito }: { ambito: Ambito }) {
                     </button>
                   )}
                   <button className={s.principale} onClick={avanti} autoFocus>
-                    {i + 1 < domande.length ? tr('Avanti') : tr('Com’è andata')} <kbd className={s.tasto}>↵</kbd>
+                    {i + 1 < domande.length ? tr('Avanti') : tr('Com’è andata')} <Tasto className={s.tasto}>↵</Tasto>
                   </button>
                 </span>
               )}

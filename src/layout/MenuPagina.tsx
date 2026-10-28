@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { Icona, type NomeIcona } from '../lib/Icona'
+import { Tasto } from '../tastiera/Tasto'
 import s from './MenuPagina.module.css'
 import { tr } from '../lingua/lingua'
 
@@ -146,7 +147,7 @@ export function MenuPagina({ voci, etichetta = tr('Altre azioni'), contenuto, cl
               >
                 <Icona nome={v.icona} dimensione={14} />
                 <span className={s.etichetta}>{v.etichetta}</span>
-                {v.tasto && <kbd className={s.tasto}>{v.tasto}</kbd>}
+                {v.tasto && <Tasto className={s.tasto}>{v.tasto}</Tasto>}
               </button>
             </Fragment>
           ))}

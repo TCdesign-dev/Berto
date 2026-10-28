@@ -18,7 +18,7 @@
   flex: none;
   height: var(--controllo);
   padding: 0 calc(var(--u) * 1.25);
-  border-radius: calc(var(--controllo) / 2);
+  border-radius: var(--raggio-pillola);
   background: var(--registra-fondo);
   color: var(--registra);
   font-size: var(--t-ui);

@@ -1,6 +1,6 @@
 /*  Il set di icone di Berto.
  *
- *  Restyling SpaceUI, ottobre 2026: le quarantaquattro icone disegnate
+ *  Dal restyling di ottobre 2026: le quarantaquattro icone disegnate
  *  a mano su griglia 20 se ne vanno, e al loro posto c'è Phosphor, peso
  *  «regular» — tratto 1,5 su griglia 256, cioè la stessa consistenza di
  *  prima ma disegnata da chi lo fa di mestiere, e con novemila sorelle
@@ -18,13 +18,14 @@
  *  Un'icona da sola in un pulsante vuole l'aria-label sul pulsante. */
 
 import {
-  Archive, ArrowClockwise, ArrowElbowDownLeft, ArrowSquareOut, Book, Browser,
+  Archive, ArrowClockwise, ArrowDown, ArrowElbowDownLeft, ArrowFatUp, ArrowLeft,
+  ArrowLineRight, ArrowRight, ArrowSquareOut, ArrowUp, Backspace, Book, Browser,
   Calendar, Cards, CaretDown, CaretLeft, CaretRight, ChatCircle, ChatCircleDots,
-  Check, CircleNotch, DotsSixVertical, DotsThree, DownloadSimple, EyeSlash,
-  FadersHorizontal, House, Image, Key, Keyboard, LinkBreak, ListChecks,
-  MagnifyingGlass, MathOperations, Microphone, MicrophoneSlash, Moon, Pause,
-  Plus, Record, Sidebar, Sparkle, Stop, Subtitles, Sun, TextT, Trash, Warning,
-  Waveform, X,
+  Check, CircleNotch, Command, Control, DotsSixVertical, DotsThree, DownloadSimple,
+  EyeSlash, FadersHorizontal, House, Image, Key, KeyReturn, Keyboard, LinkBreak,
+  ListChecks, MagnifyingGlass, MathOperations, Microphone, MicrophoneSlash, Moon,
+  Option, Pause, Plus, Record, Sidebar, Sparkle, Stop, Subtitles, Sun, TextT,
+  Trash, Warning, Waveform, X,
   type Icon,
 } from '@phosphor-icons/react'
 
@@ -75,6 +76,22 @@ const SEGNI = {
   'nascondi': EyeSlash,
   'tastiera': Keyboard,
   'apri-fuori': ArrowSquareOut,
+
+  /*  I segni della tastiera. Su una tastiera vera ⌘ ⌥ ⌃ ⇧ sono incisi,
+   *  non scritti: come caratteri li disegnava il font di chi guarda, e
+   *  in Geist Mono qualcuno manca del tutto. Dentro il <Tasto> ci vanno
+   *  queste, che sono icone come le altre. */
+  'tasto-comando': Command,
+  'tasto-opzione': Option,
+  'tasto-controllo': Control,
+  'tasto-maiuscole': ArrowFatUp,
+  'tasto-invio': KeyReturn,
+  'tasto-cancella': Backspace,
+  'tasto-tab': ArrowLineRight,
+  'tasto-su': ArrowUp,
+  'tasto-giu': ArrowDown,
+  'tasto-sinistra': ArrowLeft,
+  'tasto-destra': ArrowRight,
 } satisfies Record<string, Icon>
 
 export type NomeIcona = keyof typeof SEGNI

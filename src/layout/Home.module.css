@@ -142,7 +142,7 @@
 .vicino {
   height: calc(var(--u) * 2.75);
   padding: 0 var(--u);
-  border-radius: calc(var(--u) * 1.375);
+  border-radius: var(--raggio-pillola);
   background: var(--accento-fondo);
   color: var(--accento-testo);
   font-weight: 500;

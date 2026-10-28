@@ -11,6 +11,7 @@ import {
 } from './statoImpostazioni'
 import { useStretto } from './larghezza'
 import { Icona, type NomeIcona } from '../lib/Icona'
+import { Tasto } from '../tastiera/Tasto'
 import s from './Impostazioni.module.css'
 import { cambiaLingua, lingue, tr } from '../lingua/lingua'
 import { Tr } from '../lingua/Tr'
@@ -63,7 +64,7 @@ function Finestra({ sezione, microfono, onArchivio }: { sezione: Sezione; microf
   const archivio = () => { chiudiImpostazioni(); onArchivio() }
   const chiudi = (
     <>
-      <kbd className={s.tasto}>esc</kbd>
+      <Tasto className={s.tasto}>esc</Tasto>
       <button className={s.chiudi} title={tr('Chiudi  esc')} aria-label={tr('Chiudi le impostazioni')} onClick={chiudiImpostazioni}>
         <Icona nome="chiudi" />
       </button>
@@ -442,7 +443,7 @@ function Registrazione({ suMicrofono }: { suMicrofono: boolean }) {
         <Interruttore etichetta={tr('Tieni anche l’audio')} acceso={impostazioni.salvaAudio} onCambia={(v) => imposta('salvaAudio', v)} />
       </Riga>
       <Riga titolo={tr('Scorciatoia per registrare')}>
-        <kbd className={s.tastoGrande}>⌘R</kbd>
+        <Tasto className={s.tastoGrande}>⌘R</Tasto>
       </Riga>
     </>
   )
@@ -564,7 +565,7 @@ function Tastiera({ stretta }: { stretta: boolean }) {
           {FISSE.map(([tasti, cosa]) => (
             <div key={tasti} className={s.scorciatoia}>
               <dt>{cosa}</dt>
-              <dd>{tasti.split('  ').map((x) => <kbd key={x} className={s.tasto}>{x}</kbd>)}</dd>
+              <dd>{tasti.split('  ').map((x) => <Tasto key={x} className={s.tasto}>{x}</Tasto>)}</dd>
             </div>
           ))}
         </dl>

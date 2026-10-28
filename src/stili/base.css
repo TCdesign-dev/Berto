@@ -11,9 +11,9 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 
-  /*  Le varianti di Inter che usa SpaceUI: cv01 e cv03 danno la «a» e
-   *  la «g» a un piano solo, cv04 la «l» con la coda. Senza queste
-   *  Inter resta Inter, ma non suona come la loro. */
+  /*  Le varianti tipografiche di Inter: cv01 e cv03 danno la «a» e la
+   *  «g» a un piano solo, cv04 la «l» con la coda. Senza queste Inter
+   *  resta Inter, ma più anonima. */
   font-feature-settings: 'cv01', 'cv03', 'cv04', 'ss03';
   font-variation-settings: 'opsz' 20;
 }

@@ -10,6 +10,7 @@ import { StatoSincronia } from './StatoSincronia'
 import { PallinoInCorso } from '../registrazione/InCorso'
 import { scrittaDiComando } from '../tastiera/scorciatoie'
 import { Icona } from '../lib/Icona'
+import { Tasto } from '../tastiera/Tasto'
 import s from './BarraLaterale.module.css'
 import { locale, tr } from '../lingua/lingua'
 import { Tr } from '../lingua/Tr'
@@ -77,7 +78,7 @@ export function BarraLaterale({
       <button className={s.cerca} onClick={onCerca}>
         <Icona nome="cerca" dimensione={14} />
         <span className={s.cercaTesto}>{tr('Cerca o dai un comando')}</span>
-        <kbd className={s.tasto}>{scrittaDiComando('cerca')}</kbd>
+        <Tasto className={s.tasto}>{scrittaDiComando('cerca')}</Tasto>
       </button>
 
       <button className={`${s.voce} ${inHome ? s.corrente : ''}`} onClick={onHome}>
@@ -175,7 +176,7 @@ export function BarraLaterale({
         <button className={s.voce} onClick={onImpostazioni}>
           <Icona nome="impostazioni" dimensione={14} />
           {tr('Impostazioni')}
-          <kbd className={`${s.tasto} ${s.inFondo}`}>⌘,</kbd>
+          <Tasto className={`${s.tasto} ${s.inFondo}`}>⌘,</Tasto>
         </button>
       </div>
 

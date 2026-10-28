@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalS
 import type { Editor } from '@tiptap/core'
 import katex from 'katex'
 import { apriFormula, iscrivitiFormula, leggiFormula, type FormulaAperta } from './statoFormula'
+import { Tasto } from '../../tastiera/Tasto'
 import s from './EditorFormula.module.css'
 import { tr } from '../../lingua/lingua'
 import { Tr } from '../../lingua/Tr'
@@ -103,7 +104,7 @@ function Finestrella({ editor, formula }: { editor: Editor; formula: FormulaAper
           <span className={s.azioni}>
             {!formula.nuova && <button className={s.elimina} onClick={elimina}>{tr('Elimina')}</button>}
             <button className={s.fatto} onClick={conferma}>
-              Fatto <kbd className={s.tasto}>{formula.tipo === 'inline' ? '↵' : '⌘↵'}</kbd>
+              Fatto <Tasto className={s.tasto}>{formula.tipo === 'inline' ? '↵' : '⌘↵'}</Tasto>
             </button>
           </span>
         </div>

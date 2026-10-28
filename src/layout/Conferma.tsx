@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import { Tasto } from '../tastiera/Tasto'
 import s from './Conferma.module.css'
 import { tr } from '../lingua/lingua'
 
@@ -44,7 +45,7 @@ export function Conferma({
         <div className={s.piede}>
           <span className={s.azioni}>
             <button className={s.annulla} onClick={onAnnulla}>{tr('Annulla')}</button>
-            <button ref={rif} className={s.pericolo} onClick={onConferma}>{azione} <kbd className={s.tasto}>↵</kbd></button>
+            <button ref={rif} className={s.pericolo} onClick={onConferma}>{azione} <Tasto className={s.tasto}>↵</Tasto></button>
           </span>
         </div>
       </div>

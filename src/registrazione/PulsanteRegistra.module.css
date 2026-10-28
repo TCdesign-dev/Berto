@@ -21,6 +21,9 @@
 .registra:hover { background: var(--sfiorata); }
 
 .tasto {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) / 4);
   padding: calc(var(--u) * 0.25) calc(var(--u) * 0.625);
   border: calc(var(--u) / 8) solid var(--linea);
   border-radius: calc(var(--u) / 2);
@@ -59,7 +62,7 @@
   gap: calc(var(--u) / 4);
   height: var(--controllo);
   padding: 0 calc(var(--u) / 4) 0 calc(var(--u) * 1.25);
-  border-radius: calc(var(--controllo) / 2);
+  border-radius: var(--raggio-pillola);
   font-size: var(--t-ui);
   white-space: nowrap;
 }

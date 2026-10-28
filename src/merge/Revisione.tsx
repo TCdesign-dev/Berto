@@ -6,6 +6,7 @@ import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import type { RifEditore } from '../editor/Editor'
 import { avviaRevisione, chiudiRevisione, iscrivitiRevisione, revisioneAttiva } from './statoRevisione'
 import { Icona } from '../lib/Icona'
+import { Tasto } from '../tastiera/Tasto'
 import s from './Revisione.module.css'
 import { tr } from '../lingua/lingua'
 import { Tr } from '../lingua/Tr'
@@ -270,7 +271,7 @@ export function Revisione({ rifEditore }: { rifEditore: RifEditore }) {
             <Tr frase="Accetta <kbd>↵</kbd>" classi={{ kbd: s.tasto }} />
           </button>
           <button className={s.principale} onClick={accettaTutte}>
-            Accetta tutte <kbd className={s.tasto}>⌘↵</kbd>
+            Accetta tutte <Tasto className={s.tasto}>⌘↵</Tasto>
           </button>
           <button className={s.icona} aria-label={tr('Chiudi la revisione (Esc)')} title={tr('Chiudi  esc')} onClick={chiudiRevisione}>
             <Icona nome="chiudi" />

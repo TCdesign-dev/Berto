@@ -5,6 +5,7 @@ import type { Registrazione } from '../registrazione/tipi'
 import { iscrivitiStatoCorrezioni, leggiStatoCorrezioni } from './statoCorrezioni'
 import { mappaCorrezioni } from './deposito'
 import { mostraSegnalazione, segnalazioni } from './naviga'
+import { Tasto } from '../tastiera/Tasto'
 import s from './RiepilogoCorrezioni.module.css'
 import { locale, tr } from '../lingua/lingua'
 
@@ -48,7 +49,7 @@ export function CorrezioniInAttesa({ doc, rifEditore, onVai }: {
         {tr('Una correzione aspetta una risposta | {n} correzioni aspettano una risposta', { n: tutte.length })}
       </span>
       <button className={s.vedi} onClick={() => { onVai(); mostraSegnalazione(editor, tutte[0].c.id) }}>
-        Vedi <kbd className={s.tasto}>⌥⌘↓</kbd>
+        Vedi <Tasto className={s.tasto}>⌥⌘↓</Tasto>
       </button>
     </div>
   )

@@ -9,10 +9,9 @@
  *  a etichetta o a titolo, contenuto, piede coi tasti a sinistra e le
  *  azioni a destra, pulsanti e tasti.
  *
- *  Restyling SpaceUI: qui cambia una cosa sola ma si vede dappertutto.
- *  Il pulsante principale non è più azzurro — è il CONTRARIO della
- *  pagina, nero su chiaro e bianco su scuro, in una pillola piena. È
- *  la firma di SpaceUI e risolve anche un equivoco che avevamo: prima
+ *  Una cosa sola, qui dentro, si vede dappertutto: il pulsante
+ *  principale non è colorato, è il CONTRARIO della pagina — nero su
+ *  chiaro e bianco su scuro. Risolve un equivoco che avevamo: prima
  *  l'azzurro voleva dire «AI» nelle proposte e «premi qui» nei
  *  pulsanti. Adesso l'azzurro vuol dire solo AI. */
 
@@ -26,7 +25,7 @@
 }
 
 /* ── intestazione ───────────────────────────────────────────── */
-/*  a etichetta: 12 px, maiuscolo, +0.05em — la misura di SpaceUI */
+/*  a etichetta: 12 px, maiuscolo, +0.05em */
 .etichetta {
   color: var(--tenue-testo);
   font-size: var(--t-etichetta);
@@ -83,9 +82,13 @@
 .azioni { display: flex; gap: calc(var(--u) / 2); margin-left: auto; }
 
 /* ── tasti ──────────────────────────────────────────────────── */
-/*  Geist Mono dentro un contorno sottile: in SpaceUI il tasto è un
- *  oggetto con un bordo, non una macchia grigia. */
+/*  Geist Mono dentro un contorno sottile: un tasto è un oggetto con un
+ *  bordo, non una macchia grigia. Dentro ci vanno le icone dei
+ *  modificatori, da qui l'inline-flex. */
 .tasto {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) / 4);
   padding: calc(var(--u) * 0.25) calc(var(--u) * 0.625);
   border: calc(var(--u) / 8) solid var(--linea);
   border-radius: calc(var(--u) / 2);
@@ -120,23 +123,21 @@
 .secondario { composes: pulsante; background: var(--carta-alt-2); border-color: var(--linea); color: var(--inchiostro); }
 .secondario:hover:not(:disabled) { background: var(--premuta); border-color: var(--linea-forte); }
 
-/*  Il principale: il contrario della pagina, in una pillola piena.
- *  Più fianchi degli altri — una pillola stretta sembra schiacciata. */
+/*  Il principale: il contrario della pagina, nero su chiaro e bianco
+ *  su scuro. Stessa forma di tutti gli altri — quello che lo fa
+ *  principale è il colore, non la sagoma. Era una pillola, ed era
+ *  l'unico: in una fila di pulsanti si vedeva che non tornava. */
 .primario {
   composes: pulsante;
-  padding: 0 calc(var(--u) * 2);
-  border-radius: var(--raggio-pillola);
   background: var(--primario);
   color: var(--primario-testo);
   font-weight: 600;
 }
 .primario:hover:not(:disabled) { background: var(--primario-sfiorato); }
 
-/*  Per le azioni che tolgono qualcosa: stessa pillola, in rosso. */
+/*  Per le azioni che tolgono qualcosa: come il principale, in rosso. */
 .pericolo {
   composes: pulsante;
-  padding: 0 calc(var(--u) * 2);
-  border-radius: var(--raggio-pillola);
   background: var(--c-rosso);
   color: var(--carta);
   font-weight: 600;

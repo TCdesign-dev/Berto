@@ -7,6 +7,7 @@ import {
 import { leggiImpostazioni } from '../impostazioni'
 import { corrisponde, scrittaDiComando } from '../tastiera/scorciatoie'
 import { Icona } from '../lib/Icona'
+import { Tasto } from '../tastiera/Tasto'
 import s from './PulsanteRegistra.module.css'
 import { tr } from '../lingua/lingua'
 
@@ -124,7 +125,7 @@ export function PulsanteRegistra({ documentoId, materia, rifEditore }: {
         >
           <span className={s.pallino} />
           {tr('Registra')}
-          <kbd className={s.tasto}>{scrittaDiComando('registra')}</kbd>
+          <Tasto className={s.tasto}>{scrittaDiComando('registra')}</Tasto>
         </button>
       )
     case 'parto':

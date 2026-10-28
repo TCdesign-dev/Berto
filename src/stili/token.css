@@ -2,31 +2,33 @@
  *  Cambiare un valore qui cambia l'app ovunque.
  *  Nessun componente deve contenere un colore o una misura letterale.
  *
- *  Restyling SpaceUI, ottobre 2026. Tre cose cambiano davvero.
+ *  Restyling di ottobre 2026. Tre cose cambiano davvero.
  *
- *  · IL COLORE ESCE DALL'INTERFACCIA. SpaceUI è monocromatico: fondo
- *    quasi nero, primario invertito, e tutta la separazione fatta con
- *    veli di bianco (o di nero) all'8, 12, 16 per cento. Il colore
- *    resta solo dove porta un significato — l'azzurro dell'AI, il
- *    rosso della registrazione, il viola dei commenti, i cinque colori
- *    del testo. Su un'app dove si legge per ore è anche un guadagno:
- *    se tutto è colorato, il colore non dice più niente.
+ *  · IL COLORE ESCE DALL'INTERFACCIA. Resta monocromatica: fondo quasi
+ *    nero, primario invertito, e tutta la separazione fatta con veli
+ *    di bianco (o di nero) all'8, 12, 16 per cento. Il colore resta
+ *    solo dove porta un significato — l'azzurro dell'AI, il rosso
+ *    della registrazione, il viola dei commenti, i cinque colori del
+ *    testo. Su un'app dove si legge per ore è anche un guadagno: se
+ *    tutto è colorato, il colore non dice più niente.
  *
  *  · INTER per l'interfaccia e per gli appunti, GEIST MONO per il
- *    codice, al posto dei caratteri di sistema. È la voce di SpaceUI,
- *    e si porta dietro mezzo restyling da sola.
+ *    codice, al posto dei caratteri di sistema. È la voce dell'app, e
+ *    si porta dietro mezzo restyling da sola.
  *
- *  · I RAGGI SI ALLARGANO (6 · 12 · 16, più la pillola piena) e il
- *    bordo torna a essere una linea vera, perché l'ombra quasi
- *    scompare: lì la separazione la fa il contorno, non il rilievo.
- *    È l'opposto della regola di prima, ed è voluto.
+ *  · IL BORDO torna a essere una linea vera, perché l'ombra quasi
+ *    scompare: la separazione la fa il contorno, non il rilievo. È
+ *    l'opposto della regola di prima, ed è voluto. I raggi restano
+ *    tre — 6 per i controlli, 12 per le schede, 16 per le superfici —
+ *    e sono gli stessi per tutti: quello che distingue un pulsante
+ *    principale è il colore, mai la sagoma.
  *
  *  I nomi esistenti restano tutti: nessun componente si rompe. */
 
 :root {
   /* ── Tipografia ───────────────────────────────────────────── */
   /*  Inter con le varianti tipografiche accese (cv01 cv03: la «a» e la
-   *  «g» a un piano, più vicine alla resa di SpaceUI; tnum: le cifre
+   *  «g» a un piano; tnum: le cifre
    *  della stessa larghezza, per i cronometri che non ballano). */
   --font-testo: 'Inter Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-ui: 'Inter Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
@@ -45,9 +47,9 @@
   --t-h3: 20.5px;         /* peso 600 */
   --t-schermata: 32px;    /* Home, Ripasso, punteggio del quiz */
 
-  /*  L'interfaccia sale da 13 a 14 e le etichette da 11 a 12: sono le
-   *  misure di SpaceUI. Con loro crescono anche la barra e i controlli,
-   *  qui sotto — un'interfaccia più ariosa è metà del suo carattere. */
+  /*  L'interfaccia sale da 13 a 14 e le etichette da 11 a 12. Con loro
+   *  crescono anche la barra e i controlli, qui sotto: un'interfaccia
+   *  più ariosa è metà del suo carattere. */
   --t-ui: 14px;           /* peso 500 per i pulsanti, 400 per il resto */
   --t-piccolo: 12px;      /* didascalie, contatori */
   --t-etichetta: 12px;    /* peso 600, MAIUSCOLO, spaziatura +0.05em */
@@ -57,7 +59,7 @@
   --raggio: 6px;           /* controlli */
   --raggio-g: 12px;        /* copertine, blocchi dentro i pannelli */
   --raggio-sup: 16px;      /* superfici fluttuanti: TUTTE uguali */
-  --raggio-pillola: 999px; /* l'azione primaria, e la pillola che registra */
+  --raggio-pillola: 999px; /* SOLO distintivi di stato: la lezione in corso, i pallini */
 
   /* ── Impaginazione ────────────────────────────────────────── */
   --barra: 48px;           /* barra in alto (era 44) */
@@ -70,13 +72,13 @@
 
   /* ── Superfici ────────────────────────────────────────────── */
   /*  Il bianco non è più bianco e basta: sotto c'è una scala di grigi
-   *  freddi (zinc), la stessa famiglia che usa SpaceUI. */
+   *  freddi (zinc). */
   --carta: #ffffff;
   --carta-alt: #fafafa;    /* barre laterali, fascia della trascrizione */
   --carta-alt-2: #f4f4f5;  /* voce scelta, pulsante secondario, tasti */
   --sfiorata: #09090b0a;   /* passaggio del mouse: nero al 4% */
   --premuta: #09090b14;    /* voce scelta: nero all'8% */
-  --linea: #09090b14;      /* il --border di SpaceUI: 8% */
+  --linea: #09090b14;      /* nero all'8% */
   --linea-forte: #09090b29;/* 16% */
   --velo: #09090b52;       /* sotto una finestra modale */
 
@@ -93,8 +95,8 @@
   --tenue-testo: #71717a;  /* testo piccolo grigio: regge il contrasto */
 
   /* ── Il primario, invertito ───────────────────────────────── */
-  /*  Il pulsante principale di SpaceUI non è colorato: è il contrario
-   *  della pagina. Nero su chiaro, bianco su scuro. Serve a questo —
+  /*  Il pulsante principale non è colorato: è il contrario della
+   *  pagina. Nero su chiaro, bianco su scuro. Serve a questo —
    *  non a dire «AI», non a dire «link», che restano azzurri. */
   --primario: #18181b;
   --primario-testo: #ffffff;
@@ -127,8 +129,8 @@
   --commento-sfiorato: color-mix(in srgb, var(--c-viola) 22%, transparent);
 
   /* ── Rilievo ──────────────────────────────────────────────── */
-  /*  Quasi niente, apposta: in SpaceUI le superfici si staccano col
-   *  bordo. L'ombra resta solo per dire «questo galleggia sopra». */
+  /*  Quasi niente, apposta: le superfici si staccano col bordo.
+   *  L'ombra resta solo per dire «questo galleggia sopra». */
   --ombra-bassa: 0 1px 2px #09090b0a;
   --ombra: 0 4px 16px #09090b14, 0 1px 2px #09090b0a;
 
@@ -143,8 +145,8 @@
 }
 
 /*  ── Il tema scuro ─────────────────────────────────────────────
- *  Qui SpaceUI è a casa sua: #09090b di fondo, bianco sopra, e ogni
- *  separazione fatta con un velo di bianco. I due blocchi che seguono
+ *  #09090b di fondo, bianco sopra, e ogni separazione fatta con un
+ *  velo di bianco. I due blocchi che seguono
  *  dicono la stessa cosa — uno per chi segue il Mac, uno per chi ha
  *  scelto «scuro» nelle impostazioni. */
 

@@ -63,6 +63,9 @@
 .cerca:hover { border-color: var(--linea-forte); color: var(--inchiostro-tenue); }
 .cercaTesto { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .tasto {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) / 4);
   padding: calc(var(--u) * 0.375) calc(var(--u) * 0.625);
   border: calc(var(--u) / 8) solid var(--linea);
   border-radius: calc(var(--u) * 0.5);

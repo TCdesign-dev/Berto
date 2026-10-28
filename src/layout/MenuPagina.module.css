@@ -47,6 +47,9 @@
 .linea { height: calc(var(--u) / 8); margin: calc(var(--u) / 2) 0; background: var(--linea); }
 
 .tasto {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--u) / 4);
   color: var(--tenue-testo);
   font-family: var(--font-mono);
   font-size: var(--t-etichetta);

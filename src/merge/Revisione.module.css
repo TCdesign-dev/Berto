@@ -13,9 +13,10 @@
 }
 @keyframes sale { from { opacity: 0; transform: translate(-50%, calc(var(--u) * 1.25)); } }
 
+/*  Galleggia sopra il foglio, quindi ha l'ombra; ma la forma è quella
+ *  di tutti gli altri pulsanti. */
 .invito {
   composes: primario from '../layout/Superficie.module.css';
-  border-radius: calc(var(--controllo) / 2);
   box-shadow: var(--ombra);
 }
 

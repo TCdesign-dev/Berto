@@ -5,11 +5,11 @@
  *  finito tutto. Chi ha chiesto al Mac di ridurre il movimento
  *  (Accessibilità → Schermo) non ne vede affatto.
  *
- *  Restyling SpaceUI: le curve sono le loro, prese dal sito. Una per
- *  le superfici che arrivano — cubic-bezier(.16, 1, .3, 1), che parte
- *  forte e si posa senza rimbalzare — e una per i cambi di stato,
- *  cubic-bezier(.4, 0, .2, 1) in 150 ms. Sono solo due, e si vede: il
- *  movimento diventa una firma invece di un effetto.
+ *  Le curve sono due e bastano. Una per le superfici che arrivano —
+ *  cubic-bezier(.16, 1, .3, 1), che parte forte e si posa senza
+ *  rimbalzare — e una per i cambi di stato, cubic-bezier(.4, 0, .2, 1)
+ *  in 150 ms. Essendo solo due si vede: il movimento diventa una firma
+ *  invece di un effetto.
  *
  *  Le animazioni sono globali e i moduli CSS le usano attraverso le
  *  variabili: dentro var() il nome non viene rinominato dai CSS

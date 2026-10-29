@@ -1,5 +1,6 @@
 import type { Node as NodoPM } from '@tiptap/pm/model'
 import { COLORI, type Colore } from '../stili/colori'
+import { esponi } from '../lib/dev'
 
 /*  La formattazione degli appunti, in un testo che il modello sa leggere
  *  e scrivere.
@@ -150,6 +151,11 @@ export type Stile = {
    *  può avere il grassetto giusto e restare riconoscibile lontano un
    *  miglio, perché è un periodo di tre righe con la maiuscola e il
    *  punto finale in mezzo a frammenti in minuscolo. */
+  /*  La forma più grossa di tutte, e quella che mancava: scrive per
+   *  punti o per paragrafi? Si misurava il colore, il grassetto, la
+   *  lunghezza e i simboli — mai questo, e il modello finiva per
+   *  scrivere paragrafi a chi prende appunti a elenco. */
+  aElenco: boolean                   // quasi tutte le righe sono voci d'elenco
   minuscolo: boolean                 // comincia le righe in minuscolo
   senzaPunto: boolean                // non le chiude col punto
   lunghezza: number                  // caratteri per riga, la mediana
@@ -164,8 +170,10 @@ export function stileDellaPagina(doc: NodoPM): Stile {
   let esempioColore: string | null = null
   const colore = coloreDellaPagina(doc)
   const righe: { piano: string; marcato: string }[] = []
+  let inElenco = 0
+  let fuoriElenco = 0
 
-  doc.descendants((n) => {
+  doc.descendants((n, _posizione, padre) => {
     if (!n.isTextblock) return true
     const testi: { t: string; grassetto: boolean }[] = []
     let daAi = false
@@ -183,12 +191,17 @@ export function stileDellaPagina(doc: NodoPM): Stile {
     else if (testi.some((x) => x.grassetto && x.t.trim())) parole = true
     // la forma si misura solo su ciò che ha scritto LUI: le proposte
     // dell'AI, se restano in pagina, gli farebbero imitare sé stesso
+    if (tutto && !daAi) {
+      if (padre?.type.name === 'listItem') inElenco++
+      else if (n.type.name === 'paragraph') fuoriElenco++
+    }
     if (tutto && !daAi && n.type.name === 'paragraph') righe.push({ piano: tutto, marcato: inMarcatura(n) })
     return false
   })
 
   return {
     colore, esempioColore, titolettiInGrassetto: titoletti, paroleInGrassetto: parole, evidenziatore,
+    aElenco: inElenco >= 3 && inElenco / (inElenco + fuoriElenco) >= 0.5,
     ...formaDelleRighe(righe),
   }
 }
@@ -236,6 +249,9 @@ export function istruzioniDiStile(s: Stile): string {
   } else {
     righe.push('- Non usare colori: in questa pagina lo studente non ne usa.')
   }
+  if (s.aElenco) {
+    righe.push('- SCRIVE PER PUNTI, non per paragrafi: le sue righe sono voci d\'elenco. Quello che aggiungi va in «voce», non in «riga». Usa «riga» solo per una frase che un elenco non regge.')
+  }
   if (s.titolettiInGrassetto) righe.push('- Scrive i titoletti in **grassetto**: se proponi un titoletto, scrivilo così.')
   if (s.paroleInGrassetto) righe.push('- Mette in **grassetto** i termini chiave dentro le frasi: fallo anche tu, con misura.')
   if (s.evidenziatore) righe.push('- Usa l\'==evidenziatore== per ciò che conta di più: puoi usarlo anche tu, raramente.')
@@ -263,3 +279,5 @@ export function coloreDellaPagina(doc: NodoPM): Colore | null {
   })
   return [...conte.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null
 }
+
+esponi({ marcatura: { stileDellaPagina, istruzioniDiStile, coloreDellaPagina } })

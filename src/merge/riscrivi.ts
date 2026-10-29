@@ -57,6 +57,10 @@ della lezione a cui si riferiscono.
 Ti do gli APPUNTI, riga per riga, ognuna con un id fra parentesi quadre, e
 la LEZIONE. Devi restituire la pagina intera, nell'ordine in cui va letta.
 
+Se gli APPUNTI sono vuoti non è un errore: vuol dire che alla lezione non è
+riuscito a scrivere niente, ed è proprio quando ha più bisogno di te. La
+pagina la scrivi tutta tu dalla lezione, e sarà tutta roba nuova da rivedere.
+
 LE SUE RIGHE NON SI RISCRIVONO. Per rimettere una sua riga nella pagina la
 chiami per id: {"id":"B12"}. Viene copiata com'è, con la sua formattazione.
 Non riscriverne il testo, non correggerla, non accorciarla: solo spostarla.
@@ -70,6 +74,9 @@ Quello che aggiungi tu è di tre tipi:
 Come si fa:
 - TUTTE le sue righe devono comparire, una volta sola. Nessuna si butta,
   nemmeno quelle monche o fuori posto: si spostano dove hanno senso.
+- Appunti di lezione si scrivono per punti. A meno che le istruzioni sotto
+  non dicano il contrario, preferisci «voce» a «riga»: un elenco di punti
+  si ripassa, un paragrafo si rilegge.
 - Metti un titolo dove comincia un argomento, se non ce l'ha già.
 - Scrivi ciò che il professore ha detto e negli appunti manca, nel punto
   in cui va letto. È il motivo per cui stai rifacendo la pagina.
@@ -141,11 +148,24 @@ export async function riscriviPagina(
   const lezioni = leggiRegistrazioni(doc).filter((r) => r.fine !== null && r.segmenti.length)
   if (!lezioni.length) throw new Error(tr('questa pagina non ha lezioni finite'))
 
+  /*  La pagina vuota NON è un errore, ed era l'errore più grosso qui
+   *  dentro: si rifà la pagina proprio quando non si è scritto niente —
+   *  sei rimasto indietro, o non hai aperto il computer — e il
+   *  programma rispondeva «questa pagina è vuota» invece di scriverla.
+   *  Senza righe sue non c'è niente da ricollocare: esce tutto nuovo,
+   *  col segno dell'AI, e si rivede riga per riga come sempre. */
   const blocchi = blocchiDi(editor)
-  if (!blocchi.length) throw new Error(tr('questa pagina è vuota'))
+  const daZero = !blocchi.length
 
   const tratti = lezioni.flatMap((r) => trattiDi(editor, r))
-  const stile = istruzioniDiStile(stileDellaPagina(editor.state.doc))
+  /*  Lo stile si misura sulla pagina. Se la pagina è vuota non c'è
+   *  niente da misurare: si scrive per punti, che è come si prendono
+   *  gli appunti a lezione. (Si potrebbe leggere lo stile da un'altra
+   *  pagina della stessa materia: costa un giro sui documenti, e per
+   *  adesso non lo vale.) */
+  const stile = daZero
+    ? '- Scrivi per punti: usa «voce», non «riga». Righe brevi, senza il punto finale.'
+    : istruzioniDiStile(stileDellaPagina(editor.state.doc))
 
   const appunti = blocchi
     .map((b) => `[${b.id}]${b.tipo !== 'paragrafo' ? ` (${b.tipo})` : ''} ${b.testo}`)
@@ -169,7 +189,10 @@ export async function riscriviPagina(
       content: `MATERIA: ${materia || 'non indicata'}\n\n` +
         (stile ? `COME SCRIVE LUI:\n${stile}\n\n` : '') +
         (indietro ? `${indietro}\n\n` : '') +
-        `APPUNTI:\n${appunti}\n\nLEZIONE:\n${lezione}`,
+        (daZero
+          ? 'APPUNTI: nessuno — a questa lezione non ha scritto niente. Scrivila tu.\n\n'
+          : `APPUNTI:\n${appunti}\n\n`) +
+        `LEZIONE:\n${lezione}`,
     },
   ], { maxToken: 12000 })
 

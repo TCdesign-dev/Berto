@@ -1,9 +1,9 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
-import { ascolto } from './server/ascolto'
-import { llm } from './server/llm'
-import { immagini } from './server/immagini'
-import { decisioni } from './server/decisioni'
+import { ascolto } from './server/ascolto.ts'
+import { llm } from './server/llm.ts'
+import { immagini } from './server/immagini.ts'
+import { decisioni } from './server/decisioni.ts'
 
 export default defineConfig(({ mode }) => {
   // tutte le variabili, anche quelle SENZA prefisso VITE_: servono

@@ -84,11 +84,17 @@ Come si fa:
 - Ignora saluti, battute, organizzazione del corso.
 - La trascrizione è automatica: nomi propri e numeri a volte sono
   storpiati. Non inventare per coprire un buco di trascrizione.
+- Formattazione: hai gli stessi segni che usa lui negli appunti —
+  **grassetto**, ==evidenziato== e il colore <rosso>…</rosso> (o <arancio>,
+  <verde>, <blu>, <viola>). Più sotto trovi quanto spesso usa ciascuno:
+  usali con QUELLA frequenza. Le righe che riprendi per id non si toccano,
+  si portano dietro la loro; quelle che scrivi tu devono avere la stessa
+  densità di segni, o si riconoscono a vista in mezzo alle sue.
 - Formule in LaTeX fra dollari; anche i soli pedici e apici sono formule:
   $\\sigma_{0,2}$, mai <sub> o <sup>.
 
 Rispondi SOLO con un oggetto JSON:
-{"pagina":[{"id":"..."},{"tipo":"titolo","testo":"..."},{"tipo":"riga","testo":"..."}]}`
+{"pagina":[{"id":"B12"},{"tipo":"titolo","testo":"Il Vorkurs"},{"tipo":"voce","testo":"il **Vorkurs** dura sei mesi → ==obbligatorio per tutti=="}]}`
 
 const ELENCO = (nome: string) => nome === 'bulletList' || nome === 'orderedList'
 
@@ -192,7 +198,11 @@ export async function riscriviPagina(
         (daZero
           ? 'APPUNTI: nessuno — a questa lezione non ha scritto niente. Scrivila tu.\n\n'
           : `APPUNTI:\n${appunti}\n\n`) +
-        `LEZIONE:\n${lezione}`,
+        `LEZIONE:\n${lezione}` +
+        /*  Di nuovo in fondo, per la stessa ragione dell'integratore:
+         *  in cima è sepolto sotto tutta la trascrizione. */
+        (stile ? `\n\nPRIMA DI SCRIVERE, rileggi come formatta questo studente:\n${stile}\n\n`
+          + 'Le righe che scrivi tu devono avere la stessa densità di segni delle sue.' : ''),
     },
   ], { maxToken: 12000 })
 

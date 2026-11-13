@@ -147,6 +147,20 @@ export type Stile = {
   titolettiInGrassetto: boolean      // righe brevi tutte in grassetto
   paroleInGrassetto: boolean         // grassetto dentro una frase
   evidenziatore: boolean
+  /*  QUANTO usa ogni segno, in percentuale dei caratteri che ha
+   *  scritto lui. Prima c'erano solo tre booleani, e le istruzioni che
+   *  ne uscivano avevano intensità fisse — il colore imperativo
+   *  («in OGNI proposta»), il grassetto vago («con misura»),
+   *  l'evidenziatore scoraggiato («raramente»).
+   *
+   *  Misurato sui suoi appunti veri è l'esatto contrario: grassetto
+   *  20,7%, evidenziatore 15,6%, colore 4,4%. Il segno che usa di meno
+   *  era quello chiesto con più forza, e i due che usa di più erano
+   *  smorzati. Da qui proposte quasi piatte. Adesso le intensità si
+   *  calcolano, non si scrivono a mano. */
+  quantoGrassetto: number            // % dei caratteri suoi in grassetto
+  quantoEvidenziatore: number
+  quantoColore: number
   /*  La FORMA delle righe. La formattazione non basta: una proposta
    *  può avere il grassetto giusto e restare riconoscibile lontano un
    *  miglio, perché è un periodo di tre righe con la maiuscola e il
@@ -167,6 +181,10 @@ export function stileDellaPagina(doc: NodoPM): Stile {
   let titoletti = false
   let parole = false
   let evidenziatore = false
+  let caratteri = 0
+  let inGrassetto = 0
+  let inEvidenziatore = 0
+  let inColore = 0
   let esempioColore: string | null = null
   const colore = coloreDellaPagina(doc)
   const righe: { piano: string; marcato: string }[] = []
@@ -179,8 +197,20 @@ export function stileDellaPagina(doc: NodoPM): Stile {
     let daAi = false
     n.forEach((t) => {
       if (!t.isText) return
-      testi.push({ t: t.text ?? '', grassetto: t.marks.some((m) => m.type.name === 'bold') })
+      const grassetto = t.marks.some((m) => m.type.name === 'bold')
+      testi.push({ t: t.text ?? '', grassetto })
       if (t.marks.some((m) => m.type.name === 'segnoAi')) daAi = true
+      else {
+        //  si contano SOLO i caratteri suoi: su una pagina mezza
+        //  riempita dall'AI, contare anche quelli farebbe imitare
+        //  al modello sé stesso, e la formattazione sparirebbe di giro
+        //  in giro
+        const n = (t.text ?? '').length
+        caratteri += n
+        if (grassetto) inGrassetto += n
+        if (t.marks.some((m) => m.type.name === 'highlight')) inEvidenziatore += n
+        if (t.marks.some((m) => m.type.name === 'coloreTesto')) inColore += n
+      }
       if (t.marks.some((m) => m.type.name === 'highlight')) evidenziatore = true
       if (colore && !esempioColore && t.marks.some((m) => m.type.name === 'coloreTesto' && m.attrs.nome === colore)) {
         esempioColore = inMarcatura(n).slice(0, 120)
@@ -201,6 +231,9 @@ export function stileDellaPagina(doc: NodoPM): Stile {
 
   return {
     colore, esempioColore, titolettiInGrassetto: titoletti, paroleInGrassetto: parole, evidenziatore,
+    quantoGrassetto: caratteri ? inGrassetto / caratteri : 0,
+    quantoEvidenziatore: caratteri ? inEvidenziatore / caratteri : 0,
+    quantoColore: caratteri ? inColore / caratteri : 0,
     aElenco: inElenco >= 3 && inElenco / (inElenco + fuoriElenco) >= 0.5,
     ...formaDelleRighe(righe),
   }
@@ -244,17 +277,40 @@ function formaDelleRighe(righe: { piano: string; marcato: string }[]) {
 export function istruzioniDiStile(s: Stile): string {
   const righe: string[] = []
   if (s.colore) {
-    righe.push(`- Colora di <${s.colore}> le 1-2 parole o i dati più importanti di ogni proposta, come fa lui` +
-      (s.esempioColore ? ` (per esempio: «${s.esempioColore}»).` : '.'))
+    righe.push(`- <${s.colore}>Colore</${s.colore}>: lo usa ${(() => {
+      const pct = Math.round(s.quantoColore * 100)
+      return pct >= 10 ? `spesso (${pct}% del testo)` : `di rado, 1-2 parole per volta (${pct}%)`
+    })()}, sul dato che conta più di tutti` + (s.esempioColore ? ` (per esempio: «${s.esempioColore}»).` : '.'))
   } else {
     righe.push('- Non usare colori: in questa pagina lo studente non ne usa.')
   }
   if (s.aElenco) {
     righe.push('- SCRIVE PER PUNTI, non per paragrafi: le sue righe sono voci d\'elenco. Quello che aggiungi va in «voce», non in «riga». Usa «riga» solo per una frase che un elenco non regge.')
   }
-  if (s.titolettiInGrassetto) righe.push('- Scrive i titoletti in **grassetto**: se proponi un titoletto, scrivilo così.')
-  if (s.paroleInGrassetto) righe.push('- Mette in **grassetto** i termini chiave dentro le frasi: fallo anche tu, con misura.')
-  if (s.evidenziatore) righe.push('- Usa l\'==evidenziatore== per ciò che conta di più: puoi usarlo anche tu, raramente.')
+  /*  I tre segni, ordinati per quanto li usa DAVVERO e con la forza
+   *  che gli spetta. Prima erano in ordine fisso e con intensità
+   *  scritte a mano, e sui suoi appunti erano rovesciate: chiedevano
+   *  il colore in ogni proposta (lo usa sul 4% del testo) e
+   *  scoraggiavano l'evidenziatore (lo usa sul 16%). Il risultato
+   *  erano proposte quasi senza segni. */
+  const quanto = (frazione: number) => {
+    const pct = Math.round(frazione * 100)
+    if (pct >= 15) return `su circa un quinto di ciò che scrive (${pct}%)`
+    if (pct >= 7) return `spesso, su circa un decimo del testo (${pct}%)`
+    return `di rado, 1-2 parole per volta (${pct}%)`
+  }
+  const segni: { uso: number; riga: string }[] = []
+  if (s.quantoGrassetto > 0.01) {
+    segni.push({ uso: s.quantoGrassetto,
+      riga: `- **Grassetto**: lo usa ${quanto(s.quantoGrassetto)}, sui termini chiave, i nomi e le date`
+        + `${s.titolettiInGrassetto ? ', e sui titoletti, che scrive tutti in grassetto' : ''}. Usalo con la stessa frequenza.` })
+  }
+  if (s.quantoEvidenziatore > 0.01) {
+    segni.push({ uso: s.quantoEvidenziatore,
+      riga: `- ==Evidenziatore==: lo usa ${quanto(s.quantoEvidenziatore)}, su ciò che va ricordato all'esame. Usalo anche tu, con la stessa frequenza.` })
+  }
+  segni.sort((a, b) => b.uso - a.uso)
+  righe.push(...segni.map((x) => x.riga))
   if (s.lunghezza) {
     const quanto = s.lunghezza < 45 ? 'brevissime' : s.lunghezza < 90 ? 'brevi' : 'distese'
     righe.push(`- Le sue righe sono ${quanto}: circa ${s.lunghezza} caratteri. Non scriverne di più lunghe.`)

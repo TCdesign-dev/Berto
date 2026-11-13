@@ -67,10 +67,12 @@ Regole:
   è più corto ancora: poche parole, quelle che mancano.
 - Formattazione: negli appunti **grassetto**, ==evidenziato== e il colore
   <rosso>…</rosso> (o <arancio>, <verde>, <blu>, <viola>) li ha messi lo
-  studente. Usali come li usa lui, e solo se li usa: se scrive in grassetto
-  i titoletti o i termini chiave, fallo anche tu; se colora le parole
-  importanti, colora anche tu le parole importanti, con il SUO colore.
-  Mai una proposta intera in grassetto o colorata, se lui non lo fa.
+  studente. Più sotto trovi quanto spesso usa ciascuno: usali con QUELLA
+  frequenza, non a occhio. Mai una proposta intera in grassetto o colorata,
+  se lui non lo fa.
+  Vale anche per i COMPLETAMENTI. Un completamento è il seguito di una sua
+  riga: se la riga è marcata e il seguito è piatto, lo stacco si vede subito.
+  Marca il termine chiave anche lì, nelle due parole che aggiungi.
 - Formule: scrivile in LaTeX fra dollari — $P_{95} = \\mu + 1{,}645\\,\\sigma$ —
   e così anche i soli pedici e apici: $\\sigma_{0,2}$, mai <sub> o <sup>.
   e diventano formule vere, come quelle che scrive lui (negli APPUNTI le
@@ -130,7 +132,7 @@ Se non ha assegnato niente: "compiti":[].
 Poi, a parte: ${DOMANDA_IMMAGINI}
 
 Rispondi SOLO con un oggetto JSON:
-{"proposte":[{"dopo":"<id>","tipo":"completa"|"integra"|"correggi","punto":"<parole sue, o vuoto>","titolo":"<solo se questa riga apre un argomento che negli appunti non c'è>","testo":"...","perche":"...","importanza":1-5}],
+{"proposte":[{"dopo":"<id>","tipo":"completa"|"integra"|"correggi","punto":"<parole sue, o vuoto>","titolo":"<solo se questa riga apre un argomento che negli appunti non c'è>","testo":"il **Vorkurs** dura sei mesi → ==obbligatorio per tutti==","perche":"...","importanza":1-5}],
  "titoli":[{"prima":"<id>","titolo":"..."}],
  "compiti":[{"testo":"...","data":"AAAA-MM-GG o vuoto","citazione":"..."}],
  "immagini":[{"concetto":"...","query":"...","blocco":"<id>"}]}
@@ -197,7 +199,19 @@ export function costruisciPrompt(
         (quando ? `QUANDO: ${quando}\n` : '') + '\n' +
         (lezioni > 1 ? `${PIU_LEZIONI(lezioni)}\n\n` : '') +
         (stile ? `COME SCRIVE LO STUDENTE IN QUESTA PAGINA:\n${stile}\n\n` : '') +
-        `APPUNTI:\n${appunti || '(vuoti)'}\n\n${lezioni > 1 ? 'LEZIONI' : 'LEZIONE'}:\n${lezione}`,
+        `APPUNTI:\n${appunti || '(vuoti)'}\n\n${lezioni > 1 ? 'LEZIONI' : 'LEZIONE'}:\n${lezione}` +
+        /*  Lo stile, di nuovo, in fondo.
+         *
+         *  Non è una ripetizione per enfasi: è una questione di
+         *  distanza. Su una pagina con tre lezioni il messaggio
+         *  arriva a novantamila caratteri, e il blocco dello stile
+         *  sta all'uno per cento — in cima, sepolto sotto tutta la
+         *  trascrizione. Rimetterlo qui vuol dire averlo sotto gli
+         *  occhi nel momento in cui scrive, e misurato è la
+         *  differenza fra tre proposte formattate su otto e otto. */
+        (stile ? `\n\nPRIMA DI SCRIVERE, rileggi come formatta questo studente:\n${stile}\n\n`
+          + 'Ogni proposta porta almeno un segno dove serve — i completamenti compresi. '
+          + 'Una proposta piatta, in mezzo ai suoi appunti marcati, si riconosce a colpo d\'occhio come scritta da un altro.' : ''),
     },
   ]
 }

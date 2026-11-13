@@ -96,6 +96,38 @@ Come si fa:
 Rispondi SOLO con un oggetto JSON:
 {"pagina":[{"id":"B12"},{"tipo":"titolo","testo":"Il Vorkurs"},{"tipo":"voce","testo":"il **Vorkurs** dura sei mesi → ==obbligatorio per tutti=="}]}`
 
+/*  Come scrive Tommaso quando parte da zero.
+ *
+ *  Sulla pagina vuota non c'è niente da misurare, e qui prima c'era una
+ *  riga tirata a indovinare («scrivi per punti, righe brevi»). Questo
+ *  profilo invece è misurato, su tre fonti che non si parlano fra loro:
+ *  le 63 pagine di Berto, due pagine di appunti su Notion scritte a
+ *  tavolino, e quattro PDF di appunti del liceo.
+ *
+ *  Il numero che torna in tutte e tre è il grassetto: 12-15% nei PDF,
+ *  17% in Berto, 20% sulla pagina più curata. Un carattere su sei.
+ *  Non è un vezzo, è la sua impalcatura: ci segna il termine che sta
+ *  definendo, i nomi propri, e le righe che fanno da titoletto.
+ *
+ *  L'evidenziatore è l'opposto: raro, ma quando c'è prende una FRASE
+ *  INTERA, non una parola — la tesi che riassume la sezione, e quasi
+ *  sempre in un paragrafo, non in un elenco. Su Notion ce n'è uno solo
+ *  in tutta la pagina, ed è esattamente la frase da ricordare.
+ *
+ *  Il rosso marca il termine definito quando le definizioni vanno in
+ *  serie («Affiliazione oggettiva → …», «Partecipazione → …»).
+ *
+ *  E la freccia: → regge quasi ogni riga. Termine → definizione,
+ *  causa → effetto. Scrivere queste righe senza freccia le fa sembrare
+ *  di un altro più di qualunque altra cosa. */
+const DA_ZERO = `- **Grassetto**: un carattere su sei, è l'impalcatura di questi appunti. Va sul termine che stai definendo, sui nomi propri (autori, luoghi, correnti) e sulle righe brevi che fanno da titoletto.
+- La freccia → regge quasi ogni riga: termine → definizione, causa → effetto. Usala al posto di «cioè», «quindi», «che significa».
+- Scrivi per punti: «voce», non «riga». Il paragrafo si usa solo per introdurre («prendiamo come esempio:») o per la frase che riassume la sezione.
+- ==Evidenziatore==: una volta per argomento, e prende la FRASE INTERA che riassume il punto — non una parola. È quella che rileggerà prima dell'esame.
+- <rosso>Rosso</rosso>: solo quando scrivi una serie di definizioni parallele, sul termine definito di ciascuna.
+- Righe brevi, una sessantina di caratteri, che cominciano in minuscolo e non finiscono col punto.
+- Titoli annidati: un «titolo» apre l'argomento, un «sottotitolo» le sue parti.`
+
 const ELENCO = (nome: string) => nome === 'bulletList' || nome === 'orderedList'
 
 /*  Ogni riga della pagina com'è adesso, per id: si ricopia, non si
@@ -164,14 +196,7 @@ export async function riscriviPagina(
   const daZero = !blocchi.length
 
   const tratti = lezioni.flatMap((r) => trattiDi(editor, r))
-  /*  Lo stile si misura sulla pagina. Se la pagina è vuota non c'è
-   *  niente da misurare: si scrive per punti, che è come si prendono
-   *  gli appunti a lezione. (Si potrebbe leggere lo stile da un'altra
-   *  pagina della stessa materia: costa un giro sui documenti, e per
-   *  adesso non lo vale.) */
-  const stile = daZero
-    ? '- Scrivi per punti: usa «voce», non «riga». Righe brevi, senza il punto finale.'
-    : istruzioniDiStile(stileDellaPagina(editor.state.doc))
+  const stile = daZero ? DA_ZERO : istruzioniDiStile(stileDellaPagina(editor.state.doc))
 
   const appunti = blocchi
     .map((b) => `[${b.id}]${b.tipo !== 'paragrafo' ? ` (${b.tipo})` : ''} ${b.testo}`)
